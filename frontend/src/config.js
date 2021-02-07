@@ -5,6 +5,6 @@ module.exports = {
     env: process.env.NODE_ENV || 'development',
   },
   backend: {
-    uri: process.env.BACKEND_URI || 'http://localhost:9000/'
+    uri: process.env.BACKEND_URI || 'http://localhost:9000'
   },
 };
