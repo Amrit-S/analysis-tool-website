@@ -6,6 +6,7 @@
 
 In the project directory, you can run:
 
+### `cd backend`
 ### `npm install`
 ### `npm start`
 
@@ -18,6 +19,7 @@ The page will not re-load upon edits.
 
 In the project directory, you can run:
 
+### `cd frontend`
 ### `npm install`
 ### `npm start`
 
