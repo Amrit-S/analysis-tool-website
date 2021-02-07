@@ -1,5 +1,7 @@
 # analysis-tool-website
 
+## Technology Stack: ERN (React Frontend w/ Express Backend)
+
 # Running Backend
 
 In the project directory, you can run:
