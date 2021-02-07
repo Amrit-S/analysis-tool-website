@@ -1,6 +1,6 @@
 # analysis-tool-website
 
-## Technology Stack: ERN (React Frontend w/ Express Backend)
+#### Technology Stack: ERN (React Frontend w/ Express Backend)
 
 # Running Backend
 
