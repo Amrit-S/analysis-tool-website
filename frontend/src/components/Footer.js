@@ -8,9 +8,9 @@ class Footer extends Component {
 
       return (
 
-          <div>
-              <div style={{marginTop: "30px"}}>
-                  <strong> Footer </strong>
+          <div class="footer">
+              <div>
+                  <p> © Copyright 2021 Talke Lab, CMRR, UC San Diego. All Rights Reserved. </p>
               </div>
           </div>
 
