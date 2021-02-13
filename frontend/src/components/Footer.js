@@ -8,11 +8,9 @@ class Footer extends Component {
 
       return (
 
-          <div class="footer">
-              <div>
-                  <p> © Copyright 2021 Talke Lab, CMRR, UC San Diego. All Rights Reserved. </p>
-              </div>
-          </div>
+          <footer class="footer">
+              <p> © Copyright 2021 Talke Lab, CMRR, UC San Diego. All Rights Reserved. </p>
+          </footer>
 
       )
     }
