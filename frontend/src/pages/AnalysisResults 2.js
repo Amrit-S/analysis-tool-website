@@ -7,7 +7,7 @@ const config = require('../config');
 
 //const BACKEND_URL = config.backend.uri;
 
-class AnalysisInput extends Component {
+class AnalysisResults extends Component {
 
     render (){
 
@@ -15,9 +15,9 @@ class AnalysisInput extends Component {
 
           <div>
               <NavBar/>
-              <pre style={{marginTop: "30px"}}>
-                  This is the Data Retrieval Page for Analysis.
-                </pre>
+              <div style={{marginTop: "30px"}}>
+                  This is the Analysis Results Page.
+              </div>
               <Footer/>
           </div>
 
@@ -25,4 +25,4 @@ class AnalysisInput extends Component {
     }
   }
   
-  export default AnalysisInput;
+  export default AnalysisResults;

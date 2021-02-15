@@ -15,9 +15,9 @@ class AnalysisInput extends Component {
 
           <div>
               <NavBar/>
-              <pre style={{marginTop: "30px"}}>
+              <div style={{marginTop: "30px"}}>
                   This is the Data Retrieval Page for Analysis.
-                </pre>
+              </div>
               <Footer/>
           </div>
 
