@@ -1,16 +1,16 @@
 import React, { Component} from 'react';
+import { Snackbar } from '@material-ui/core';
 
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 
-const config = require('../config');
+import DropBox from '../components/DropBox';
 
+const config = require('../config');
 //const BACKEND_URL = config.backend.uri;
 
-class AnalysisInput extends Component {
-
-    render (){
-
+export default function AnalysisInput() {
+        
       return (
 
           <div>
@@ -18,11 +18,11 @@ class AnalysisInput extends Component {
               <div style={{marginTop: "30px"}}>
                   This is the Data Retrieval Page for Analysis.
               </div>
+              <DropBox/>
               <Footer/>
           </div>
 
       )
-    }
   }
   
-  export default AnalysisInput;
+//   export default AnalysisInput;
