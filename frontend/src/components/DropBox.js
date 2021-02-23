@@ -29,7 +29,7 @@ export default function DropBox() {
     const [state, setState] = React.useState({  
           
             files: {},
-            filesA: []
+            displayError: false
     });
   
       //Error Message Display: Auto close itself by updating its states
@@ -37,29 +37,20 @@ export default function DropBox() {
           if (reason === 'clickaway') {
           return;
           }
+          setState({...state, displayError: false});
       };
 
     const handleDrop = (acceptedFiles, fileRejections) => {
 
-        // let updatedFiles = state.files;
+        let updatedFiles = state.files;
 
-        // //Want files in ascending order by filename, no duplicates (if duplicate exists than newer one gets priority)
-        // for(var i=0; i < acceptedFiles.length; i++){
-        //   let file = acceptedFiles[i];
-        //   updatedFiles[file.name] = file;
-        // }
+        //Want files in ascending order by filename, no duplicates (if duplicate exists than newer one gets priority)
+        for(var i=0; i < acceptedFiles.length; i++){
+          let file = acceptedFiles[i];
+          updatedFiles[file.name] = file;
+        }
 
-        // setState({files: updatedFiles});
-
-        //Combines but keeps duplicates (bug)
-        let uniqueFiles = Array.from(new Set([...acceptedFiles, ...state.filesA]));
-        uniqueFiles.sort(function(file1, file2){
-            return file1.name < file2.name ? -1:1;
-        });
-        setState({filesA: uniqueFiles})
-        // if(fileRejections.length > 0){
-        //   setState({showSnack: true});
-        // }
+        setState({files: updatedFiles, displayError: fileRejections.length > 0 ? true:false});
     }
 
     function validNamingSchema(file) {
@@ -95,43 +86,15 @@ export default function DropBox() {
     }
 
 function onDeleteFile(e){
-
-    // let updatedFiles = state.files;
-    // e.target.parentNode.style.display = 'none';
-    // delete updatedFiles[e.target.parentNode.id];
-    // setState({files: updatedFiles});
-
-    
-
     e.target.parentNode.style.display = 'none';
-
-    var i = 0;
-    for(i = 0; i < state.filesA.length; i++){
-        if(state.filesA[i].name === e.target.parentNode.id){
-            break;
-        }
-    }
-    state.filesA.splice(i, 1);
-
-    // setState({filesA: state.filesA});
-}
-
-function getFiles(){
-  let currFiles = Object.keys(state.files).map(function(key){
-    return key;
-  });
-
-  currFiles.sort(function compare(file1, file2){
-    return file1 < file2 ? -1:1;
-  });
-  alert(currFiles);
-
+    delete state.files[e.target.parentNode.id];
 }
 
 function onPreviewImage(file){
   var urlLink = URL.createObjectURL(file);
   return urlLink;
 }
+
   return (
       <Dropzone
         onDrop={handleDrop}
@@ -141,17 +104,16 @@ function onPreviewImage(file){
         validator= {validNamingSchema}
       >
         {({ getRootProps, getInputProps, isDragActive, fileRejections }) => (
-          <div>
               <div className={`dropzone ${isDragActive ? 'active': null}`} >
                   <section {...getRootProps({ })}>
                     <span>{isDragActive ? "📂" : "📁"}</span>
                     <input {...getInputProps()} />
                     <p>Drag'n'drop images, or click to select files</p>
                   </section>
-                  <section className="Accepted" style={{display: state.filesA.length > 0 ? null: "none"}}>
+                  <section className="Accepted" style={{display: Object.keys(state.files).length > 0 ? null: "none"}}>
                     <strong>Files:</strong>
                     <ul>
-                      {state.filesA.map( (file, i) => (
+                      {retrieveOrderedFiles().map( (file, i) => (
                         <li id={`${file.name}`}>
                           <a href={onPreviewImage(file)} target="_blank" rel="noopener noreferrer">
                             {file.name}
@@ -161,10 +123,8 @@ function onPreviewImage(file){
                       ))}
                     </ul>
                 </section>
-                <button onClick={getFiles}>Click me</button>
+                <Snackbar open={state.displayError} autoHideDuration={6000} onClose={handleSnackClose} message={`${fileRejections.length} file${fileRejections.length > 1 ? "s":""} could not be uploaded`}/>
               </div>
-              
-          </div>
         
         )}
       </Dropzone>
