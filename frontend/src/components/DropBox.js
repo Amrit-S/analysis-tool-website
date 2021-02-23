@@ -28,14 +28,10 @@ export default function DropBox() {
 
     const [state, setState] = React.useState({  
           
-            files: {}
+            files: {},
+            filesA: []
     });
   
-    // Updates given state with given value 
-    // const handleChange = (prop) => (event) => {
-    //   setState({ ...state, [prop]: event.target.value });
-    // };
-      
       //Error Message Display: Auto close itself by updating its states
       const handleSnackClose = (event, reason) => {
           if (reason === 'clickaway') {
@@ -45,33 +41,22 @@ export default function DropBox() {
 
     const handleDrop = (acceptedFiles, fileRejections) => {
 
-        let updatedFiles = state.files;
-        // alert(acceptedFiles);
+        // let updatedFiles = state.files;
 
-        //Want files in ascending order by filename, no duplicates (if duplicate exists than newer one gets priority)
-        for(var i=0; i < acceptedFiles.length; i++){
-          let file = acceptedFiles[i];
-          updatedFiles[file.name] = file;
-        }
+        // //Want files in ascending order by filename, no duplicates (if duplicate exists than newer one gets priority)
+        // for(var i=0; i < acceptedFiles.length; i++){
+        //   let file = acceptedFiles[i];
+        //   updatedFiles[file.name] = file;
+        // }
 
-        let currFiles = Object.keys(updatedFiles).map(function(key){
-          return key;
-        });
-
-        currFiles.sort(function compare(file1, file2){
-          return file1 < file2 ? -1:1;
-        });
-
-        // alert(currFiles);
-
-        setState({files: updatedFiles});
+        // setState({files: updatedFiles});
 
         //Combines but keeps duplicates (bug)
-        // let uniqueFiles = Array.from(new Set([...acceptedFiles, ...fileNames]));
-        // uniqueFiles.sort(function(file1, file2){
-        //     return file1.name < file2.name ? -1:1;
-        // });
-        // setFileNames(uniqueFiles);
+        let uniqueFiles = Array.from(new Set([...acceptedFiles, ...state.filesA]));
+        uniqueFiles.sort(function(file1, file2){
+            return file1.name < file2.name ? -1:1;
+        });
+        setState({filesA: uniqueFiles})
         // if(fileRejections.length > 0){
         //   setState({showSnack: true});
         // }
@@ -89,7 +74,7 @@ export default function DropBox() {
                     message: `Invalid Filename`
                     };
             }
-        } catch{
+        } catch(err){
                   return {
                         code: "invalid-naming-schema",
                         message: `Invalid Filename`
@@ -111,42 +96,24 @@ export default function DropBox() {
 
 function onDeleteFile(e){
 
-    let updatedFiles = state.files;
+    // let updatedFiles = state.files;
+    // e.target.parentNode.style.display = 'none';
+    // delete updatedFiles[e.target.parentNode.id];
+    // setState({files: updatedFiles});
 
-    // let allElements = document.querySelectorAll('*[id]');
-
-    // var allIds = [];
-    // for (var i = 0, n = allElements.length; i < n; ++i) {
-    //   let el = allElements[i];
-    //   if (el.id) { allIds.push(el.id); }
-    // }
-
-    // alert(allIds);
+    
 
     e.target.parentNode.style.display = 'none';
-    // let ids = document.querySelectorAll('*[id]');
-    // document.getElementById(e).style.display = 'none';
 
-    // let l = '1.98.jpg';
+    var i = 0;
+    for(i = 0; i < state.filesA.length; i++){
+        if(state.filesA[i].name === e.target.parentNode.id){
+            break;
+        }
+    }
+    state.filesA.splice(i, 1);
 
-    // document.getElementById("" + e).style.display = 'none';
-
-    delete updatedFiles[e.target.parentNode.id];
-    alert(e.target.parentNode.id );
-
-    setState({files: updatedFiles});
-
-  
-
-    // var i = 0;
-    // for(i = 0; i < fileNames.length; i++){
-    //     if(fileNames[i].name === e.target.parentNode.id){
-    //         break;
-    //     }
-    // }
-    // fileNames.splice(i, 1);
-
-    // setFileNames(fileNames);
+    // setState({filesA: state.filesA});
 }
 
 function getFiles(){
@@ -181,10 +148,10 @@ function onPreviewImage(file){
                     <input {...getInputProps()} />
                     <p>Drag'n'drop images, or click to select files</p>
                   </section>
-                  <section className="Accepted" style={{display: Object.keys(state.files).length > 0 ? null: "none"}}>
+                  <section className="Accepted" style={{display: state.filesA.length > 0 ? null: "none"}}>
                     <strong>Files:</strong>
                     <ul>
-                      {retrieveOrderedFiles().map( (file, i) => (
+                      {state.filesA.map( (file, i) => (
                         <li id={`${file.name}`}>
                           <a href={onPreviewImage(file)} target="_blank" rel="noopener noreferrer">
                             {file.name}
@@ -196,68 +163,7 @@ function onPreviewImage(file){
                 </section>
                 <button onClick={getFiles}>Click me</button>
               </div>
-              {/* <Snackbar open={showSnack} autoHideDuration={6000} onClose={handleSnackClose} message={`${fileRejections.length} files could not be uploaded`}/> */}
-              {/* <section style={{display: fileRejections.length > 0 ? null: "none"}}>
-                    <strong>Rejections:</strong>
-                    <ul>
-                      {fileRejections.map(({ file, errors }) => (
-                          <li key={file.path}>
-                          {file.path} - {file.size} bytes
-                          <ul>
-                            {errors.map(e => (
-                              <li key={e.code}>{e.message}</li>
-                            ))}
-                          </ul>
-                        </li>
-                      ))}
-                    </ul>
-                      <Snackbar open={showSnack} autoHideDuration={6000} onClose={handleSnackClose} message={`At least ${fileRejections.length}  file could not be uploaded`}/>
-                  </section> */}
-              {/* <Snackbar open={true} autoHideDuration={6000} onClose={handleSnackClose} message={"hello"}/> */}
-                {/* {fileRejections.map(({ file, errors }) => (
-                    //   <li key={file.path}>
-                    //   {file.path} - {file.size} bytes
-                    //   <ul>
-                    //     {errors.map(e => (
-                    //       <li key={e.code}>{e.message}</li>
-                    //     ))}
-                    //   </ul>
-                      
-                    // </li>
-                    <Snackbar open={true} autoHideDuration={6000} onClose={handleSnackClose} message={errors.code}/>
-                  ))} */}
-              {/* <Snackbar open={true} autoHideDuration={6000} onClose={handleClose}>              
-                      This is a success message!
-                </Snackbar> */}
-              {/* {fileRejections.map(({ file, errors }) => (
-                    //   <li key={file.path}>
-                    //   {file.path} - {file.size} bytes
-                    //   <ul>
-                    //     {errors.map(e => (
-                    //       <li key={e.code}>{e.message}</li>
-                    //     ))}
-                    //   </ul>
-                      
-                    // </li>
-                      <Snackbar open={true} autoHideDuration={6000} onClose={handleClose}>              
-                      This is a success message!
-                      </Snackbar>
-                  ))} */}
-                  {/* <section style={{display: fileRejections.length > 0 ? null: "none"}}>
-                    <strong>Rejections:</strong>
-                    <ul>
-                      {fileRejections.map(({ file, errors }) => (
-                          <li key={file.path}>
-                          {file.path} - {file.size} bytes
-                          <ul>
-                            {errors.map(e => (
-                              <li key={e.code}>{e.message}</li>
-                            ))}
-                          </ul>
-                        </li>
-                      ))}
-                    </ul>
-                  </section> */}
+              
           </div>
         
         )}
