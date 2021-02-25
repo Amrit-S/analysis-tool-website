@@ -1,9 +1,4 @@
-ul {
-    margin: 0;
-    list-style-type: none;
-    padding: 0;
-  }
-  
+
   strong {
     display: inline-block;
     margin-top: 20px;
@@ -22,8 +17,31 @@ ul {
     color: #bdbdbd;
   }
 
-  .active {
+  .active-dropzone {
     border: 3px dashed #004970;
+  }
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .5);
+    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  }
+
+  .files-container{
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #004970;
+  }
+
+  ul {
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
   }
 
   ul li {
@@ -42,7 +60,7 @@ ul {
     background-color: #eee;
   }
 
-  .close {
+  .delete-button {
     cursor: pointer;
     position: absolute; 
     top: 50%;
@@ -51,20 +69,4 @@ ul {
      transform: translate(0%, -50%);
   }
 
-  .close:hover {color: red;}
-
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, .5);
-    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-  }
-
-  .Accepted{
-    height: 200px;
-    overflow-y: auto;
-  }
+  .delete-button:hover {color: red;}
