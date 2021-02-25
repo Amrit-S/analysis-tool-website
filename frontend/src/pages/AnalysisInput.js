@@ -12,22 +12,23 @@ const config = require('../config');
 export default function AnalysisInput() {
 
     const [state, setState] = React.useState({  
-          
-        inputFiles: []
+
+        inputFiles: []  // all file objects in dropbox can be accessed here, organized in natural sort
     });
 
+    /**
+     * Allows the state atribute inputFiles to be updated to reflect changes made in the DropBox component. 
+     */
     const setFiles = useCallback(
         (files) => {
-          //console.log('Click happened');
           setState({inputFiles: files});
         },
         [], // Tells React to memoize regardless of arguments.
       );
-
-    // function setFiles(files){
-    //     setState({inputFiles: files});
-    // }
-
+    
+    /**
+     * Very simple dummy function to verify state has most updated files from DropBox. 
+     */
     function getFiles(){
 
         let x = "";
