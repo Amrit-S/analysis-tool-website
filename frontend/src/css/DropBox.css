@@ -1,7 +1,7 @@
 ul {
     margin: 0;
     list-style-type: none;
-  padding: 0;
+    padding: 0;
   }
   
   strong {
@@ -53,20 +53,18 @@ ul {
 
   .close:hover {color: red;}
 
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .5);
+    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  }
+
   .Accepted{
+    height: 200px;
     overflow-y: auto;
-  }
-
-  .file-structure{
-    background: #777;
-    color: #004970;
-    width: 100%;
-  }
-
-  .delete-button{
-    color: red;
-  }
-
-  .delete-button:hover{
-    color: green;
   }

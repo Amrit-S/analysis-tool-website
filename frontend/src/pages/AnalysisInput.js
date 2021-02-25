@@ -30,7 +30,12 @@ export default function AnalysisInput() {
 
     function getFiles(){
 
-        alert(state.inputFiles);
+        let x = "";
+        for(var i=0; i < state.inputFiles.length; i++){
+            x += " " + state.inputFiles[i].name;
+        }
+
+        alert(x);
     }
         
       return (
