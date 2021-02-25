@@ -56,3 +56,17 @@ ul {
   .Accepted{
     overflow-y: auto;
   }
+
+  .file-structure{
+    background: #777;
+    color: #004970;
+    width: 100%;
+  }
+
+  .delete-button{
+    color: red;
+  }
+
+  .delete-button:hover{
+    color: green;
+  }

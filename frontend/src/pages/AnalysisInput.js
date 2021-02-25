@@ -1,5 +1,5 @@
-import React, { Component} from 'react';
-import { Snackbar } from '@material-ui/core';
+import React, { Component, useCallback} from 'react';
+import { Button, Snackbar } from '@material-ui/core';
 
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -10,6 +10,28 @@ const config = require('../config');
 //const BACKEND_URL = config.backend.uri;
 
 export default function AnalysisInput() {
+
+    const [state, setState] = React.useState({  
+          
+        inputFiles: []
+    });
+
+    const setFiles = useCallback(
+        (files) => {
+          //console.log('Click happened');
+          setState({inputFiles: files});
+        },
+        [], // Tells React to memoize regardless of arguments.
+      );
+
+    // function setFiles(files){
+    //     setState({inputFiles: files});
+    // }
+
+    function getFiles(){
+
+        alert(state.inputFiles);
+    }
         
       return (
 
@@ -18,7 +40,8 @@ export default function AnalysisInput() {
               <div style={{marginTop: "30px"}}>
                   This is the Data Retrieval Page for Analysis.
               </div>
-              <DropBox/>
+              <DropBox handleFiles={setFiles}/>
+              <button onClick={getFiles}>Parent Files</button>
               <Footer/>
           </div>
 

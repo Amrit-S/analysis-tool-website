@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import _ from "lodash";
 import Dropzone from "react-dropzone";
 import { Link, Snackbar } from '@material-ui/core';
 
@@ -6,7 +7,7 @@ import "../css/DropBox.css";
 
 const FILE_NAMING_REGEX = /^\d+\.\d{2}\.[a-zA-Z]+$/;
 
-export default function DropBox() {
+export default function DropBox(props) {
     // const onDrop = useCallback((acceptedFiles) => {
     //     acceptedFiles.forEach((file) => {
     //       const reader = new FileReader()
@@ -31,6 +32,12 @@ export default function DropBox() {
             files: {},
             displayError: false
     });
+
+    const table = useRef(null);
+
+
+
+
   
       //Error Message Display: Auto close itself by updating its states
       const handleSnackClose = (event, reason) => {
@@ -49,7 +56,7 @@ export default function DropBox() {
           let file = acceptedFiles[i];
           updatedFiles[file.name] = file;
         }
-
+        props.handleFiles(retrieveOrderedFiles(undefined));
         setState({files: updatedFiles, displayError: fileRejections.length > 0 ? true:false});
     }
 
@@ -73,9 +80,10 @@ export default function DropBox() {
         }
     }
 
-    function retrieveOrderedFiles(){
-      let currFiles = Object.keys(state.files).map(function(key){
-        return state.files[key];
+    function retrieveOrderedFiles(customFiles){
+      let l = (customFiles === undefined) ? state.files: customFiles;
+      let currFiles = Object.keys(l).map(function(key){
+        return l[key];
       });
 
       currFiles.sort(function compare(file1, file2){
@@ -86,8 +94,44 @@ export default function DropBox() {
     }
 
 function onDeleteFile(e){
-    e.target.parentNode.style.display = 'none';
-    delete state.files[e.target.parentNode.id];
+
+    // e.target.parentNode.style.display = 'none';
+    //e.target.parentElement.style.display='none';
+    // alert(e.target.parentElement.id);
+    // var myobj = document.getElementById(e.target.parentElement.id);
+    // myobj.remove();
+
+    // document.getElementById().parentNode.style.display='none';
+
+    // let currFiles = Object.keys(_.cloneDeep(state.files)).map(function(key){
+    //   return state.files[key];
+    // });
+
+    // currFiles.sort(function compare(file1, file2){
+    //   return file1.name < file2.name ? -1:1;
+    // });
+
+    //delete currFiles[e.target.parentNode.id];
+
+    let files = _.cloneDeep(state.files);
+    delete files[e.target.parentElement.id];
+    props.handleFiles(retrieveOrderedFiles(files));
+
+    setState({...state, files: files});
+
+    //delete state.files[e.target.parentElement.id];
+}
+
+function deleteRow(rowID) {
+  try {
+    alert(table.current.id + rowID);
+    // var table = Document.getElementById("table-files");
+    // var rowIndex = Document.getElementById(rowID).rowIndex;
+    // table.deleteRow(rowIndex);
+    
+    }catch(e) {
+      alert(e);
+    }
 }
 
 function onPreviewImage(file){
@@ -112,7 +156,16 @@ function onPreviewImage(file){
                   </section>
                   <section className="Accepted" style={{display: Object.keys(state.files).length > 0 ? null: "none"}}>
                     <strong>Files:</strong>
-                    <ul>
+                    <table className="file-structure" ref={table}>
+                      {retrieveOrderedFiles().map( (file, i) => (
+                         <tr id={`${file.name}`}>
+                          <td>{file.name}</td>
+                          <td>{file.size}</td>
+                          <td class="delete-button" onClick={onDeleteFile}>x</td>
+                        </tr>
+                      ))}
+                    </table>
+                    {/* <ul>
                       {retrieveOrderedFiles().map( (file, i) => (
                         <li id={`${file.name}`}>
                           <a href={onPreviewImage(file)} target="_blank" rel="noopener noreferrer">
@@ -121,11 +174,10 @@ function onPreviewImage(file){
                           <span class="close" onClick={onDeleteFile}>&times;</span>
                         </li>
                       ))}
-                    </ul>
+                    </ul> */}
                 </section>
                 <Snackbar open={state.displayError} autoHideDuration={6000} onClose={handleSnackClose} message={`${fileRejections.length} file${fileRejections.length > 1 ? "s":""} could not be uploaded`}/>
               </div>
-        
         )}
       </Dropzone>
   );
