@@ -43,9 +43,6 @@ export default function AnalysisInput() {
 
           <div>
               <NavBar/>
-              <div style={{marginTop: "30px"}}>
-                  This is the Data Retrieval Page for Analysis.
-              </div>
               <DropBox handleFiles={setFiles}/>
               <button onClick={getFiles}>Parent Files</button>
               <Footer/>
