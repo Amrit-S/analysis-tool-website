@@ -26,7 +26,7 @@
     background-color: var(--blue);
 }
 
-.Main{
+.MainC{
     display: flex;
     flex-direction: row;
     justify-content: center; 
@@ -65,17 +65,18 @@
     padding: 0rem 1rem;
 }
 
-th, td {
+.Stats-Table th, td {
     display: table-cell;
     text-align: center;
 }
 
-th{
+
+.Stats-Table th{
     font-style: italic;
     font-weight: normal;
 }
 
-td{
+.Stats-Table td{
     background-color: lightgrey;
     padding: 10px 5px;
 }
@@ -83,7 +84,7 @@ td{
 /* Tablet View */ 
 @media only screen and (max-width: 1110px){
 
-    .Main{
+    .MainC{
         flex-direction: column;
     }
 

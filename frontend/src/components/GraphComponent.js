@@ -62,7 +62,7 @@ export default function GraphComponent(props) {
             <div className={!props.greyTitle ? "Title-AlignRight":null}>
                 <p className={`Title ${props.greyTitle ? "Grey-Title": "Blue-Title"}`}> {props.title} </p>
             </div>
-            <section className="Main">
+            <section className="MainC">
                 <section className="Graph">
                 <Line
                     data={graphData}

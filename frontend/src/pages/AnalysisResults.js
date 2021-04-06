@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
+import GraphComponent from "../components/GraphComponent";
 
 const config = require('../config');
 
