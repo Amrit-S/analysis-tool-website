@@ -1,3 +1,10 @@
+/**
+ * Renders the mini navbar pressent on the /analysis-results page, allowing switch between 
+ * individual and group results. Mantains own state, but also yields callback to parent
+ * component once a page switch has been requested (i.e., Individual to Group).
+ * 
+ * @summary     Mini navbar on result page. 
+ */
 import React from 'react';
 import "../css/ResultsNavBar.css";
 

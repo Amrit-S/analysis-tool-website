@@ -1,3 +1,12 @@
+/**
+ * Renders the graph component used on the group results page, rendering both the graph 
+ * on the lefthand side as well as its analysis text and statistical breakdown on the right. 
+ * Takes in a few props to enable customization, including title, text, data, and general 
+ * placement. 
+ * 
+ * @summary     Renders a single group analysis row on the group results page. 
+ */
+
 import React from 'react';
 
 import {Line} from 'react-chartjs-2';
@@ -13,7 +22,6 @@ export default function GraphComponent(props) {
         datasets: [
           {
             label: 'Time Series',
-            //backgroundColor: 'rgba(255,255,255,0)',
             fill: false, 
             borderColor: 'rgba(75,192,192,1)',
             borderWidth: 2,
@@ -21,7 +29,6 @@ export default function GraphComponent(props) {
           },
           {
             label: 'Moving Average',
-            // backgroundColor: 'rgba(75,192,192,1)',
             fill: false, 
             borderColor: '#DABA11',
             borderWidth: 2,
@@ -30,6 +37,7 @@ export default function GraphComponent(props) {
         ]
       }
 
+      // customize graph 
       const options = {
         legend:{
             display:true,
@@ -59,21 +67,26 @@ export default function GraphComponent(props) {
       return (
 
         <>
+            {/* Title */}
             <div className={!props.greyTitle ? "Title-AlignRight":null}>
                 <p className={`Title ${props.greyTitle ? "Grey-Title": "Blue-Title"}`}> {props.title} </p>
             </div>
             <section className="MainC">
+               {/* Left - Graph  */}
                 <section className="Graph">
                 <Line
                     data={graphData}
                     options={options}
                     />
                 </section>
+                 {/* Right - Analysis Information  */}
                 <section className="Info">
+                    {/* Top - Tips on Analysis */}
                     <p className="Analysis-Tips"> Analysis Tips </p>
                     <p className="Analysis-Tips-Text"> 
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        {props.analysis}
                     </p>
+                    {/* Bottom - Statisitical Breakdown */}
                     <table className="Stats-Table">
                         <tr>
                             <th>Min</th>
