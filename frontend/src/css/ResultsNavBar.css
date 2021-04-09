@@ -11,7 +11,7 @@
     flex-direction: row;
 }
 
-.Section{
+.Wrap-Container .Section{
     text-align: center;
     margin-left: 10vw;
     color: var(--darkgrey);
@@ -19,16 +19,16 @@
     font-size: large;
 }
 
-.Section:hover{
+.Wrap-Container .Section:hover{
     cursor: pointer;
 }
 
-.Selected-Section{
+.Wrap-Container .Selected-Section{
     color: black;
     border-bottom: 2.5px solid var(--gold);
 }
 
-.Results-Title-Container{
+.Wrap-Container .Results-Title-Container{
     border: 1px solid black;
     border-left: none;
     width: 25%;
