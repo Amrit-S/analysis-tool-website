@@ -72,8 +72,8 @@ export default function AnalysisInput() {
               </section>
               <p className="Subsection-Step-Title"> Step #2: Customize Settings </p>
               <section className="Step-2-Container">
-                  <CustomizeSettingsDropDown title="Individual Image Analysis" info="Analysis will be conducted on each individual image seperately."
-                  options={[ 'Oliver Hansen',
+                  <CustomizeSettingsDropDown title="Individual Image Analysis" info={"Analysis will be conducted on all images seperately."}
+                  options={[ 
                   'Van Henry',
                   'April Tucker',
                   'Ralph Hubbard',
@@ -85,7 +85,7 @@ export default function AnalysisInput() {
                   'Kelly Snyder']}
                   />
                   <div class="vl"></div>
-                  <CustomizeSettingsDropDown title="Group Image Analysis" info="Analysis will be conducted on all images holistically."
+                  <CustomizeSettingsDropDown title="Group Image Analysis" info={"Analysis will be conducted on all images holistically."}
                   options={[ 'Oliver Hansen',
                   'Van Henry',
                   'April Tucker',

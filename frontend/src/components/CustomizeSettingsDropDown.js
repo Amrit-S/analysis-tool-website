@@ -62,6 +62,7 @@ export default function CustomizeSettingsDropDown(props) {
               },
             },
           };
+          
 
         const classes = useStyles();
         const theme = useTheme();
@@ -143,7 +144,7 @@ export default function CustomizeSettingsDropDown(props) {
                 }
                 label="I don’t want this at all"
             />
-            <p id="info-text" style={{visibility: displayInfoText ? null:'hidden'}}> <i> {props.info}  </i></p>
+            <p id="info-text" style={{visibility: displayInfoText ? null:'hidden', flexWrap: "wrap"}}> <i>{props.info}</i></p>
           </div>
 
       )
