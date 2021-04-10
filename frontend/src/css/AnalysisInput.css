@@ -30,6 +30,7 @@
 
 .vl {
     border-left: 4.5px solid var(--blue);
+    border-radius: 2px;
   }
 
   .Submit-Button{

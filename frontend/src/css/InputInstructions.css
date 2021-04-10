@@ -9,6 +9,7 @@
 .Root-Container{
     width: 80vw;
     border-right: 4.5px solid var(--blue);
+    border-radius: 2px;
 }
 
 .Mini-NavBar{
