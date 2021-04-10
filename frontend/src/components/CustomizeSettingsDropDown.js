@@ -118,6 +118,7 @@ export default function CustomizeSettingsDropDown(props) {
                         icon: classes.icon,
                     },
                 }}
+                disabled={noneCheckbox}
                 value={chosenDropdownOptions}
                 onChange={handleChange}
                 input={<Input id="select-multiple-chip" />}
