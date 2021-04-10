@@ -15,7 +15,7 @@ import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import Tooltip from '@material-ui/core/Tooltip';
 import { FaInfoCircle } from 'react-icons/fa';
 import "../css/CustomizeSettingsDropDown.css";
 
@@ -68,8 +68,6 @@ export default function CustomizeSettingsDropDown(props) {
         const theme = useTheme();
         const [chosenDropdownOptions, setchosenDropdownOptions] = React.useState([]);
         const [noneCheckbox, setNoneCheckbox] = React.useState(false);
-        const [displayInfoText, setDisplayInfoText] = React.useState(false);
-        const [displayError, setDisplayError] = React.useState(false);
 
         function getStyles(name, chosenDropdownOptions, theme) {
             return {
@@ -98,18 +96,18 @@ export default function CustomizeSettingsDropDown(props) {
             }
         }
 
-        function showInfoText(){
-            setDisplayInfoText(true);
-        }
-
-        function hideInfoText(){
-            setDisplayInfoText(false);
-        }
-
       return (
 
           <div className="Dropdown-Container">
-            <p className="Dropdown-Title"> {props.title}&nbsp; <FaInfoCircle onMouseOver={showInfoText} onMouseOut={hideInfoText}/> </p>
+            <p className="Dropdown-Title"> 
+              {props.title}&nbsp;  
+              <Tooltip title={props.info} arrow>
+                <div>
+                <FaInfoCircle />
+                </div>
+              </Tooltip>
+            </p>
+            {/* <Tooltip > <FaInfoCircle/> </Tooltip> */}
             <FormControl className={`${classes.formControl} Dropdown-Form`}>
                 <InputLabel variant='filled' style={{color: "black"}}>Select All</InputLabel>
                 <Select
@@ -151,8 +149,6 @@ export default function CustomizeSettingsDropDown(props) {
                 }
                 label="I don’t want this at all"
             />
-            <p id="info-text" style={{visibility: displayInfoText ? null:'hidden', flexWrap: "wrap"}}> <i>{props.info}</i></p>
-            {/* <p style={{visibility: displayInfoText ? null:'hidden', flexWrap: "wrap", color: "red"}}> <i>Choose an option.</i></p> */}
           </div>
 
       )

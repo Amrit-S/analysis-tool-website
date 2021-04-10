@@ -5,8 +5,9 @@ import Footer from '../components/Footer';
 import InputInstructions from '../components/InputInstructions';
 import DropBox from '../components/DropBox';
 import CustomizeSettingsDropDown from "../components/CustomizeSettingsDropDown";
-import { Button, Snackbar } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { IoMdAnalytics } from 'react-icons/io';
 
 import "../css/AnalysisInput.css";
 
@@ -159,6 +160,7 @@ export default function AnalysisInput() {
                         type="submit"
                         onClick={handleButtonClick}
                         disabled={formDisabled}
+                        startIcon={<IoMdAnalytics/>}
                     >
                         Begin Analysis
                 </Button>
