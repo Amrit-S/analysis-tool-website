@@ -23,6 +23,7 @@
 
 .Mini-NavBar .Section:hover{
     cursor: pointer;
+    font-weight: bold;
 }
 
 .Mini-NavBar .Selected-Section{

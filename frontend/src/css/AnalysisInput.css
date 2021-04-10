@@ -6,6 +6,8 @@
     --gold: #DABA11;
   }
 
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
 .Subsection-Step-Title {
     border: 1px solid black;
     border-left: none;
@@ -22,6 +24,8 @@
     justify-content: space-evenly;
     padding: 10px 30px;
     flex: 1;
+    font-family: 'Open Sans', sans-serif;
+    color: black;
 }
 
 .vl {
