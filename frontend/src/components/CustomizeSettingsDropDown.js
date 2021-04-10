@@ -15,6 +15,7 @@ import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import { FaInfoCircle } from 'react-icons/fa';
 import "../css/CustomizeSettingsDropDown.css";
 
@@ -23,7 +24,6 @@ export default function CustomizeSettingsDropDown(props) {
         const useStyles = makeStyles((theme) => ({
             formControl: {
               margin: theme.spacing(1),
-              width: "20vw", 
               backgroundColor: "#C4C4C4",
               border: "1px solid black",
               borderRadius: "5px"
@@ -69,6 +69,7 @@ export default function CustomizeSettingsDropDown(props) {
         const [chosenDropdownOptions, setchosenDropdownOptions] = React.useState([]);
         const [noneCheckbox, setNoneCheckbox] = React.useState(false);
         const [displayInfoText, setDisplayInfoText] = React.useState(false);
+        const [displayError, setDisplayError] = React.useState(false);
 
         function getStyles(name, chosenDropdownOptions, theme) {
             return {
@@ -81,14 +82,20 @@ export default function CustomizeSettingsDropDown(props) {
     
         const handleChange = (event) => {
             setchosenDropdownOptions(event.target.value);
+            props.callback(event.target.value, noneCheckbox);
         };
 
         const handleCheckboxChange = (event) => {
             // checked, then clear out any dropdown options chosen 
             if(event.target.checked){
                 setchosenDropdownOptions([]);
+                setNoneCheckbox(event.target.checked);
+                props.callback([], event.target.checked);
+            // unchecked
+            } else{
+                setNoneCheckbox(event.target.checked);
+                props.callback(chosenDropdownOptions, event.target.checked);
             }
-            setNoneCheckbox(event.target.checked);
         }
 
         function showInfoText(){
@@ -103,7 +110,7 @@ export default function CustomizeSettingsDropDown(props) {
 
           <div className="Dropdown-Container">
             <p className="Dropdown-Title"> {props.title}&nbsp; <FaInfoCircle onMouseOver={showInfoText} onMouseOut={hideInfoText}/> </p>
-            <FormControl className={classes.formControl}>
+            <FormControl className={`${classes.formControl} Dropdown-Form`}>
                 <InputLabel variant='filled' style={{color: "black"}}>Select All</InputLabel>
                 <Select
                 className={classes.select}
@@ -145,6 +152,7 @@ export default function CustomizeSettingsDropDown(props) {
                 label="I don’t want this at all"
             />
             <p id="info-text" style={{visibility: displayInfoText ? null:'hidden', flexWrap: "wrap"}}> <i>{props.info}</i></p>
+            {/* <p style={{visibility: displayInfoText ? null:'hidden', flexWrap: "wrap", color: "red"}}> <i>Choose an option.</i></p> */}
           </div>
 
       )

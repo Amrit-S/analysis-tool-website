@@ -20,7 +20,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    padding: 30px;
+    padding: 10px 30px;
     flex: 1;
 }
 
@@ -31,5 +31,35 @@
   .Submit-Button{
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    align-items: center;
+    margin-bottom: 15px;
   }
+
+  .errorText{
+    flex-wrap: wrap;
+    color: red;
+    text-align: center;
+    white-space: pre-line;
+  }
+
+/* Mobile View */ 
+@media only screen and (max-width: 1180px){
+
+  .Step-1-Container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+  }
+
+  .Step-2-Container{
+    flex-direction: column;
+  }
+
+  .vl {
+    border-left: none;
+    border-bottom: 4.5px solid var(--blue);
+  }
+
+  
+}

@@ -8,7 +8,6 @@
 
 .Root-Container{
     width: 80vw;
-    background-color: aliceblue;
     border-right: 4.5px solid var(--blue);
 }
 
@@ -48,3 +47,14 @@
 .Example-Container img {
     height: 350px;
 }
+
+@media only screen and (max-width: 1180px){
+
+    .Root-Container{
+        width: 85vw;
+        /* background-color: aliceblue; */
+        border-right: none;
+        border-bottom: 4.5px solid var(--blue);
+    }
+
+  }
