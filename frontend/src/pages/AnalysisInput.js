@@ -43,52 +43,57 @@ export default function AnalysisInput() {
      * Dummy array and function to verify that prediction values are returned
      * from backend. (via "See Result" button)
      */
-    let predictions = [];
+    let predictions = "";
     function getResult(){
-
-        let x = "";
-        for(var i=0; i < predictions.length; i++){
-            x += " " + predictions[i][0] + "\n";
-        }
-    
-        alert(x);
+        alert(predictions);
     }
 
     /**
      * Reads files in inputFiles and get a prediction from the backend for each one.
      */
+    let files = [];
     async function readImg() {
         state.inputFiles.forEach((file, i) => {
-            const reader = new FileReader()
-            reader.onabort = () => console.log('file reading was aborted')
-            reader.onerror = () => console.log('file reading has failed')
+            const reader = new FileReader();
+            reader.onabort = () => console.log('file reading was aborted');
+            reader.onerror = () => console.log('file reading has failed');
             reader.onload = async () => {
-                // predict on loaded file
+                // store file info into files array
                 const buffer = reader.result;
-                const response = await getPrediction(buffer, file.type, file.name)
+                files[i] = {'type': file.type, 'name': file.name, 'buffer': ab2str(buffer)};
 
-                // save to dummy array
-                predictions[i] = response.prediction;
+                // get prediction once all files are loaded
+                if (i === state.inputFiles.length - 1) {
+                    predictions = await getPrediction(files);
+                }
             }
 
-            reader.readAsArrayBuffer(file)
+            reader.readAsArrayBuffer(file);
         });
+    }
+
+    /**
+     * Converts array buffer to string so it can be included in JSON
+     * 
+     * @param {Array} buf - An array buffer (output of FileReader)
+     * @returns {string} - Stringified array buffer
+     */
+    function ab2str(buf) {
+        return String.fromCharCode.apply(null, new Uint8Array(buf));
     }
 
     /**
      * Gets prediction for image via HTTP request to backend.
      * 
-     * @param {*} data - Image buffer from readImg()
-     * @param {*} type - Image type
-     * @param {*} name - Image filename
-     * @returns 
+     * @param {*} fileList - Array of JSON with file type, name, buffer
+     * @returns - Response from backend
      */
-    async function getPrediction(data, type, name) {
+    async function getPrediction(fileList) {
         const response = await fetch(`/predict`, {
             method: 'POST',
-            headers: {'Content-Type': type, 'filename': name},
-            body: data
-        })
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(fileList)
+        });
         return await response.json();
     }
         
