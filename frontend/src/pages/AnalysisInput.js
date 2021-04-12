@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import InputInstructions from '../components/InputInstructions';
 import DropBox from '../components/DropBox';
 import CustomizeSettingsDropDown from "../components/CustomizeSettingsDropDown";
+import LoadingScreen from '../components/LoadingScreen';
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { IoMdAnalytics } from 'react-icons/io';
@@ -48,6 +49,11 @@ export default function AnalysisInput() {
     });
 
     const [formDisabled, setFormDisabled] = React.useState(false);
+    const [progressBar, setProgressBar] = React.useState({
+        show: false,
+        progress: 0,
+        title: 'Parsing Image Files'
+    });
 
     /**
      * Allows the state atribute inputFiles to be updated to reflect changes made in the DropBox component. 
@@ -73,6 +79,10 @@ export default function AnalysisInput() {
         [], // Tells React to memoize regardless of arguments.
     );
 
+    const closeProgressBar = () => {
+        setProgressBar(false);
+    }
+
     async function handleButtonClick() {
         setFormDisabled(true);
 
@@ -93,6 +103,7 @@ export default function AnalysisInput() {
             setFormDisabled(false);
             return; 
         }
+        setProgressBar({show: true, title: 'Parsing Data...'});
         prepareFiles(handleBackendCalls);
         setError({display: false});
         setFormDisabled(false);
@@ -100,7 +111,9 @@ export default function AnalysisInput() {
 
 
     async function handleBackendCalls(inputFileJSONs){
+         setProgressBar({show: true, title: 'Analyzing Data...'});
          const predictions = await getPrediction(inputFileJSONs);
+         setProgressBar({show: false});
          alert(predictions);
     }
     /**
@@ -207,6 +220,7 @@ export default function AnalysisInput() {
               </div>
               <p className="errorText" style={{display: error.display ? null:'none'}}> {error.message}</p>
               {/* <button onClick={getFiles}> Files </button> */}
+              <LoadingScreen open={progressBar.show} handleClose={closeProgressBar} title={progressBar.title}/>
               <Footer/>
           </div>
 
