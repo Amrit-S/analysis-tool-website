@@ -73,7 +73,7 @@ export default function AnalysisInput() {
         [], // Tells React to memoize regardless of arguments.
     );
 
-    function handleButtonClick() {
+    async function handleButtonClick() {
         setFormDisabled(true);
 
         let errorMessage = '';
@@ -93,24 +93,64 @@ export default function AnalysisInput() {
             setFormDisabled(false);
             return; 
         }
-
+        prepareFiles(handleBackendCalls);
         setError({display: false});
         setFormDisabled(false);
-        alert("Valid");
     }
-    
-    
+
+
+    async function handleBackendCalls(inputFileJSONs){
+         const predictions = await getPrediction(inputFileJSONs);
+         alert(predictions);
+    }
     /**
-     * Very simple dummy function to verify state has most updated files from DropBox. 
+     * Reads files in inputFiles and get a prediction from the backend for each one.
      */
-    function getFiles(){
+    function prepareFiles(callback) {
+        let fileJSONs = [];
+        files.forEach( (file, i) => {
+            const reader = new FileReader();
+            reader.onabort = () => console.log('file reading was aborted');
+            reader.onerror = () => console.log('file reading has failed');
+            reader.onload =  () => {
+                // store file info into files array
+                const buffer = reader.result;
+                fileJSONs[i] = {'type': file.type, 'name': file.name, 'buffer': ab2str(buffer)};
 
-        // let x = "";
-        // for(var i=0; i < state.inputFiles.length; i++){
-        //     x += " " + state.inputFiles[i].name;
-        // }
+                console.log(i);
 
-        // alert(x);
+                //get prediction once all files are loaded
+                if (i === files.length - 1) {
+                    callback(fileJSONs);
+                }
+            }
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    /**
+     * Converts array buffer to string so it can be included in JSON
+     * 
+     * @param {Array} buf - An array buffer (output of FileReader)
+     * @returns {string} - Stringified array buffer
+     */
+    function ab2str(buf) {
+        return String.fromCharCode.apply(null, new Uint8Array(buf));
+    }
+
+    /**
+     * Gets prediction for image via HTTP request to backend.
+     * 
+     * @param {*} fileList - Array of JSON with file type, name, buffer
+     * @returns - Response from backend
+     */
+    async function getPrediction(fileList) {
+        const response = await fetch(`/cnn/predict`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(fileList)
+        });
+        return await response.json();
     }
         
       return (
@@ -137,20 +177,20 @@ export default function AnalysisInput() {
                   'Kelly Snyder']}
                   callback={setIndividualAnalysisCallback}
                   />
-                  <div class="vl"></div>
-                  <CustomizeSettingsDropDown title="Group Image Analysis" info={"Analysis will be conducted on all images holistically."}
-                  options={[ 'Oliver Hansen',
-                  'Van Henry',
-                  'April Tucker',
-                  'Ralph Hubbard',
-                  'Omar Alexander',
-                  'Carlos Abbott',
-                  'Miriam Wagner',
-                  'Bradley Wilkerson',
-                  'Virginia Andrews',
-                  'Kelly Snyder']}
-                  callback={setGroupAnalysisCallback}
-                  />
+                <div class="vl"></div>
+                <CustomizeSettingsDropDown title="Group Image Analysis" info={"Analysis will be conducted on all images holistically."}
+                options={[ 'Oliver Hansen',
+                'Van Henry',
+                'April Tucker',
+                'Ralph Hubbard',
+                'Omar Alexander',
+                'Carlos Abbott',
+                'Miriam Wagner',
+                'Bradley Wilkerson',
+                'Virginia Andrews',
+                'Kelly Snyder']}
+                callback={setGroupAnalysisCallback}
+                />
               </section>
               {/* <button onClick={getFiles}>Parent Files</button> */}
               <div className={`${classes.button} Submit-Button`} >
