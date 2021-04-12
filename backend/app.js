@@ -6,6 +6,10 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const config = require("./config");
+const {loadModel} = require("./services/cnn");
+
+// initialize cnn prediction model
+loadModel();
 
 console.log(`Running on port ${config.app.port}`);
 
@@ -13,7 +17,7 @@ const app = express();
 
 //Middleware
 app.use(logger("dev"));
-app.use(express.json());
+app.use(express.json({limit: '5mb'}));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
@@ -25,6 +29,8 @@ app.use(cors({ methods: ["GET", "POST", "PUT", "DELETE"] }));
 app.get("/", function (req, res) {
   res.status(200).json({ message: "Abandon All Hope Ye Who Enter Here..." });
 });
+// cnn predictions routed here
+app.use("/cnn", require("./routes/cnn"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
