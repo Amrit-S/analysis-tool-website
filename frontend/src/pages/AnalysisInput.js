@@ -89,7 +89,7 @@ export default function AnalysisInput() {
      * @returns - Response from backend
      */
     async function getPrediction(fileList) {
-        const response = await fetch(`/predict`, {
+        const response = await fetch(`/cnn/predict`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(fileList)

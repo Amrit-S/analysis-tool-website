@@ -3,7 +3,7 @@ const jpeg = require("jpeg-js");
 const tf = require("@tensorflow/tfjs");
 const tfn = require("@tensorflow/tfjs-node");
 
-const MODEL_PATH = "ml/pred_model/model.json";
+const MODEL_PATH = "cnn/pred_model/model.json";
 
 let model = null;
 
