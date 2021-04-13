@@ -43,7 +43,6 @@ router.post('/predict', async (req, res) => {
       return res.status(400).json(req.body[i].name);
     }
   }
-  
   return res.status(200).json(result);
 });
 

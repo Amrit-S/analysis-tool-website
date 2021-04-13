@@ -10,6 +10,7 @@ import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { IoMdAnalytics } from 'react-icons/io';
 import { useHistory } from "react-router-dom";
+import axios from 'axios';
 
 import "../css/AnalysisInput.css";
 
@@ -117,7 +118,6 @@ export default function AnalysisInput() {
 
                 setProgressBar({show: true, title: 'Analyzing Data...'});
                 const cnnPredictions = await handleCNNPredictionsFetchCall(fileJSONS);
-                // alert(cnnPredictions[0]["0"]);
                 redirectToResultsPage(fileJSONS, cnnPredictions, null);
 
             } catch(err){
@@ -144,6 +144,7 @@ export default function AnalysisInput() {
 
 
     async function handleCNNPredictionsFetchCall(inputFileJSONs){
+
          return await fetch(`/cnn/predict`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
