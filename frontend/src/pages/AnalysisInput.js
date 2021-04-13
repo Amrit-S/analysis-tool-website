@@ -9,6 +9,7 @@ import LoadingScreen from '../components/LoadingScreen';
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { IoMdAnalytics } from 'react-icons/io';
+import { useHistory } from "react-router-dom";
 
 import "../css/AnalysisInput.css";
 
@@ -31,6 +32,7 @@ export default function AnalysisInput() {
       }));
 
       const classes = useStyles();
+      const history = useHistory();
 
     const [files, setFiles] = React.useState([]);
     const [individualAnalysis, setIndividualAnalysis] = React.useState({
@@ -83,9 +85,11 @@ export default function AnalysisInput() {
         setProgressBar(false);
     }
 
-    async function handleButtonClick() {
+    function handleButtonClick() {
+        // disable submit button 
         setFormDisabled(true);
 
+        // parse inputs for any errors
         let errorMessage = '';
 
         if(files.length < 1){
@@ -98,72 +102,98 @@ export default function AnalysisInput() {
             errorMessage += 'A valid option must be chosen for Group Analysis.\n'
         }
 
+        // early termination on error, with error message
         if(errorMessage !== ''){
-            setError({display: true, message: errorMessage});
-            setFormDisabled(false);
+            handleError(errorMessage);
             return; 
         }
+        // no errors, show progress bar 
         setProgressBar({show: true, title: 'Parsing Data...'});
-        prepareFiles(handleBackendCalls);
-        setError({display: false});
+
+        // prepare input files for backend calls 
+        prepareFiles()
+        .then(async (fileJSONS) => {
+            try{
+
+                setProgressBar({show: true, title: 'Analyzing Data...'});
+                const cnnPredictions = await handleCNNPredictionsFetchCall(fileJSONS);
+                // alert(cnnPredictions[0]["0"]);
+                redirectToResultsPage(fileJSONS, cnnPredictions, null);
+
+            } catch(err){
+                handleError(err);
+            }
+        }
+        ).catch(err => {
+            handleError(err);
+        });
+    }
+
+    function redirectToResultsPage(inputFileJSONs, cnnPredictions, segmentationPredictions){
+        history.push({
+            pathname: "/analysis-results",
+            state: { inputFileJsons: inputFileJSONs, cnnPredictions: cnnPredictions || [], segmentationPredictions: segmentationPredictions || [], individualOptions: individualAnalysis.options, groupOptions: groupAnalysis.options }
+        });
+    }
+
+    function handleError(errorMsg){
+        setError({display: true, message: errorMsg});
+        setProgressBar({show: false});
         setFormDisabled(false);
     }
 
 
-    async function handleBackendCalls(inputFileJSONs){
-         setProgressBar({show: true, title: 'Analyzing Data...'});
-         const predictions = await getPrediction(inputFileJSONs);
-         setProgressBar({show: false});
-         alert(predictions);
+    async function handleCNNPredictionsFetchCall(inputFileJSONs){
+         return await fetch(`/cnn/predict`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(inputFileJSONs)
+        }).then(async (res) => {
+            const json = await res.json();
+            // successful response, return predictions
+            if(res.status === 200){
+                return json;
+            // error occurred 
+            } else {
+                throw Error(`Error: ${json} appears to be a bad file.`);
+            }
+        })
     }
     /**
      * Reads files in inputFiles and get a prediction from the backend for each one.
      */
-    function prepareFiles(callback) {
-        let fileJSONs = [];
-        files.forEach( (file, i) => {
-            const reader = new FileReader();
-            reader.onabort = () => console.log('file reading was aborted');
-            reader.onerror = () => console.log('file reading has failed');
-            reader.onload =  () => {
-                // store file info into files array
-                const buffer = reader.result;
-                fileJSONs[i] = {'type': file.type, 'name': file.name, 'buffer': ab2str(buffer)};
+    function prepareFiles() {
 
-                console.log(i);
-
-                //get prediction once all files are loaded
-                if (i === files.length - 1) {
-                    callback(fileJSONs);
+        return new Promise((resolve, reject) => {
+            let fileJSONs = [];
+            files.forEach( (file, i) => {
+                const reader = new FileReader();
+                reader.onabort = () => {
+                    console.log('file reading was aborted');
+                    reject('file reading was aborted');
                 }
-            }
-            reader.readAsArrayBuffer(file);
-        });
-    }
+                reader.onerror = () => {
+                    console.log('file reading has failed');
+                    reject('file reading has failed');
+                };
+                reader.onload =  async () => {
 
-    /**
-     * Converts array buffer to string so it can be included in JSON
-     * 
-     * @param {Array} buf - An array buffer (output of FileReader)
-     * @returns {string} - Stringified array buffer
-     */
-    function ab2str(buf) {
-        return String.fromCharCode.apply(null, new Uint8Array(buf));
-    }
+                    function ab2str(buf) {
+                        return String.fromCharCode.apply(null, new Uint8Array(buf));
+                    }
 
-    /**
-     * Gets prediction for image via HTTP request to backend.
-     * 
-     * @param {*} fileList - Array of JSON with file type, name, buffer
-     * @returns - Response from backend
-     */
-    async function getPrediction(fileList) {
-        const response = await fetch(`/cnn/predict`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(fileList)
-        });
-        return await response.json();
+                    // store file info into files array
+                    const buffer = reader.result;
+                    fileJSONs[i] = {'type': file.type, 'name': file.name, 'buffer': ab2str(buffer)};
+    
+                    //get prediction once all files are loaded
+                    if (i === files.length - 1) {
+                        resolve(fileJSONs);
+                    }
+                }
+                reader.readAsArrayBuffer(file);
+            });
+        })
     }
         
       return (
@@ -192,16 +222,9 @@ export default function AnalysisInput() {
                   />
                 <div class="vl"></div>
                 <CustomizeSettingsDropDown title="Group Image Analysis" info={"Analysis will be conducted on all images holistically."}
-                options={[ 'Oliver Hansen',
-                'Van Henry',
-                'April Tucker',
-                'Ralph Hubbard',
-                'Omar Alexander',
-                'Carlos Abbott',
-                'Miriam Wagner',
-                'Bradley Wilkerson',
-                'Virginia Andrews',
-                'Kelly Snyder']}
+                options={[ 
+                "CNN Prediction Time Series",
+                ]}
                 callback={setGroupAnalysisCallback}
                 />
               </section>

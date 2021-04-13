@@ -40,12 +40,11 @@ router.post('/predict', async (req, res) => {
 
     // check for valid prediction
     if (!pred) {
-      res.status(400).send("Prediction error: couldn't predict on file " + req.body[i].name);
-      return;
+      return res.status(400).json(req.body[i].name);
     }
   }
   
-  res.status(200).json(JSON.stringify(result));
+  return res.status(200).json(result);
 });
 
 module.exports = router;
