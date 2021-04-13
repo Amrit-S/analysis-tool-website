@@ -207,21 +207,13 @@ export default function AnalysisInput() {
               </section>
               <p className="Subsection-Step-Title"> Step #2: Customize Settings </p>
               <section className="Step-2-Container">
-                  <CustomizeSettingsDropDown title="Individual Image Analysis" info={"Analysis will be conducted on all images seperately."}
+                  <CustomizeSettingsDropDown title="Individual Image Analysis" info={"Analysis will be conducted on each individual image seperately."}
                   options={[ 
-                  'Van Henry',
-                  'April Tucker',
-                  'Ralph Hubbard',
-                  'Omar Alexander',
-                  'Carlos Abbott',
-                  'Miriam Wagner',
-                  'Bradley Wilkerson',
-                  'Virginia Andrews',
-                  'Kelly Snyder']}
+                  'CNN Predictions']}
                   callback={setIndividualAnalysisCallback}
                   />
                 <div class="vl"></div>
-                <CustomizeSettingsDropDown title="Group Image Analysis" info={"Analysis will be conducted on all images holistically."}
+                <CustomizeSettingsDropDown title="Group Image Analysis" info={"Analysis will be conducted on all images holistically via time series. Recommended for 2+ images."}
                 options={[ 
                 "CNN Prediction Time Series",
                 ]}
