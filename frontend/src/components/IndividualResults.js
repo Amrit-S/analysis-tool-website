@@ -1,8 +1,6 @@
-import React, { Component} from 'react';
+import React from 'react';
 
-class IndividualResults extends Component {
-
-    render (){
+export default function IndividualResults(props) {
 
       return (
 
@@ -11,7 +9,4 @@ class IndividualResults extends Component {
           </>
 
       )
-    }
   }
-  
-  export default IndividualResults;

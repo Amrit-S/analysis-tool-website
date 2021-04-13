@@ -62,7 +62,7 @@ export default function AnalysisResults() {
                <ResultsNavBar renderCallback={showDifferentSection}/>
                {
                  showIndividual ?
-                 <IndividualResults/>
+                 <IndividualResults inputPageData={inputPageData}/>
                  :
                  <GroupResults inputPageData={inputPageData}/>
                }
