@@ -15,9 +15,9 @@ export default function LoadingScreen(props) {
     const useStyles = makeStyles((theme) => ({
         button: {
             "& .MuiButton-root": {
-            color: "white",
-            background: "#004970",
-            border: "1px solid black",
+              color: "white",
+              background: "#004970",
+              border: "1px solid black",
             },
         },
         colorPrimary: {
@@ -43,13 +43,13 @@ export default function LoadingScreen(props) {
           Please wait while your data is being processed.
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
+        {/* <DialogActions>
         <div className={`${classes.button}`} >
             <Button variant="contained" onClick={props.handleClose} color="primary" autoFocus>
                 Close
             </Button>
           </div>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </div>
   );

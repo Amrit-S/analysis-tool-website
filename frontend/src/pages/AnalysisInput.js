@@ -10,7 +10,6 @@ import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { IoMdAnalytics } from 'react-icons/io';
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
 
 import "../css/AnalysisInput.css";
 
@@ -32,8 +31,8 @@ export default function AnalysisInput() {
         },
       }));
 
-      const classes = useStyles();
-      const history = useHistory();
+    const classes = useStyles();
+    const history = useHistory();
 
     const [files, setFiles] = React.useState([]);
     const [individualAnalysis, setIndividualAnalysis] = React.useState({
@@ -235,12 +234,9 @@ export default function AnalysisInput() {
                 </Button>
               </div>
               <p className="errorText" style={{display: error.display ? null:'none'}}> {error.message}</p>
-              {/* <button onClick={getFiles}> Files </button> */}
               <LoadingScreen open={progressBar.show} handleClose={closeProgressBar} title={progressBar.title}/>
               <Footer/>
           </div>
 
       )
   }
-  
-//   export default AnalysisInput;
