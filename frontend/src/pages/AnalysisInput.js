@@ -92,14 +92,23 @@ export default function AnalysisInput() {
         // parse inputs for any errors
         let errorMessage = '';
 
+        // no image files uploaded
         if(files.length < 1){
             errorMessage += "At least one image file must be uploaded.\n";
         }
+        // nothing selected for individual 
         if(!individualAnalysis.checkbox && individualAnalysis.options.length < 1){
             errorMessage += 'A valid option must be chosen for Individual Analysis.\n'
         }
+
+        // nothing selected for group
         if(!groupAnalysis.checkbox && groupAnalysis.options.length < 1){
             errorMessage += 'A valid option must be chosen for Group Analysis.\n'
+        }
+
+        // neither analysis chosen (both have chekcboxes clicked)
+        if(individualAnalysis.checkbox && groupAnalysis.checkbox){
+            errorMessage += 'At least one type of analysis must be chosen.\n'
         }
 
         // early termination on error, with error message
