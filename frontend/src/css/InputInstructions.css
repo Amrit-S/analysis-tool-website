@@ -1,0 +1,62 @@
+:root {
+    --grey: #A3A3A3;
+    --darkgrey: #585858;
+    --lightgrey: #C4C4C4; 
+    --blue: #004970; 
+    --gold: #DABA11;
+}
+
+.Root-Container{
+    width: 80vw;
+    border-right: 4.5px solid var(--blue);
+    border-radius: 2px;
+}
+
+.Mini-NavBar{
+    display: flex;
+}
+
+.Mini-NavBar .Section {
+    color: var(--darkgrey);
+    font-weight: bold;
+    font-size: large;
+}
+
+.Mini-NavBar .Section:hover{
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.Mini-NavBar .Selected-Section{
+    color: black;
+    border-bottom: 2.5px solid var(--blue);
+}
+
+.Instructions-Container p{
+    margin-top: 35px;
+}
+
+.Instructions-Container li{
+    margin: 35px;
+}
+
+.Example-Container{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.Example-Container img {
+    height: 350px;
+}
+
+@media only screen and (max-width: 1180px){
+
+    .Root-Container{
+        width: 85vw;
+        /* background-color: aliceblue; */
+        border-right: none;
+        border-bottom: 4.5px solid var(--blue);
+    }
+
+  }

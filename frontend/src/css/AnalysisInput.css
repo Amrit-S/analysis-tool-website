@@ -1,0 +1,70 @@
+:root {
+    --grey: #A3A3A3;
+    --darkgrey: #585858;
+    --lightgrey: #C4C4C4; 
+    --blue: #004970; 
+    --gold: #DABA11;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+.Subsection-Step-Title {
+    border: 1px solid black;
+    border-left: none;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    font-size: large;
+    background-color: var(--blue);
+}
+
+.Step-1-Container, .Step-2-Container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 10px 30px;
+    flex: 1;
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+}
+
+.vl {
+    border-left: 4.5px solid var(--blue);
+    border-radius: 2px;
+  }
+
+  .Submit-Button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .errorText{
+    flex-wrap: wrap;
+    color: red;
+    text-align: center;
+    white-space: pre-line;
+  }
+
+/* Mobile View */ 
+@media only screen and (max-width: 1180px){
+
+  .Step-1-Container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+  }
+
+  .Step-2-Container{
+    flex-direction: column;
+  }
+
+  .vl {
+    border-left: none;
+    border-bottom: 4.5px solid var(--blue);
+  }
+
+  
+}

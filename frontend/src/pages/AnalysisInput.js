@@ -1,116 +1,251 @@
-import React, { Component, useCallback} from 'react';
-import { Button, Snackbar } from '@material-ui/core';
+import React, {useCallback} from 'react';
 
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-
+import InputInstructions from '../components/InputInstructions';
 import DropBox from '../components/DropBox';
+import CustomizeSettingsDropDown from "../components/CustomizeSettingsDropDown";
+import LoadingScreen from '../components/LoadingScreen';
+import { Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { IoMdAnalytics } from 'react-icons/io';
+import { useHistory } from "react-router-dom";
+
+import "../css/AnalysisInput.css";
 
 const config = require('../config');
 //const BACKEND_URL = config.backend.uri;
 
 export default function AnalysisInput() {
 
-    const [state, setState] = React.useState({  
+    const useStyles = makeStyles((theme) => ({
+        button: {
+          "& .MuiButton-root": {
+            margin: theme.spacing(3),
+            color: "black",
+            background: "#DABA11",
+            padding: "10px 40px",
+            fontSize: "16px",
+            border: "1px solid black",
+          },
+        },
+      }));
 
-        inputFiles: []  // all file objects in dropbox can be accessed here, organized in natural sort
+    const classes = useStyles();
+    const history = useHistory();
+
+    const [files, setFiles] = React.useState([]);
+    const [individualAnalysis, setIndividualAnalysis] = React.useState({
+        options: [],
+        checkbox: false,
+    });
+
+    const [groupAnalysis, setGroupAnalysis] = React.useState({
+        options: [],
+        checkbox: false,
+    });
+
+    const [error, setError] = React.useState({
+        display: false, 
+        message: ''
+    });
+
+    const [formDisabled, setFormDisabled] = React.useState(false);
+    const [progressBar, setProgressBar] = React.useState({
+        show: false,
+        progress: 0,
+        title: 'Parsing Image Files'
     });
 
     /**
      * Allows the state atribute inputFiles to be updated to reflect changes made in the DropBox component. 
      */
-    const setFiles = useCallback(
+    const setFilesCallback = useCallback(
         (files) => {
-          setState({inputFiles: files});
+            setFiles(files);
         },
         [], // Tells React to memoize regardless of arguments.
       );
-    
-    /**
-     * Very simple dummy function to verify state has most updated files from DropBox. 
-     */
-    function getFiles(){
 
-        let x = "";
-        for(var i=0; i < state.inputFiles.length; i++){
-            x += " " + state.inputFiles[i].name;
+    const setIndividualAnalysisCallback = useCallback(
+        (options, checkbox) => {
+            setIndividualAnalysis({ options: options, checkbox: checkbox});
+        },
+        [], // Tells React to memoize regardless of arguments.
+    );
+
+    const setGroupAnalysisCallback = useCallback(
+        (options, checkbox) => {
+            setGroupAnalysis({options: options, checkbox: checkbox});
+        },
+        [], // Tells React to memoize regardless of arguments.
+    );
+
+    const closeProgressBar = () => {
+        setProgressBar(false);
+    }
+
+    function handleButtonClick() {
+        // disable submit button 
+        setFormDisabled(true);
+
+        // parse inputs for any errors
+        let errorMessage = '';
+
+        // no image files uploaded
+        if(files.length < 1){
+            errorMessage += "At least one image file must be uploaded.\n";
+        }
+        // nothing selected for individual 
+        if(!individualAnalysis.checkbox && individualAnalysis.options.length < 1){
+            errorMessage += 'A valid option must be chosen for Individual Analysis.\n'
         }
 
-        alert(x);
+        // nothing selected for group
+        if(!groupAnalysis.checkbox && groupAnalysis.options.length < 1){
+            errorMessage += 'A valid option must be chosen for Group Analysis.\n'
+        }
+
+        // neither analysis chosen (both have chekcboxes clicked)
+        if(individualAnalysis.checkbox && groupAnalysis.checkbox){
+            errorMessage += 'At least one type of analysis must be chosen.\n'
+        }
+
+        // early termination on error, with error message
+        if(errorMessage !== ''){
+            handleError(errorMessage);
+            return; 
+        }
+        // no errors, show progress bar 
+        setProgressBar({show: true, title: 'Parsing Data...'});
+
+        // prepare input files for backend calls 
+        prepareFiles()
+        .then(async (fileJSONS) => {
+            try{
+
+                setProgressBar({show: true, title: 'Analyzing Data...'});
+                const cnnPredictions = await handleCNNPredictionsFetchCall(fileJSONS);
+                redirectToResultsPage(fileJSONS, cnnPredictions, null);
+
+            } catch(err){
+                handleError(err);
+            }
+        }
+        ).catch(err => {
+            handleError(err);
+        });
     }
 
-    /**
-     * Dummy array and function to verify that prediction values are returned
-     * from backend. (via "See Result" button)
-     */
-    let predictions = "";
-    function getResult(){
-        alert(predictions);
+    function redirectToResultsPage(inputFileJSONs, cnnPredictions, segmentationPredictions){
+        history.push({
+            pathname: "/analysis-results",
+            state: { inputFileJsons: inputFileJSONs, cnnPredictions: cnnPredictions || [], segmentationPredictions: segmentationPredictions || [], individualOptions: individualAnalysis.options, groupOptions: groupAnalysis.options }
+        });
     }
 
+    function handleError(errorMsg){
+        setError({display: true, message: errorMsg});
+        setProgressBar({show: false});
+        setFormDisabled(false);
+    }
+
+
+    async function handleCNNPredictionsFetchCall(inputFileJSONs){
+
+         return await fetch(`/cnn/predict`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(inputFileJSONs)
+        }).then(async (res) => {
+            const json = await res.json();
+            // successful response, return predictions
+            if(res.status === 200){
+                return json;
+            // error occurred 
+            } else {
+                throw Error(`Error: ${json} appears to be a bad file.`);
+            }
+        })
+    }
     /**
      * Reads files in inputFiles and get a prediction from the backend for each one.
      */
-    let files = [];
-    async function readImg() {
-        state.inputFiles.forEach((file, i) => {
-            const reader = new FileReader();
-            reader.onabort = () => console.log('file reading was aborted');
-            reader.onerror = () => console.log('file reading has failed');
-            reader.onload = async () => {
-                // store file info into files array
-                const buffer = reader.result;
-                files[i] = {'type': file.type, 'name': file.name, 'buffer': ab2str(buffer)};
+    function prepareFiles() {
 
-                // get prediction once all files are loaded
-                if (i === state.inputFiles.length - 1) {
-                    predictions = await getPrediction(files);
+        return new Promise((resolve, reject) => {
+            let fileJSONs = [];
+            files.forEach( (file, i) => {
+                const reader = new FileReader();
+                reader.onabort = () => {
+                    console.log('file reading was aborted');
+                    reject('file reading was aborted');
                 }
-            }
+                reader.onerror = () => {
+                    console.log('file reading has failed');
+                    reject('file reading has failed');
+                };
+                reader.onload =  async () => {
 
-            reader.readAsArrayBuffer(file);
-        });
-    }
+                    function ab2str(buf) {
+                        return String.fromCharCode.apply(null, new Uint8Array(buf));
+                    }
 
-    /**
-     * Converts array buffer to string so it can be included in JSON
-     * 
-     * @param {Array} buf - An array buffer (output of FileReader)
-     * @returns {string} - Stringified array buffer
-     */
-    function ab2str(buf) {
-        return String.fromCharCode.apply(null, new Uint8Array(buf));
-    }
-
-    /**
-     * Gets prediction for image via HTTP request to backend.
-     * 
-     * @param {*} fileList - Array of JSON with file type, name, buffer
-     * @returns - Response from backend
-     */
-    async function getPrediction(fileList) {
-        const response = await fetch(`/cnn/predict`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(fileList)
-        });
-        return await response.json();
+                    // store file info into files array
+                    const buffer = reader.result;
+                    fileJSONs[i] = {'type': file.type, 'name': file.name, 'buffer': ab2str(buffer)};
+    
+                    //get prediction once all files are loaded
+                    if (i === files.length - 1) {
+                        resolve(fileJSONs);
+                    }
+                }
+                reader.readAsArrayBuffer(file);
+            });
+        })
     }
         
       return (
 
           <div>
               <NavBar/>
-              <DropBox handleFiles={setFiles}/>
-              <button onClick={getFiles}>Parent Files</button>
-
-              {/* Placeholder buttons to test prediction and verify that results are returned */}
-              <button type="button" onClick= {(e) => readImg()} className="btn btn-danger">Predict</button>
-              <button onClick={getResult}>See Result</button>
+              <p className="Subsection-Step-Title"> Step #1: Upload Images </p>
+              <section className="Step-1-Container">
+                  <InputInstructions/>
+                  <DropBox handleFiles={setFilesCallback}/>
+              </section>
+              <p className="Subsection-Step-Title"> Step #2: Customize Settings </p>
+              <section className="Step-2-Container">
+                  <CustomizeSettingsDropDown title="Individual Image Analysis" info={"Analysis will be conducted on each individual image seperately."}
+                  options={[ 
+                  'CNN Predictions']}
+                  callback={setIndividualAnalysisCallback}
+                  />
+                <div class="vl"></div>
+                <CustomizeSettingsDropDown title="Group Image Analysis" info={"Analysis will be conducted on all images holistically via time series. Recommended for 2+ images."}
+                options={[ 
+                "CNN Prediction Time Series",
+                ]}
+                callback={setGroupAnalysisCallback}
+                />
+              </section>
+              {/* <button onClick={getFiles}>Parent Files</button> */}
+              <div className={`${classes.button} Submit-Button`} >
+                <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        onClick={handleButtonClick}
+                        disabled={formDisabled}
+                        startIcon={<IoMdAnalytics/>}
+                    >
+                        Begin Analysis
+                </Button>
+              </div>
+              <p className="errorText" style={{display: error.display ? null:'none'}}> {error.message}</p>
+              <LoadingScreen open={progressBar.show} handleClose={closeProgressBar} title={progressBar.title}/>
               <Footer/>
           </div>
 
       )
   }
-  
-//   export default AnalysisInput;
