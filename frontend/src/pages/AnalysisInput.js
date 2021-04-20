@@ -125,8 +125,11 @@ export default function AnalysisInput() {
             try{
 
                 setProgressBar({show: true, title: 'Analyzing Data...'});
-                const cnnPredictions = await handleCNNPredictionsFetchCall(fileJSONS);
-                redirectToResultsPage(fileJSONS, cnnPredictions, null);
+                const segResults = await handleSegmentationFetchCall(fileJSONS);
+                setProgressBar({show: false});
+                setFormDisabled(false);
+                // const cnnPredictions = await handleCNNPredictionsFetchCall(fileJSONS);  
+                // redirectToResultsPage(fileJSONS, cnnPredictions, null);
 
             } catch(err){
                 handleError(err);
@@ -168,6 +171,25 @@ export default function AnalysisInput() {
             }
         })
     }
+
+    async function handleSegmentationFetchCall(inputFileJSONs){
+
+        return await fetch(`/segmentation/predict`, {
+           method: 'POST',
+           headers: {'Content-Type': 'application/json'},
+           body: JSON.stringify(inputFileJSONs)
+       }).then(async (res) => {
+           const json = await res.json();
+           // successful response, return predictions
+           if(res.status === 200){
+               return json;
+           // error occurred 
+           } else {
+               throw Error(`Error: ${json} appears to be a bad file.`);
+           }
+       })
+   }
+
     /**
      * Reads files in inputFiles and get a prediction from the backend for each one.
      */
