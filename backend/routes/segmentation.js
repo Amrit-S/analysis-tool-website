@@ -34,10 +34,16 @@ router.post('/predict', async (req, res) => {
       const filename = filenames[i];
       const raw_img_path = requestedOptions.overlay ? `${CROPPED_IMG_DST}${filename}`: `${RAW_IMG_SRC_DIR}${filename}`;
       const overlay_img_path = `${COLORED_IMG_SRC_DIR}${path.parse(filename).name}.png`;
+      let totalCells = null;
+      for(let key in stat){ 
+        totalCells = key.totalCells;
+        break;
+      }
 
       return {
-        "filename": filenames[i],
+        "filename": filename,
         "stats": stat,
+        "totalCells": totalCells,
         "raw_img": base64_encode(raw_img_path),
         "segmented_img": requestedOptions.overlay ? base64_encode(overlay_img_path): null
       }

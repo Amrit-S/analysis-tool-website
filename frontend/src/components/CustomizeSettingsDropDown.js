@@ -132,6 +132,7 @@ export default function CustomizeSettingsDropDown(props) {
                 MenuProps={MenuProps}
                 >
                 {props.options.map((name) => (
+                  
                     <MenuItem key={name} value={name} style={getStyles(name, chosenDropdownOptions, theme)}>
                     {name}
                     </MenuItem>

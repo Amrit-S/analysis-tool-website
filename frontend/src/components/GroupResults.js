@@ -21,9 +21,9 @@
  
            case ANALYSIS_OPTIONS.GROUP_CNN:
              graphOptions["maxValue"] = 100;
-             graphOptions["yAxisLabel"] = "% Normal Prediction";
+             graphOptions["yAxisLabel"] = "% Reject Prediction";
              graphOptions["data"] = props.inputPageData.analysisData.cnn.map(pred => {
-               const normalP = parseFloat(pred["0"]) * 100;
+               const normalP = parseFloat(pred["1"]) * 100;
                return normalP;
              });
  

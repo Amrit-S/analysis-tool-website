@@ -260,7 +260,7 @@ def extractCharachteristic( cnts, external_contours, options):
 
     #         index += 1
 
-    index = 1
+    index = 0
     values = []
 
     #Loop through contours
@@ -273,13 +273,15 @@ def extractCharachteristic( cnts, external_contours, options):
         #Analyze charachteristic in contour
         value = extractCharachteristicFromContour(c, options)
         values.append(value)
+        index += 1
 
     dict_count = {
         "min": min(values),
         "max": max(values),
         "std": statistics.stdev(values),
         "mean": statistics.mean(values),
-        "median": statistics.median(values)
+        "median": statistics.median(values),
+        "totalCells": index
     }
     
     return dict_count
