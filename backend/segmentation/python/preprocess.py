@@ -21,6 +21,8 @@ Y_OFFSET = 0
 CROP_WIDTH = 256
 CROP_HEIGHT = 256
 
+IGNORED_FILES = [".keep"]
+
 
 def unet(pretrained_weights = None,input_size = (256,256,1)):
 
@@ -78,6 +80,10 @@ def unet(pretrained_weights = None,input_size = (256,256,1)):
 
 def testGenerator(test_path):
     for imgName in sorted(os.listdir(test_path)):
+
+        if imgName in IGNORED_FILES:
+            continue 
+        
         img = io.imread(os.path.join(test_path,imgName),as_gray = True)
         img = img[X_OFFSET:X_OFFSET + CROP_WIDTH, Y_OFFSET:Y_OFFSET + CROP_HEIGHT]
         io.imsave(os.path.join(CROPPED_IMG_DST, "{}".format(imgName)),img)
@@ -91,6 +97,10 @@ def getOrderOfFiles(test_path):
     filenames = []
     count = 0
     for imgName in sorted(os.listdir(test_path)):
+        
+        if imgName in IGNORED_FILES:
+            continue 
+
         filenames.append(imgName)
         count +=1
     return filenames, count

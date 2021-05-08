@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require('path');
 
+const IGNORED_FILES = ['.keep']
+
 // convert string back to buffer
 function str2ab(str) {
     var buf = new ArrayBuffer(str.length * 2);
@@ -19,6 +21,7 @@ function clearDirectories(directories){
             if (err) throw err;
         
             for (const file of files) {
+            if(IGNORED_FILES.includes(file)) continue
             fs.unlink(path.join(dir, file), err => {
                 if (err) throw err;
             });

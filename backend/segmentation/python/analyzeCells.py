@@ -27,6 +27,7 @@ MAX_ASPECT_RATIO = 0.2
 SIZE = "size"
 SHAPE = "shape"
 POINTINESS = "pointiness"
+IGNORED_FILES = [".keep"]
 
 def checkForExternalContour(contour, filters):
     for fil in filters:
@@ -293,6 +294,10 @@ def main(unet_src_imgs, colored_imgs_dst, csv_data_dst, cropped_img_dest, option
 
     #Loops through all segmented images
     for img in sorted(os.listdir(unet_src_imgs)):
+
+        # skip any ignored files
+        if img in IGNORED_FILES:
+            continue
 
         #Needed filepaths
         dest_filename = os.path.join(colored_imgs_dst, os.path.splitext(img)[0] + ".png")
