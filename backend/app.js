@@ -13,7 +13,7 @@ const {loadUnetModel} = require("./services/segmentation");
 loadModel();
 loadUnetModel();
 
-console.log(`Running on port ${config.app.port}`);
+console.log(`Running on port ${config.app.port}`); 
 
 const app = express();
 

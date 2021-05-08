@@ -1,95 +1,63 @@
 var express = require('express');
 const fs = require("fs");
-const {unetPrediction} = require("../services/segmentation");
+const path = require('path');
+const {RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, CROPPED_IMG_DST, COLORED_IMG_SRC_DIR} = require("../segmentation/constants");
+const {segmentation, analyzeSegmentation, naturalCompare, base64_encode} = require("../services/segmentation");
+const {str2ab, clearDirectories} = require("../services/general");
 var router = express.Router();
 
-const SEG_IMG_SRC_DIR = "./segmentation/img_dest/";
-
-// convert string back to buffer
-function str2ab(str) {
-  var buf = new ArrayBuffer(str.length * 2);
-  var bufView = new Uint8Array(buf);
-  for (var i = 0, strLen = str.length; i < strLen; i++) {
-    bufView[i] = str.charCodeAt(i);
-  }
-  return buf;
-}
-
-function test(float32Array){
-
-
-    var output = new Uint8Array(float32Array.length);
-
-    for (var i = 0; i < float32Array.length; i++) {
-        var tmp = Math.max(-1, Math.min(1, float32Array[i]));
-        tmp = tmp < 0 ? (tmp * 0x8000) : (tmp * 0x7FFF);
-        tmp = tmp / 256;
-        output[i] = tmp + 128;
-    }
-    console.log(output);
-
-    return output;
-}
-
-function listToMatrix(list, elementsPerSubArray) {
-    var matrix = [], i, k;
-
-    for (i = 0, k = -1; i < list.length; i++) {
-        if (i % elementsPerSubArray === 0) {
-            k++;
-            matrix[k] = [];
-        }
-
-        matrix[k].push(list[i]);
-    }
-
-    return matrix;
-}
 
 // handle image predictions
 router.post('/predict', async (req, res) => {
-  let result = [];
 
-  // process each image
-  for (let i = 0; i < req.body.length; i++) {
-    // save file with unique filename
-    let buf = str2ab(req.body[i].buffer);
-    const imgPath = `${SEG_IMG_SRC_DIR}${req.body[i].name}`;
-    
-    fs.writeFileSync(imgPath, Buffer.from(buf));
-    console.log(imgPath);
+  try{
 
-    // predict and return via response
-    const prediction = await unetPrediction(imgPath);
-    console.log(prediction);
+    // process each image
+    for (let i = 0; i < req.body.files.length; i++) {
 
-    // const l = prediction.reduce(function(map, obj) {
-    //     if(obj in map){
-    //         map[obj] += 1;
-    //     } else {
-    //         map[obj] = 1;
-    //     }
-    //     return map;
-    // }, {});
-    // console.log(l);
+      // save file with unique filename
+      let buf = str2ab(req.body.files[i].buffer);
+      const imgPath = `${RAW_IMG_SRC_DIR}${req.body.files[i].name}`;
+      
+      fs.writeFileSync(imgPath, Buffer.from(buf));
 
+    }
 
-    fs.writeFileSync(`${SEG_IMG_SRC_DIR}UNET_${req.body[i].name}`, y)
-    // result.push(pred);
+    const requestedOptions = req.body;
 
-    // // delete file
-    // fs.rm(imgPath, (err) => {
-    //   if (err) {
-    //     console.log("File delete error: " + err.message);
-    //   }
-    // });
+    const filenames = await segmentation();
 
-    // // check for valid prediction
-    // if (!pred) {
-    //   return res.status(400).json(req.body[i].name);
-    // }
-  }
-  return res.status(200).json(result);
+    const statistics = await analyzeSegmentation(requestedOptions);
+
+    const results = statistics.map((stat, i) => {
+
+      const filename = filenames[i];
+      const raw_img_path = requestedOptions.overlay ? `${CROPPED_IMG_DST}${filename}`: `${RAW_IMG_SRC_DIR}${filename}`;
+      const overlay_img_path = `${COLORED_IMG_SRC_DIR}${path.parse(filename).name}.png`;
+
+      return {
+        "filename": filenames[i],
+        "stats": stat,
+        "raw_img": base64_encode(raw_img_path),
+        "segmented_img": requestedOptions.overlay ? base64_encode(overlay_img_path): null
+      }
+    });
+
+    // sort file objects using natural sort on filenames
+    results.sort(function compare(file1, file2){
+
+      return naturalCompare(file1.filename, file2.filename);
+    });
+
+    const directories = [RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, CROPPED_IMG_DST, COLORED_IMG_SRC_DIR];
+    clearDirectories(directories);
+
+    return res.status(200).json(results);
+
+} catch(err){
+    console.error(err);
+    return res.status(400).json(err);
+}
 });
 
 module.exports = router;
