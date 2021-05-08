@@ -10,6 +10,7 @@ import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { IoMdAnalytics } from 'react-icons/io';
 import { useHistory } from "react-router-dom";
+import {ANALYSIS_OPTIONS} from "../constants/analysisOptions";
 
 import "../css/AnalysisInput.css";
 
@@ -85,6 +86,68 @@ export default function AnalysisInput() {
         setProgressBar(false);
     }
 
+    const determineCustomizations = () => {
+        // default, assume no option is chosen 
+        let overlay = false; 
+        let size = false; 
+        let shape = false; 
+        let pointiness = false;
+        let cnn = false;
+        
+        // update options based on individual picks 
+        for(let i = 0; i < individualAnalysis.options.length; i++){
+
+            switch(individualAnalysis.options[i]){
+                case ANALYSIS_OPTIONS.INDIVIDUAL_CNN:
+                    cnn = true;
+                    break;
+                case ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SIZE:
+                    size = true;
+                    overlay = true;
+                    break;
+                case ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SHAPE:
+                    shape = true; 
+                    overlay = true;
+                    break;
+                case ANALYSIS_OPTIONS.INDIVIDUAL_SEG_POINTINESS:
+                    pointiness = true; 
+                    overlay = true; 
+                    break;
+                default:
+                    break; 
+            }
+        }
+
+        // update options based on group picks 
+        for(let i = 0; i < groupAnalysis.options.length; i++){
+            switch(groupAnalysis.options[i]){
+                case ANALYSIS_OPTIONS.GROUP_CNN:
+                    cnn = true;
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SIZE:
+                    size = true;
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE:
+                    shape = true; 
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS:
+                    pointiness = true; 
+                    break; 
+                default:
+                    break;
+            }
+        }
+
+        return {
+            "overlay": overlay, 
+            "size": size,
+            "shape": shape, 
+            "pointiness": pointiness,
+            "cnn": cnn,
+            "segmentation": size || shape || pointiness
+        };
+    }
+
     function handleButtonClick() {
         // disable submit button 
         setFormDisabled(true);
@@ -116,7 +179,9 @@ export default function AnalysisInput() {
             handleError(errorMessage);
             return; 
         }
+
         // no errors, show progress bar 
+        setError({display: false});
         setProgressBar({show: true, title: 'Parsing Data...'});
 
         // prepare input files for backend calls 
@@ -124,12 +189,26 @@ export default function AnalysisInput() {
         .then(async (fileJSONS) => {
             try{
 
+                // update progress bar, and filter through chosen options
                 setProgressBar({show: true, title: 'Analyzing Data...'});
-                const segResults = await handleSegmentationFetchCall(fileJSONS);
+                const options = determineCustomizations();
+
+                // make appropriate server calls
+                let backendCalls = [null, null];
+                if (options.cnn){
+                    backendCalls[0] = handleCNNPredictionsFetchCall(fileJSONS);
+                }
+                if(options.segmentation){
+                    backendCalls[1] = handleSegmentationFetchCall(fileJSONS, options);
+                }
+                const res = await Promise.all(backendCalls);
+
+                // server calls have finished, dismiss progress bar
                 setProgressBar({show: false});
                 setFormDisabled(false);
-                // const cnnPredictions = await handleCNNPredictionsFetchCall(fileJSONS);  
-                // redirectToResultsPage(fileJSONS, cnnPredictions, null);
+
+                // redirect with results
+                redirectToResultsPage(fileJSONS, res[0], res[1]);
 
             } catch(err){
                 handleError(err);
@@ -172,12 +251,18 @@ export default function AnalysisInput() {
         })
     }
 
-    async function handleSegmentationFetchCall(inputFileJSONs){
+    async function handleSegmentationFetchCall(inputFileJSONs, options){
 
         return await fetch(`/segmentation/predict`, {
            method: 'POST',
            headers: {'Content-Type': 'application/json'},
-           body: JSON.stringify(inputFileJSONs)
+           body: JSON.stringify({
+               "files" : inputFileJSONs,
+               "size": options["size"],
+               "shape": options["shape"],
+               "pointiness": options["pointiness"],
+               "overlay": options["overlay"]
+           })
        }).then(async (res) => {
            const json = await res.json();
            // successful response, return predictions
@@ -185,7 +270,7 @@ export default function AnalysisInput() {
                return json;
            // error occurred 
            } else {
-               throw Error(`Error: ${json} appears to be a bad file.`);
+               throw Error(`Error: ${json}`);
            }
        })
    }
@@ -240,13 +325,20 @@ export default function AnalysisInput() {
               <section className="Step-2-Container">
                   <CustomizeSettingsDropDown title="Individual Image Analysis" info={"Analysis will be conducted on each individual image seperately."}
                   options={[ 
-                  'CNN Predictions']}
+                    ANALYSIS_OPTIONS.INDIVIDUAL_CNN,
+                    ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SIZE,
+                    ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SHAPE,
+                    ANALYSIS_OPTIONS.INDIVIDUAL_SEG_POINTINESS
+                ]}
                   callback={setIndividualAnalysisCallback}
                   />
                 <div class="vl"></div>
                 <CustomizeSettingsDropDown title="Group Image Analysis" info={"Analysis will be conducted on all images holistically via time series. Recommended for 2+ images."}
                 options={[ 
-                "CNN Prediction Time Series",
+                    ANALYSIS_OPTIONS.GROUP_CNN,
+                    ANALYSIS_OPTIONS.GROUP_SEG_SIZE,
+                    ANALYSIS_OPTIONS.GROUP_SEG_SHAPE,
+                    ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS
                 ]}
                 callback={setGroupAnalysisCallback}
                 />
