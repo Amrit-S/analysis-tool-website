@@ -11,6 +11,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { IoMdAnalytics } from 'react-icons/io';
 import { useHistory } from "react-router-dom";
 import {ANALYSIS_OPTIONS} from "../constants/analysisOptions";
+import ListSubheader from '@material-ui/core/ListSubheader';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import "../css/AnalysisInput.css";
 
@@ -124,15 +126,51 @@ export default function AnalysisInput() {
                 case ANALYSIS_OPTIONS.GROUP_CNN:
                     cnn = true;
                     break;
-                case ANALYSIS_OPTIONS.GROUP_SEG_SIZE:
-                    size = true;
-                    break;
-                case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE:
-                    shape = true; 
-                    break;
-                case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS:
+                case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MEAN:
                     pointiness = true; 
                     break; 
+                case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MEDIAN:
+                    pointiness = true; 
+                    break; 
+                case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_STD:
+                    pointiness = true; 
+                    break; 
+                case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MIN:
+                    pointiness = true; 
+                    break; 
+                case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MAX:
+                    pointiness = true; 
+                    break; 
+                case ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MEAN:
+                    size = true;
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MEDIAN:
+                    size = true;
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SIZE_STD:
+                    size = true;
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MIN:
+                    size = true;
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MAX:
+                    size = true;
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MEAN:
+                    shape = true; 
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MEDIAN:
+                    shape = true; 
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_STD:
+                    shape = true; 
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MIN:
+                    shape = true; 
+                    break;
+                case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MAX:
+                    shape = true; 
+                    break;
                 default:
                     break;
             }
@@ -324,24 +362,41 @@ export default function AnalysisInput() {
               <p className="Subsection-Step-Title"> Step #2: Customize Settings </p>
               <section className="Step-2-Container">
                   <CustomizeSettingsDropDown title="Individual Image Analysis" info={"Analysis will be conducted on each individual image seperately."}
-                  options={[ 
-                    ANALYSIS_OPTIONS.INDIVIDUAL_CNN,
-                    ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SIZE,
-                    ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SHAPE,
-                    ANALYSIS_OPTIONS.INDIVIDUAL_SEG_POINTINESS
-                ]}
                   callback={setIndividualAnalysisCallback}
-                  />
+                  >
+                       <ListSubheader disableSticky={true}>CNN Model</ListSubheader>
+                        <MenuItem value={ANALYSIS_OPTIONS.INDIVIDUAL_CNN}>{ANALYSIS_OPTIONS.INDIVIDUAL_CNN}</MenuItem>
+                        <ListSubheader disableSticky={true}>Segmentation - Feature Analysis </ListSubheader>
+                        <MenuItem value={ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SIZE}>{ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SIZE}</MenuItem>
+                        <MenuItem value={ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SHAPE}>{ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SHAPE}</MenuItem>
+                        <MenuItem value={ANALYSIS_OPTIONS.INDIVIDUAL_SEG_POINTINESS}>{ANALYSIS_OPTIONS.INDIVIDUAL_SEG_POINTINESS}</MenuItem>
+                      </CustomizeSettingsDropDown>
                 <div class="vl"></div>
                 <CustomizeSettingsDropDown title="Group Image Analysis" info={"Analysis will be conducted on all images holistically via time series. Recommended for 2+ images."}
-                options={[ 
-                    ANALYSIS_OPTIONS.GROUP_CNN,
-                    ANALYSIS_OPTIONS.GROUP_SEG_SIZE,
-                    ANALYSIS_OPTIONS.GROUP_SEG_SHAPE,
-                    ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS
-                ]}
                 callback={setGroupAnalysisCallback}
-                />
+                >
+                    <ListSubheader disableSticky={true}>CNN Model</ListSubheader>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_CNN}>{ANALYSIS_OPTIONS.GROUP_CNN}</MenuItem>
+                    <ListSubheader disableSticky={true}>Segmentation - Cell Size </ListSubheader>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MEAN}>{ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MEAN}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MEDIAN}>{ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MEDIAN}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_SIZE_STD}>{ANALYSIS_OPTIONS.GROUP_SEG_SIZE_STD}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MIN}>{ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MIN}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MAX}>{ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MAX}</MenuItem>
+                    <ListSubheader disableSticky={true}>Segmentation - Cell Shape </ListSubheader>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MEAN}>{ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MEAN}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MEDIAN}>{ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MEDIAN}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_STD}>{ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_STD}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MIN}>{ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MIN}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MAX}>{ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MAX}</MenuItem>
+                    <ListSubheader disableSticky={true}>Segmentation - Cell Pointiness </ListSubheader>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MEAN}>{ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MEAN}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MEDIAN}>{ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MEDIAN}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_STD}>{ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_STD}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MIN}>{ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MIN}</MenuItem>
+                    <MenuItem value={ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MAX}>{ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MAX}</MenuItem>
+
+                    </CustomizeSettingsDropDown>
               </section>
               {/* <button onClick={getFiles}>Parent Files</button> */}
               <div className={`${classes.button} Submit-Button`} >

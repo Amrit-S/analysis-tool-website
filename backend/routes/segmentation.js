@@ -58,7 +58,8 @@ router.post('/predict', async (req, res) => {
       return naturalCompare(file1.filename, file2.filename);
     });
 
-    const directories = [RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, CROPPED_IMG_DST, COLORED_IMG_SRC_DIR];
+    const directories = [RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, CROPPED_IMG_DST];
+    if(requestedOptions.overlay) directories.push(COLORED_IMG_SRC_DIR);
     clearDirectories(directories, filenames);
 
     return res.status(200).json(results);
