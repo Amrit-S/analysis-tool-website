@@ -46,21 +46,19 @@ async function unetPrediction(imgPath) {
     }
 }
 
-function segmentation(){
+function segmentation(filenames){
     return new Promise((resolve, reject) => {
-      const segmentProcess = spawn('python',[`${PYTHON_FILES_SRC_DIR}preprocess.py`, RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, SEG_WEIGHTS_FILE, CROPPED_IMG_DST]);
+      const segmentProcess = spawn('python',[`${PYTHON_FILES_SRC_DIR}preprocess.py`, RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, SEG_WEIGHTS_FILE, CROPPED_IMG_DST, JSON.stringify(filenames)]);
   
-      let filenames = null;
       segmentProcess.stdout.on('data', (data) => {
         // Do something with the data returned from python script
         console.log(`Received data: ${data}`);
-        filenames = JSON.parse(data); 
       });
   
       segmentProcess.on('close', (code) => {
         console.log(`child process close all stdio with code ${code}`);
         if(code === 0){
-          resolve(filenames);
+          resolve();
         } else {
           reject("Segmentation failed on at least one image.")
         }
@@ -69,7 +67,7 @@ function segmentation(){
     })
   }
   
-  function analyzeSegmentation(requestedOptions){
+  function analyzeSegmentation(filenames, requestedOptions){
   
     return new Promise((resolve, reject) => {
   
@@ -81,7 +79,7 @@ function segmentation(){
       };
   
       // Analyze segmented images
-      const analyzeProcess = spawn('python',[`${PYTHON_FILES_SRC_DIR}analyzeCells.py`, UNET_IMG_SRC_DIR, COLORED_IMG_SRC_DIR, CSV_DATA_SRC_DIR, CROPPED_IMG_DST, JSON.stringify(options)]);
+      const analyzeProcess = spawn('python',[`${PYTHON_FILES_SRC_DIR}analyzeCells.py`, UNET_IMG_SRC_DIR, COLORED_IMG_SRC_DIR, CSV_DATA_SRC_DIR, CROPPED_IMG_DST, JSON.stringify(options), JSON.stringify(filenames)]);
   
       let statistics = null;
       analyzeProcess.stdout.on('data', (data) => {

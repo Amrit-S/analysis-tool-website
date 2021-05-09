@@ -14,6 +14,7 @@ IMG_SRC_DIR = sys.argv[1]
 UNET_SRC_DIR = sys.argv[2]
 WEIGHTS_FILE = sys.argv[3]
 CROPPED_IMG_DST = sys.argv[4]
+FILENAMES = json.loads(sys.argv[5])
 target_size = (256,256)
 
 X_OFFSET = 0
@@ -79,10 +80,7 @@ def unet(pretrained_weights = None,input_size = (256,256,1)):
     return model
 
 def testGenerator(test_path):
-    for imgName in sorted(os.listdir(test_path)):
-
-        if imgName in IGNORED_FILES:
-            continue 
+    for imgName in FILENAMES:
         
         img = io.imread(os.path.join(test_path,imgName),as_gray = True)
         img = img[X_OFFSET:X_OFFSET + CROP_WIDTH, Y_OFFSET:Y_OFFSET + CROP_HEIGHT]
@@ -96,10 +94,7 @@ def testGenerator(test_path):
 def getOrderOfFiles(test_path):
     filenames = []
     count = 0
-    for imgName in sorted(os.listdir(test_path)):
-        
-        if imgName in IGNORED_FILES:
-            continue 
+    for imgName in FILENAMES:
 
         filenames.append(imgName)
         count +=1

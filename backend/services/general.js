@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require('path');
-
-const IGNORED_FILES = ['.keep']
+const { COLORED_IMG_SRC_DIR} = require("../segmentation/constants");
 
 // convert string back to buffer
 function str2ab(str) {
@@ -13,20 +12,45 @@ function str2ab(str) {
     return buf;
   }
 
-function clearDirectories(directories){
+function clearDirectories(directories, filenames){
 
     directories.forEach((dir) => {
 
-        fs.readdir(dir, (err, files) => {
-            if (err) throw err;
-        
-            for (const file of files) {
-            if(IGNORED_FILES.includes(file)) continue
-            fs.unlink(path.join(dir, file), err => {
-                if (err) throw err;
-            });
+        for(const file of filenames){
+
+            if(dir === COLORED_IMG_SRC_DIR){
+                for(let prefix of ["OV_", "OV2_", ""]){
+                  
+                    let filepath = path.join(dir, `${prefix}${path.parse(file).name}.png`);
+                   
+                    fs.unlink(filepath, err => {
+                        if (err) throw err;
+                    });
+
+                }
+            } else {
+
+                let filepath = path.join(dir, file);
+
+                fs.unlink(filepath, err => {
+                    if (err) throw err;
+                });
+
             }
-        });
+        }
+
+        // fs.readdir(dir, (err, files) => {
+        //     if (err) throw err;
+        
+        //     for (const file of files) {
+            
+        //         if(!filenames.includes(file)) continue
+
+        //     fs.unlink(path.join(dir, file), err => {
+        //         if (err) throw err;
+        //     });
+        //     }
+        // });
 
     });
 }

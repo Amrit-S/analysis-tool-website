@@ -12,12 +12,15 @@ router.post('/predict', async (req, res) => {
 
   try{
 
+    let filenames = [];
+
     // process each image
     for (let i = 0; i < req.body.files.length; i++) {
 
       // save file with unique filename
       let buf = str2ab(req.body.files[i].buffer);
       const imgPath = `${RAW_IMG_SRC_DIR}${req.body.files[i].name}`;
+      filenames.push(req.body.files[i].name);
       
       fs.writeFileSync(imgPath, Buffer.from(buf));
 
@@ -25,9 +28,9 @@ router.post('/predict', async (req, res) => {
 
     const requestedOptions = req.body;
 
-    const filenames = await segmentation();
+    await segmentation(filenames);
 
-    const statistics = await analyzeSegmentation(requestedOptions);
+    const statistics = await analyzeSegmentation(filenames, requestedOptions);
 
     const results = statistics.map((stat, i) => {
 
@@ -56,7 +59,7 @@ router.post('/predict', async (req, res) => {
     });
 
     const directories = [RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, CROPPED_IMG_DST, COLORED_IMG_SRC_DIR];
-    clearDirectories(directories);
+    clearDirectories(directories, filenames);
 
     return res.status(200).json(results);
 

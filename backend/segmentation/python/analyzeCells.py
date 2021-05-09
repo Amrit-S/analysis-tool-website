@@ -13,6 +13,7 @@ COLORED_IMG_DST = sys.argv[2]
 CSV_DATA_DST = sys.argv[3]
 CROPPED_IMG_DST = sys.argv[4]
 OPTIONS = json.loads(sys.argv[5])
+FILENAMES = json.loads(sys.argv[6])
 
 IMG_H, IMG_W = 256, 256 #Expected dimensions of all images
 
@@ -288,16 +289,12 @@ def extractCharachteristic( cnts, external_contours, options):
     return dict_count
 
 
-def main(unet_src_imgs, colored_imgs_dst, csv_data_dst, cropped_img_dest, options):
+def main(unet_src_imgs, colored_imgs_dst, csv_data_dst, cropped_img_dest, options, filenames):
 
     img_stats = []
 
     #Loops through all segmented images
-    for img in sorted(os.listdir(unet_src_imgs)):
-
-        # skip any ignored files
-        if img in IGNORED_FILES:
-            continue
+    for img in filenames:
 
         #Needed filepaths
         dest_filename = os.path.join(colored_imgs_dst, os.path.splitext(img)[0] + ".png")
@@ -318,7 +315,6 @@ def main(unet_src_imgs, colored_imgs_dst, csv_data_dst, cropped_img_dest, option
             test = os.path.join(colored_imgs_dst, "OV2_{}.png".format(os.path.splitext(img)[0]))
             overlay(overlay_path, bg_path, dest_filename, test)
 
-
         # Generate csv file - statistics 
         dict_feature_stats = {}
 
@@ -337,4 +333,4 @@ def main(unet_src_imgs, colored_imgs_dst, csv_data_dst, cropped_img_dest, option
     print(json.dumps(img_stats))
     sys.stdout.flush()
 
-main(UNET_SRC_DIR, COLORED_IMG_DST, CSV_DATA_DST, CROPPED_IMG_DST, OPTIONS)
+main(UNET_SRC_DIR, COLORED_IMG_DST, CSV_DATA_DST, CROPPED_IMG_DST, OPTIONS, FILENAMES)
