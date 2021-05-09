@@ -283,7 +283,8 @@ def extractCharachteristic( cnts, external_contours, options):
         "std": statistics.stdev(values),
         "mean": statistics.mean(values),
         "median": statistics.median(values),
-        "totalCells": index
+        "totalCells": index,
+        "data": values
     }
     
     return dict_count
@@ -321,9 +322,11 @@ def main(unet_src_imgs, colored_imgs_dst, csv_data_dst, cropped_img_dest, option
         if options["size"]:
             dict_stats = extractCharachteristic( cnts, external_contours, SIZE)
             dict_feature_stats[SIZE] = dict_stats
+
         if options["shape"]:
             dict_stats = extractCharachteristic( cnts, external_contours, SHAPE)
             dict_feature_stats[SHAPE] = dict_stats
+
         if options["pointiness"]:
             dict_stats = extractCharachteristic( cnts, external_contours, POINTINESS)
             dict_feature_stats[POINTINESS] = dict_stats

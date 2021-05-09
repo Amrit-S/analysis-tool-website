@@ -39,19 +39,6 @@ function clearDirectories(directories, filenames){
             }
         }
 
-        // fs.readdir(dir, (err, files) => {
-        //     if (err) throw err;
-        
-        //     for (const file of files) {
-            
-        //         if(!filenames.includes(file)) continue
-
-        //     fs.unlink(path.join(dir, file), err => {
-        //         if (err) throw err;
-        //     });
-        //     }
-        // });
-
     });
 }
 
