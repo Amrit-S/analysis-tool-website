@@ -34,7 +34,6 @@ IMG_H, IMG_W = 256, 256
 # Incorrect Segmentation Analysis
 MIN_CELL_SIZE_THRESHOLD = 100
 MIN_EXTENT = 0.6
-
 MAX_EDGES = 9
 MAX_ASPECT_RATIO = 0.2
 
@@ -42,6 +41,11 @@ MAX_ASPECT_RATIO = 0.2
 SIZE = "size"
 SHAPE = "shape"
 POINTINESS = "pointiness"
+
+# Colors For Overlay
+CELL_BORDER_COLOR = (0,255,0)
+EVEN_CELL_NUM_COLOR = (255, 0, 255, 0.7)
+ODD_CELL_NUM_COLOR = (0, 128, 255)
 
 '''Determines if a contour is actually an external contour by checking if it exists within a higher
 branch of the contour hierarchy (i.e., is not the most enclosed shape, but has subcontours within it). '''
@@ -156,10 +160,10 @@ def colorizeCellBorders(image_clean, cnts, external_contours):
         if checkForIncorrectSegmentation(c, area):
             continue
         else:
-            cv2.drawContours(image_clean,[c], 0, (0,255,0), 1) # Bolden cell outline 
+            cv2.drawContours(image_clean,[c], 0, CELL_BORDER_COLOR, 1) # Bolden cell outline 
 
         # Alternating text colors, allows for cell to marked with a unique number
-        text_color = (255, 0, 255, 0.7) if index % 2 == 0 else (0, 128, 255)
+        text_color = EVEN_CELL_NUM_COLOR if index % 2 == 0 else ODD_CELL_NUM_COLOR
         cv2.putText(image_clean, str(index), (cX - 3, cY), cv2.FONT_HERSHEY_SIMPLEX, 0.28, text_color, 1)
 
         index += 1
