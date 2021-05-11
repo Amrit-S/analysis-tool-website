@@ -1,8 +1,5 @@
 import React, { Component} from 'react';
 
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
-
 const config = require('../config');
 
 const BACKEND_URL = config.backend.uri;
@@ -49,12 +46,10 @@ class Overview extends Component {
       return (
 
           <div>
-              <NavBar/>
               <div style={{marginTop: "30px"}}>
                   This is the Model Overview Page.
               </div> 
               <p>{this.state.isFetching ? 'Fetching message...' : this.state.response}</p>
-              <Footer/>
           </div>
 
       )

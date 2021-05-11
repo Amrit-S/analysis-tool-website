@@ -40,7 +40,7 @@ export default function NavBar() {
               </section>
               {/* NavBar Right: Linked Domain Pages */}
               <section className="Pages">
-                <a className={isPageActive("/overview")} href="/overview">Model Overview</a>
+                <a className={isPageActive("/segmentation")} href="/segmentation">Segmentation Overview</a>
                 <a className={isPageActive("/")} href="/">Analysis Tool</a>
               </section>
           </main>
