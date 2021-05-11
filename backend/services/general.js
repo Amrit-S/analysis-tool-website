@@ -12,26 +12,40 @@ function str2ab(str) {
     return buf;
   }
 
+/**
+ * Removes all given filenames in given directories. 
+ * 
+ * @param {[string]} directories - A list of directories that need to be cleaned out. 
+ * @param {[string]} filenames - A list of filenames that need to be cleaned out in those directories. 
+ */
 function clearDirectories(directories, filenames){
 
+    // loop through all directories 
     directories.forEach((dir) => {
 
+        // loop through all files
         for(const file of filenames){
 
+            // special case - has multiple versions of each file to unlink
             if(dir === COLORED_IMG_SRC_DIR){
+
+                // all possible versions 
                 for(let prefix of ["OV_", "OV2_", ""]){
                   
                     let filepath = path.join(dir, `${prefix}${path.parse(file).name}.png`);
                    
+                    // remove file
                     fs.unlink(filepath, err => {
                         if (err) throw err;
                     });
 
                 }
+            // general case
             } else {
 
                 let filepath = path.join(dir, file);
 
+                // remove file
                 fs.unlink(filepath, err => {
                     if (err) throw err;
                 });

@@ -1,3 +1,11 @@
+'''
+File takes in raw images of endothelial cells, and attempts to do cell segmentation utilizing the UNET architecture. 
+If successful, the resultant image prediction will be stored within a specified directory. 
+
+Note: The UNet algorithm is optimal on 256 x 256 images that are relatively zoomed into the surface of the cells. Any blurs
+and overly dark spots will produce less than ideal segmentation. 
+
+'''
 import sys
 import os
 import numpy as np
@@ -10,21 +18,22 @@ from tensorflow.keras.optimizers import *
 from tensorflow.keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from tensorflow.keras import backend as keras
 
+# Variables passed from Node
 IMG_SRC_DIR = sys.argv[1]
 UNET_SRC_DIR = sys.argv[2]
 WEIGHTS_FILE = sys.argv[3]
 CROPPED_IMG_DST = sys.argv[4]
 FILENAMES = json.loads(sys.argv[5])
-target_size = (256,256)
 
+# Crop image on top left, size 256 x 256 
+target_size = (256,256)
 X_OFFSET = 0
 Y_OFFSET = 0
 CROP_WIDTH = 256
 CROP_HEIGHT = 256
 
-IGNORED_FILES = [".keep"]
 
-
+''' Defines UNet architecture using Keras. '''
 def unet(pretrained_weights = None,input_size = (256,256,1)):
 
     inputs = Input(input_size)
@@ -71,47 +80,53 @@ def unet(pretrained_weights = None,input_size = (256,256,1)):
     model = Model(inputs=inputs, outputs=conv10)
 
     model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
-    
-    #model.summary()
-
-    # if(pretrained_weights):
-    # 	model.load_weights(pretrained_weights)
 
     return model
 
-def testGenerator(test_path):
-    for imgName in FILENAMES:
+'''
+
+Produces a generator of images that must be segmented on. Responsible for correctly pre-processing all 
+images properly so segmentation can occur.  
+
+Note: Each image is cropped to be 256 x 256, grayscaled, and normalized in terms of pixel value. 
+
+'''
+def testGenerator(test_path, filenames):
+
+    # Pre-process all passed in images 
+    for imgName in filenames:
         
+        # Grayscale
         img = io.imread(os.path.join(test_path,imgName),as_gray = True)
+        # Crop 256 x 256 (top left)
         img = img[X_OFFSET:X_OFFSET + CROP_WIDTH, Y_OFFSET:Y_OFFSET + CROP_HEIGHT]
-        io.imsave(os.path.join(CROPPED_IMG_DST, "{}".format(imgName)),img)
+        io.imsave(os.path.join(CROPPED_IMG_DST, "{}".format(imgName)),img) # save for later use in segmentation 
+
+        # Normalize pixel values
         img = img / 255
         img = trans.resize(img,target_size)
+
+        # Reshape into correct number of channels for UNET
         img = np.reshape(img,img.shape+(1,))
         img = np.reshape(img,(1,)+img.shape)
         yield img
 
-def getOrderOfFiles(test_path):
-    filenames = []
-    count = 0
-    for imgName in FILENAMES:
-
-        filenames.append(imgName)
-        count +=1
-    return filenames, count
-
+''' Given UNet prediction results, saves all results as images with appropriate filenames in desired directory. '''
 def saveResult(save_path,npyfile, filenames):
     for i,item in enumerate(npyfile):
         img = item[:,:,0]
         io.imsave(os.path.join(save_path, "{}".format(filenames[i])),img)
 
-testGene = testGenerator(IMG_SRC_DIR)
-filenames, totalFileCount = getOrderOfFiles(IMG_SRC_DIR)
+# Generator of all (preprocess) images that will be segmented on
+testGene = testGenerator(IMG_SRC_DIR, FILENAMES)
+# Load model with weights
 model = unet()
 model.load_weights(WEIGHTS_FILE)
+# Conduct segmentation
 results = model.predict(testGene)
-saveResult(UNET_SRC_DIR,results, filenames)
+# Save segmentation results
+saveResult(UNET_SRC_DIR,results, FILENAMES)
 
 
-print(json.dumps(filenames))
+print(json.dumps(FILENAMES))
 sys.stdout.flush()

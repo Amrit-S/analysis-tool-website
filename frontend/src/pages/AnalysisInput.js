@@ -249,7 +249,7 @@ export default function AnalysisInput() {
                 redirectToResultsPage(fileJSONS, res[0], res[1]);
 
             } catch(err){
-                handleError(err);
+                handleError(err.message);
             }
         }
         ).catch(err => {
@@ -264,7 +264,7 @@ export default function AnalysisInput() {
         });
     }
 
-    function handleError(errorMsg){
+    async function handleError(errorMsg){
         setError({display: true, message: errorMsg});
         setProgressBar({show: false});
         setFormDisabled(false);
@@ -324,11 +324,11 @@ export default function AnalysisInput() {
                 const reader = new FileReader();
                 reader.onabort = () => {
                     console.log('file reading was aborted');
-                    reject('file reading was aborted');
+                    reject(`Error: ${file.name} could not be properly read.`);
                 }
                 reader.onerror = () => {
                     console.log('file reading has failed');
-                    reject('file reading has failed');
+                    reject(`Error: ${file.name} could not be properly read.`);
                 };
                 reader.onload =  async () => {
 

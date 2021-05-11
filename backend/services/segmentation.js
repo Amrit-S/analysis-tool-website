@@ -25,7 +25,7 @@ async function unetPrediction(imgPath) {
         const buf = fs.readFileSync(imgPath);
         const image = jpeg.decode(buf, true);
 
-        // preprocess image for VGG16
+        // preprocess image for UNET
         let tensor = tf.browser.fromPixels(image, 1)
             .resizeBilinear([256, 256], false, true);
         
@@ -46,31 +46,51 @@ async function unetPrediction(imgPath) {
     }
 }
 
+/**
+ * Given an array of filenames, a python process will be executed that will produce UNet segmentation predictions on each
+ * filename provided. 
+ * 
+ * @param {[string]} filenames - Filenames of all images that will be segmented on.
+ * @returns Resolved promise if successfull, rejected promise if error occurs
+ */
 function segmentation(filenames){
     return new Promise((resolve, reject) => {
-      const segmentProcess = spawn('python',[`${PYTHON_FILES_SRC_DIR}preprocess.py`, RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, SEG_WEIGHTS_FILE, CROPPED_IMG_DST, JSON.stringify(filenames)]);
+      const segmentProcess = spawn('python',[`${PYTHON_FILES_SRC_DIR}segmentCells.py`, RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, SEG_WEIGHTS_FILE, CROPPED_IMG_DST, JSON.stringify(filenames)]);
   
+      // called whenever it received standard output from file
       segmentProcess.stdout.on('data', (data) => {
-        // Do something with the data returned from python script
         console.log(`Received data: ${data}`);
       });
   
+      // called when process is terminated, either on completion or on error 
       segmentProcess.on('close', (code) => {
         console.log(`child process close all stdio with code ${code}`);
+
+        // termination on completion
         if(code === 0){
           resolve();
+        // termination on anything else
         } else {
-          reject("Segmentation failed on at least one image.")
+          reject("Segmentation failed on at least one image. Please make sure that uploaded images follow instruction guidelines.")
         }
       });
   
     })
   }
   
+/**
+ * Given an array of filenames and options denoting what to analyze, a python process will be executed that will analyze all provide filename's
+ * corresponding UNET segmentation predictions for the requested features. 
+ * 
+ * @param {[string]} filenames - Filenames of all images that will be segmented on.
+ * @param {JSON} requestedOptions - JSON denoting what options the use will like to analyze. 
+ * @returns Resolved promise with statistic data on all filenames if successfull, rejected promise if error occurs
+ */
   function analyzeSegmentation(filenames, requestedOptions){
   
     return new Promise((resolve, reject) => {
-  
+
+      // determines what the process will analyze
       const options = {
         "overlay": requestedOptions.overlay || false,
         "size": requestedOptions.size || false, 
@@ -78,23 +98,30 @@ function segmentation(filenames){
         "pointiness": requestedOptions.pointiness || false
       };
   
-      // Analyze segmented images
+      // analyze segmented images
       const analyzeProcess = spawn('python',[`${PYTHON_FILES_SRC_DIR}analyzeCells.py`, UNET_IMG_SRC_DIR, COLORED_IMG_SRC_DIR, CSV_DATA_SRC_DIR, CROPPED_IMG_DST, JSON.stringify(options), JSON.stringify(filenames)]);
   
       let statistics = null;
+
+      // called whenever it received standard output from file
       analyzeProcess.stdout.on('data', (data) => {
-        // Do something with the data returned from python script
+
+        // track retrieved data on segmentation statistics 
         console.log(`Received data: ${data}`);
         statistics = JSON.parse(data);
       });
   
+      // called when process is terminated, either on completion or on error 
       analyzeProcess.on('close', (code) => {
         console.log(`child process close all stdio with code ${code}`);
 
+        // termination on completion
         if(code === 0){
           resolve(statistics);
+
+        // termination on anything else
         } else {
-          reject("Segmentation Analysis failed on at least one image.")
+          reject("Segmentation Analysis failed on at least one image. Please make sure that uploaded images follow instruction guidelines.")
         }
       });
   
@@ -124,7 +151,12 @@ function segmentation(filenames){
         return ax.length - bx.length;
     }
     
-    // function to encode file data to base64 encoded string
+    /**
+     * Encode file data to base64 encoded string.
+     * 
+     * @param {string} file - File to be encoded. 
+     * @returns Encoded string. 
+     */
     function base64_encode(file) {
       // read binary data
       var bitmap = fs.readFileSync(file);
