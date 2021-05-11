@@ -30,7 +30,7 @@ function clearDirectories(directories, filenames){
             if(dir === COLORED_IMG_SRC_DIR){
 
                 // all possible versions 
-                for(let prefix of ["OV_", "OV2_", ""]){
+                for(let prefix of ["OV_", ""]){
                   
                     let filepath = path.join(dir, `${prefix}${path.parse(file).name}.png`);
                    

@@ -167,7 +167,7 @@ def colorizeCellBorders(image_clean, cnts, external_contours):
     return image_clean
 
 ''' Overlays the UNet segmentation prediction image over the original raw image. Resizes both to be of same size.'''
-def overlay(overlay_path, bg_path, result_path, test):
+def overlay(overlay_path, bg_path, result_path):
 
     # retrieve unet prediction image  
     img = Image.open(overlay_path)
@@ -184,11 +184,10 @@ def overlay(overlay_path, bg_path, result_path, test):
 
     # save modified unet image 
     img.putdata(newData)
-    img.save(test)
     
     # load original image and modified unet image
     background = Image.open(bg_path)
-    overlay = Image.open(test)
+    overlay = img
 
     # resize images
     background = background.resize((IMG_W, IMG_H))
@@ -312,8 +311,7 @@ def main(unet_src_imgs, colored_imgs_dst, csv_data_dst, cropped_img_dest, option
             cv2.imwrite(overlay_path, image_clean)
 
             bg_path = os.path.join(cropped_img_dest, img)
-            test = os.path.join(colored_imgs_dst, "OV2_{}.png".format(os.path.splitext(img)[0]))
-            overlay(overlay_path, bg_path, dest_filename, test)
+            overlay(overlay_path, bg_path, dest_filename)
 
         # Generate cell statistics on image segmentation 
         dict_feature_stats = {}
