@@ -7,11 +7,13 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const config = require("./config");
 const {loadModel} = require("./services/cnn");
+const {loadUnetModel} = require("./services/segmentation");
 
 // initialize cnn prediction model
 loadModel();
+loadUnetModel();
 
-console.log(`Running on port ${config.app.port}`);
+console.log(`Running on port ${config.app.port}`); 
 
 const app = express();
 
@@ -31,6 +33,7 @@ app.get("/", function (req, res) {
 });
 // cnn predictions routed here
 app.use("/cnn", require("./routes/cnn"));
+app.use("/segmentation", require("./routes/segmentation"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

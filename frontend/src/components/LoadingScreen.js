@@ -35,21 +35,15 @@ export default function LoadingScreen(props) {
       <Dialog
         open={props.open}
         onClose={props.handleClose}
+        disableBackdropClick
       >
         <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
         <DialogContent>
             <LinearProgress classes={{colorPrimary: classes.colorPrimary, barColorPrimary: classes.barColorPrimary}}/>
           <DialogContentText id="alert-dialog-description" className="loading-info-text">
-          Please wait while your data is being processed.
+          Please wait while your data is being processed. This can take up to a few minutes.
           </DialogContentText>
         </DialogContent>
-        {/* <DialogActions>
-        <div className={`${classes.button}`} >
-            <Button variant="contained" onClick={props.handleClose} color="primary" autoFocus>
-                Close
-            </Button>
-          </div>
-        </DialogActions> */}
       </Dialog>
     </div>
   );

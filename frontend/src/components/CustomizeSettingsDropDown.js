@@ -17,6 +17,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FaInfoCircle } from 'react-icons/fa';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import "../css/CustomizeSettingsDropDown.css";
 
 export default function CustomizeSettingsDropDown(props) {
@@ -131,11 +132,22 @@ export default function CustomizeSettingsDropDown(props) {
                 )}
                 MenuProps={MenuProps}
                 >
-                {props.options.map((name) => (
-                    <MenuItem key={name} value={name} style={getStyles(name, chosenDropdownOptions, theme)}>
+                {/* <ListSubheader>Category 1</ListSubheader>
+                <MenuItem value={"Option 1"}>Option 1</MenuItem>
+                <MenuItem value={"Option 2"}>Option 2</MenuItem>
+                <ListSubheader>Category 2</ListSubheader>
+                <MenuItem value={3}>Option 3</MenuItem>
+                <MenuItem value={4}>Option 4</MenuItem> */}
+                {/* {props.options.map((name) => (
+                  <>
+                    <ListSubheader>Category 3</ListSubheader>
+                    <MenuItem key={name} value={"hello"}>
                     {name}
                     </MenuItem>
-                ))}
+                  </>
+                ))} */}
+
+                {props.children}
                 </Select>
             </FormControl>
             <FormControlLabel
