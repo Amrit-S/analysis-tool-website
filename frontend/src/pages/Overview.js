@@ -92,27 +92,35 @@ class Overview extends Component {
                     For instance, elongation check essentially enclosed the smallest possible rectangle around a contour, and then used the
                     enclosed rectangle's width to height ratio to determine the general elongation of the contour itself, with very large or very small
                     ratios indicative of a more deviantly stretched contour (possibly an accidental merging of two cells). 
+
+                    All cellular feature analysis was then conducted on these remaining contours/cells.  
               </p>
-              <h3> Feature Analysis </h3>
+              <h3> Cellular Feature Analysis </h3>
               <p>
-                    Utilizing the post-processed U-Net prediction images, Python's OpenCV library was heavily utilized for individual
-                    cell extraction. Specifically, OpenCV's findContours functionality was utilized on the inverted image, which 
-                    searched the image for all enclosed regions and returned a hierarchy of contours for all enclosures found. 
+                     Using domain expertise from an expereinced physician in the field, the main features looked at in the cells
+                     were quantifications of its physical nature: cell size, cell shape, and cell pointiness. 
 
-                    Then, all contours were filtered out based on their location in the hierarchy. Namely, contours that 
-                    had no internal contours (i.e., smallest distinctive enclosed region) were kept, excluding all large enclosures
-                    and instead sifting it to keep the smallest possible unit - a cell. 
+                     Cell Size: This feature was the most straightforward to calculate, and was quantified as the 
+                     total internal area enclosed by the contour within the image. It was calculated using OpenCV's contourArea
+                     function. According to Dr.Melles, determining rejection on a time series of endothelial images is largely 
+                     tracked on the influx of cell size over time, with inflation in cell sizes usually indicative of cell swelling
+                     and hence potential DMEK rejection. 
 
-                    As a final check, all remaining contours, which should now be synonmous to unique cells in the image, were filtered out again
-                    for potential incorrect segmentation. These constraints were based on general patterns seen in incorrectly segmented cells,
-                    namely when two small cells were merged as a single larger cell, or less frequently, when a single larger cell 
-                    was segmented as two smaller cells. To account for this, any cells that had a deceptively small cell area, were excessively
-                    elonaged in shape, or had a large enough deviation in general structure (extreme asymmetry, excessive jagged lines) were ignored. 
-                    Specific threshold values were determined through trial and error, and constraints were mathematially implemented using
-                    minimum polygon enclosures - circle, rectangle, etc. - in conjunction to the cell's actual enclosed area for ratio estimation.
-                    For instance, elongation check essentially enclosed the smallest possible rectangle around a contour, and then used the
-                    enclosed rectangle's width to height ratio to determine the general elongation of the contour itself, with very large or very small
-                    ratios indicative of a more deviantly stretched contour (possibly an accidental merging of two cells). 
+                     Cell Shape: Shape was quantified as the number of sides observed in the closest polygon approximation of the 
+                     contour as a variant of its arc length. Using OpenCV's polygon approximation algorithm, a contour was matched to its cloest shape, namely
+                     the polygon outline that would most enclose the internal area of the contour while staying within cell borders - an implementation of the 
+                     Ramer–Douglas–Peucker algorithm that conducts curve downsampling. Once the approximation was acheived, it produced an array of edge
+                     points (x,y coordinates indicating turning points) denoting the approximated shape it enclosed. The number of sides of this enclosed shape equaled the number of 
+                     edge points it had. 
+
+                     Cell Pointiness: Pointiness is defined as the ratio of the smallest angle to the largest angle within a contour. This feature is an extension
+                     of the algorithm for determining cell shape above. Namely, after polygon approximation is done and a list of edge points have been 
+                     established, angles are then calculated by sifting clockwise on the edge points in groups of three. Note, this is reasonable since all edge 
+                     points are known to be in a clockwise manner from one another. In every group of three edge points, the angle of the middle edge point is calculated
+                     using vector approximations, namely by leveraging the fact that the angle between two vectors is an inverse cosine of their dot product divided 
+                     by their multiplied magnitude. Once all angles are calculated for all edge points, the smallest and largest angles are determined and 
+                     their ratio calculated. Note that some contours have excessive contours or abnormal shapes that lead to extremelly small ratios, which 
+                     paired with floating point rounding can sometimes lead to pointiness values of 0. 
               </p>
           </div>
 
