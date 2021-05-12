@@ -33,7 +33,7 @@ export default function NavBar() {
                   <img src={CMRR} alt="CMRR Logo"/>
                 </picture>
                 <picture>
-                  <a href="https://www.talkelab.ucsd.edu">
+                  <a href="https://www.talkelab.ucsd.edu" target="_blank" rel="noopener noreferrer">
                     <img id="Talke" src={Talke} alt="Talke Group Logo"/>
                   </a>
                 </picture>
