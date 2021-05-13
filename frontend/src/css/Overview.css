@@ -1,3 +1,88 @@
 .Main-Title{
     text-align: center;
 }
+
+.Title-AlignRight {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.Title {
+    border: 1px solid black;
+    width: fit-content;
+    color: white;
+    padding: 10px 135px;
+    font-size: large;
+}
+
+.Grey-Title{
+    background-color: var(--grey);
+}
+
+.Blue-Title{
+    background-color: var(--blue);
+}
+
+.UNet, .cellular-analysis{
+    height: fit-content;
+    position: relative;
+    margin: 0px 50px;
+}
+
+.UNet > .info{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.UNet > section > p {
+    flex: 1 1 auto;
+    white-space: pre-line;
+}
+
+.UNet > section > figure > figcaption{
+    font-style: italic;
+    text-align: center;
+}
+
+.Post-Processing{
+    height: fit-content;
+    position: relative;
+    margin: 0px 50px;
+}
+
+.Post-Processing > .info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Post-Processing > section > p {
+    flex: 1 1 auto;
+    white-space: pre-line;
+}
+
+.Post-Processing > section > figure > figcaption{
+    font-style: italic;
+    text-align: center;
+}
+
+.cellular-analysis > .cell-feature-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.cellular-analysis > .cell-feature-container > .cell-feature{
+    margin: 0px 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cellular-analysis > .cell-feature-container > .cell-feature > figure{
+    display: flex;
+}

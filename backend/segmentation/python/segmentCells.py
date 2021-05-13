@@ -98,6 +98,7 @@ def testGenerator(test_path, filenames):
         
         # Grayscale
         img = io.imread(os.path.join(test_path,imgName),as_gray = True)
+        
         # Crop 256 x 256 (top left)
         img = img[X_OFFSET:X_OFFSET + CROP_WIDTH, Y_OFFSET:Y_OFFSET + CROP_HEIGHT]
         io.imsave(os.path.join(CROPPED_IMG_DST, "{}".format(imgName)),img) # save for later use in segmentation 

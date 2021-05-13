@@ -93,15 +93,19 @@ find all its contours (enclosed shapes --> cells). '''
 def findContours(filename):
 
     img = cv2.imread(filename)
+    cv2.imwrite("{}unet.png".format(COLORED_IMG_DST), img)
 
     # Grayscale 
     image_clean = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    cv2.imwrite("{}gray.png".format(COLORED_IMG_DST), image_clean)
 
     # Binary image (0s & 255s)
     ret, image_clean = cv2.threshold(image_clean,125,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    cv2.imwrite("{}thresh.png".format(COLORED_IMG_DST), image_clean)
 
     # Invert
     image_clean = cv2.bitwise_not(image_clean)
+    cv2.imwrite("{}invert.png".format(COLORED_IMG_DST), image_clean)
 
     # Border Thinning - Dilation & Medial Axis
     skel, distance = medial_axis(image_clean.copy(), return_distance=True)
@@ -110,6 +114,7 @@ def findContours(filename):
     image_clean = distance * skel
     image_clean[:] *= 255
     image_clean = image_clean.astype(np.uint8)
+    cv2.imwrite("{}thin.png".format(COLORED_IMG_DST), image_clean)
 
     # Find all contours (enclosed cells)
     cnts = cv2.findContours(image_clean, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
