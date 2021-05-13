@@ -55,26 +55,26 @@ class Overview extends Component {
                             All images inputted into the analysis tool use this trained U-Net classifier for segmentation.
                         </p>
                         <figure>
-                            <img id="Talke" src={UnetLayers} alt="U-Net Layers" style={{width:"450px", height: "auto"}}/>
+                            <img id="unet-layers" src={UnetLayers} alt="U-Net Layers" style={{width:"450px", height: "auto"}}/>
                             <figcaption>Fig.1 - U-Net Layers 
                                 <span> <a href="https://lmb.informatik.uni-freiburg.de/people/ronneber/u-net/" target="_blank" rel="noreferrer noopener"> (Source) </a></span>
                             </figcaption>
                         </figure>
                     </section>
-                    <section className="info" style={{justifyContent: "center"}}>
+                    <section className="info unet-images" style={{justifyContent: "center"}}>
                     <figure>
-                            <img id="Talke" src={UnetTrainPred} alt="U-Net Layers" style={{width:"650px", height: "auto"}}/>
+                            <img id="unet-training" src={UnetTrainPred} alt="U-Net Layers" style={{width:"650px", height: "auto"}}/>
                             <figcaption>Fig.2 - U-Net Training Image 
                             </figcaption>
                     </figure>
                     <figure>
-                            <img id="Talke" src={UnetTestPred} alt="U-Net Layers" style={{width:"400px", height: "auto"}}/>
+                            <img id="unet-testing" src={UnetTestPred} alt="U-Net Layers" style={{width:"400px", height: "auto"}}/>
                             <figcaption>Fig.3 - U-Net Testing Image 
                             </figcaption>
                     </figure>
                     </section>
               </section>
-              <section className="UNet">
+              <section className="Pre-Processing">
                     <h3> Image Pre-Processing </h3>
                     <section className="info">
                     <p>
@@ -110,7 +110,7 @@ class Overview extends Component {
 
                      </p>
                         <figure>
-                            <img id="Talke" src={PostProcess} alt="U-Net Layers" style={{width:"1050px", height: "auto"}}/>
+                            <img src={PostProcess} alt="U-Net Layers" style={{width:"1050px", height: "auto"}}/>
                             <figcaption>Fig.4 - Post-Processing Workflow 
                             </figcaption>
                         </figure>
@@ -119,9 +119,9 @@ class Overview extends Component {
               <div className="Title-AlignRight">
                 <h2 className={`Title Blue-Title`}> Segmentation Analysis </h2>
               </div>
-              <section className="UNet">
-                    <h3 style={{textAlign: "start"}}> Cell Extraction </h3>
-                    <section className="info" style={{flexDirection: "row-reverse"}}>
+              <section className="Cell-Extraction">
+                    <h3> Cell Extraction </h3>
+                    <section className="info">
                     <p>
                     Utilizing the post-processed U-Net prediction images, Python's OpenCV library was heavily utilized for individual
                     cell extraction. Specifically, OpenCV's findContours functionality was utilized on the inverted image, which 
@@ -147,71 +147,70 @@ class Overview extends Component {
                     All cellular feature analysis was then conducted on these remaining contours/cells.  
                  </p>
                         <figure>
-                            <img id="Talke" src={SegFilter} alt="U-Net Layers" style={{width:"320px", height: "auto"}}/>
+                            <img src={SegFilter} alt="U-Net Layers" style={{width:"320px", height: "auto"}}/>
                             <figcaption>Fig.5 - Green cells indicate segmented cells. Red outlines indicate cells that were marked for incorrect segmentation, and filtered out.
                             </figcaption>
                         </figure>
                     </section>
                 </section>
                 <section className="cellular-analysis">
-                <h3> Cellular Feature Analysis </h3>
-              <section className="cell-feature-container">
-              <div className="cell-feature">
-                  <h4> Cell Size</h4>
-                  <p>
-                     Size was the most straightforward to calculate, and was quantified as the 
-                     total internal area enclosed by the contour within the image. It was calculated using OpenCV's contourArea
-                     function. According to Dr.Melles, determining rejection on a time series of endothelial images is largely 
-                     tracked on the influx of cell size over time, with inflation in cell sizes usually indicative of cell swelling
-                     and hence potential DMEK rejection. 
-                  </p>
-                  <figure>
-                        <img id="Talke" src={CellSize} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
-                        <figcaption>Fig.6 - Green pixels indicate all area found within cell.
-                        </figcaption>
-                    </figure>
-              </div>
-              <div className="cell-feature">
-                    <h4> Cell Shape</h4>
-                  <p>
-                     Shape was quantified as the number of sides observed in the closest polygon approximation of the 
-                     contour as a variant of its arc length. Using OpenCV's polygon approximation algorithm, a contour was matched to its cloest shape, namely
-                     the polygon outline that would most enclose the internal area of the contour while staying within cell borders - an implementation of the 
-                     Ramer–Douglas–Peucker algorithm that conducts curve downsampling. Once the approximation was acheived, it produced an array of edge
-                     points (x,y coordinates indicating turning points) denoting the approximated shape it enclosed. The number of sides of this enclosed shape equaled the number of 
-                     edge points it had. 
-                  </p>
-                  <figure>
-                        <img id="Talke" src={CellShape} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
-                        <figcaption>Fig.7 - Green indicates closest polygon approximation, with red dots denoting polygon edge points.
-                        </figcaption>
-                    </figure>
-              </div>
-              <div class="vh"></div>
-              <div className="cell-feature">
-                <h4> Cell Pointiness</h4>
-                  <p>
-                    Pointiness is defined as the ratio of the smallest angle to the largest angle within a contour. This feature is an extension
-                     of the algorithm for determining cell shape. Namely, after polygon approximation is done and a list of edge points have been 
-                     established, angles are then calculated by sifting clockwise on the edge points in groups of three. Note, this is reasonable since all edge 
-                     points are known to be in a clockwise manner from one another. {'\n\n'}
-                     
-                     In every group of three edge points, the angle of the middle edge point is calculated
-                     using vector approximations, namely by leveraging the fact that the angle between two vectors is an inverse cosine of their dot product divided 
-                     by their multiplied magnitude. Once all angles are calculated for all edge points, the smallest and largest angles are determined and 
-                     their ratio calculated. Note that some contours have excessive contours or abnormal shapes that lead to extremelly small ratios, which 
-                     paired with floating point rounding can sometimes lead to pointiness values of 0. 
-                  </p>
-                  <figure>
-                        <div>
-                          <img id="Talke" src={CellPointiness} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
-                          <img id="Talke" src={Formula} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
-                        </div>
-                        <figcaption>Fig.8 - Angles of all edge points are determined using properties of 2D vectors.
-                        </figcaption>
-                    </figure>
-              </div>
-              </section>
+                    <h3> Cellular Feature Analysis </h3>
+                  <section className="cell-feature-container">
+                  <div className="cell-feature">
+                      <h4> Cell Size</h4>
+                      <p>
+                        Size was the most straightforward to calculate, and was quantified as the 
+                        total internal area enclosed by the contour within the image. It was calculated using OpenCV's contourArea
+                        function. According to Dr.Melles, determining rejection on a time series of endothelial images is largely 
+                        tracked on the influx of cell size over time, with inflation in cell sizes usually indicative of cell swelling
+                        and hence potential DMEK rejection. 
+                      </p>
+                      <figure>
+                            <img src={CellSize} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
+                            <figcaption>Fig.6 - Green pixels indicate all area found within cell.
+                            </figcaption>
+                        </figure>
+                  </div>
+                  <div className="cell-feature">
+                        <h4> Cell Shape</h4>
+                      <p>
+                        Shape was quantified as the number of sides observed in the closest polygon approximation of the 
+                        contour as a variant of its arc length. Using OpenCV's polygon approximation algorithm, a contour was matched to its cloest shape, namely
+                        the polygon outline that would most enclose the internal area of the contour while staying within cell borders - an implementation of the 
+                        Ramer–Douglas–Peucker algorithm that conducts curve downsampling. Once the approximation was acheived, it produced an array of edge
+                        points (x,y coordinates indicating turning points) denoting the approximated shape it enclosed. The number of sides of this enclosed shape equaled the number of 
+                        edge points it had. 
+                      </p>
+                      <figure>
+                            <img src={CellShape} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
+                            <figcaption>Fig.7 - Green indicates closest polygon approximation, with red dots denoting polygon edge points.
+                            </figcaption>
+                        </figure>
+                  </div>
+                  <div className="cell-feature">
+                    <h4> Cell Pointiness</h4>
+                      <p>
+                        Pointiness is defined as the ratio of the smallest angle to the largest angle within a contour. This feature is an extension
+                        of the algorithm for determining cell shape. Namely, after polygon approximation is done and a list of edge points have been 
+                        established, angles are then calculated by sifting clockwise on the edge points in groups of three. Note, this is reasonable since all edge 
+                        points are known to be in a clockwise manner from one another. {'\n\n'}
+                        
+                        In every group of three edge points, the angle of the middle edge point is calculated
+                        using vector approximations, namely by leveraging the fact that the angle between two vectors is an inverse cosine of their dot product divided 
+                        by their multiplied magnitude. Once all angles are calculated for all edge points, the smallest and largest angles are determined and 
+                        their ratio calculated. Note that some contours have excessive contours or abnormal shapes that lead to extremelly small ratios, which 
+                        paired with floating point rounding can sometimes lead to pointiness values of 0. 
+                      </p>
+                      <figure>
+                            <div>
+                              <img src={CellPointiness} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
+                              <img src={Formula} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
+                            </div>
+                            <figcaption>Fig.8 - Angles of all edge points are determined using properties of 2D vectors.
+                            </figcaption>
+                        </figure>
+                  </div>
+                  </section>
                 </section>
           </div>
 
