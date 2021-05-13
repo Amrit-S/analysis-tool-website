@@ -6,6 +6,9 @@ import UnetTestPred from '../media/unet-pred.jpg';
 import UnetTrainPred from '../media/unet-train-pred.jpg';
 import SegFilter from '../media/seg-filter.png';
 import CellSize from '../media/cell-size.png';
+import CellShape from '../media/cell-shape.png';
+import CellPointiness from '../media/cell-pointiness.png';
+import Formula from "../media/formula.png";
 const config = require('../config');
 
 const BACKEND_URL = config.backend.uri;
@@ -16,10 +19,10 @@ class Overview extends Component {
 
       return (
 
-          <div>
+          <div className="Segmentation-Overview">
               <h1 className="Main-Title"> Segmentation Overview </h1>
-              <hr/>
-              <p>
+              <hr className="Diviser"/>
+              <p className="Opening-Text">
                   Segmentation analysis allowed for an alternative approach to endothelial image classification on
                   DMEK rejection status. Unlike the CNN that was solely deep-learning focused and hence allowed for limited
                   correctional user input, segmentation utilized a combination of deep-learning and statisical analysis to allow 
@@ -39,7 +42,9 @@ class Overview extends Component {
                             layers, making extensive usage of ReLU and max-pooling layers particularly in order to allow for better
                             up-sampling and localization - increasing both resolution and precision in the outputted result. U-Net has proven to outperform
                             other algorithms in the Electron Miscroscopic Segmentation competitions, boasting a competitive segmentation accuracy 
-                            on a versatile set of biomedical applications along with a comparatively lower requirement on training images. {'\n\n'}
+                            on a versatile set of biomedical applications along with a comparatively lower requirement on training images
+                             <span> <a href="https://link.springer.com/content/pdf/10.1007%2F978-3-319-24574-4_28.pdf" target="_blank" rel="noreferrer noopener"> (Source)</a> .</span>
+                             {'\n\n'}
 
 
                             The architcture was chosen for the aforementioned reasons, and trained on a set of 30 256 x 256 endothelial images. Each training image had
@@ -70,7 +75,7 @@ class Overview extends Component {
                     </section>
               </section>
               <section className="UNet">
-                    <h3> Pre-Processing </h3>
+                    <h3> Image Pre-Processing </h3>
                     <section className="info">
                     <p>
                             As a precursor to segmentation using the trained U-Net architecture explained above, all images are first pre-processed
@@ -85,7 +90,7 @@ class Overview extends Component {
                     </section>
               </section>
               <section className="Post-Processing">
-                    <h3> Post-Processing </h3>
+                    <h3> Image Post-Processing </h3>
                     <section className="info">
                     <p>
                         On completion of the U-Net algorithm, it outputs a corresponding grayscale prediction image that highlights the 
@@ -150,15 +155,11 @@ class Overview extends Component {
                 </section>
                 <section className="cellular-analysis">
                 <h3> Cellular Feature Analysis </h3>
-              <p>
-                     Using domain expertise from an expereinced physician in the field, the main features looked at in the cells
-                     were quantifications of its physical nature: cell size, cell shape, and cell pointiness. 
-              </p>
               <section className="cell-feature-container">
               <div className="cell-feature">
                   <h4> Cell Size</h4>
                   <p>
-                     This feature was the most straightforward to calculate, and was quantified as the 
+                     Size was the most straightforward to calculate, and was quantified as the 
                      total internal area enclosed by the contour within the image. It was calculated using OpenCV's contourArea
                      function. According to Dr.Melles, determining rejection on a time series of endothelial images is largely 
                      tracked on the influx of cell size over time, with inflation in cell sizes usually indicative of cell swelling
@@ -180,19 +181,35 @@ class Overview extends Component {
                      points (x,y coordinates indicating turning points) denoting the approximated shape it enclosed. The number of sides of this enclosed shape equaled the number of 
                      edge points it had. 
                   </p>
+                  <figure>
+                        <img id="Talke" src={CellShape} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
+                        <figcaption>Fig.7 - Green indicates closest polygon approximation, with red dots denoting polygon edge points.
+                        </figcaption>
+                    </figure>
               </div>
+              <div class="vh"></div>
               <div className="cell-feature">
                 <h4> Cell Pointiness</h4>
                   <p>
                     Pointiness is defined as the ratio of the smallest angle to the largest angle within a contour. This feature is an extension
-                     of the algorithm for determining cell shape above. Namely, after polygon approximation is done and a list of edge points have been 
+                     of the algorithm for determining cell shape. Namely, after polygon approximation is done and a list of edge points have been 
                      established, angles are then calculated by sifting clockwise on the edge points in groups of three. Note, this is reasonable since all edge 
-                     points are known to be in a clockwise manner from one another. In every group of three edge points, the angle of the middle edge point is calculated
+                     points are known to be in a clockwise manner from one another. {'\n\n'}
+                     
+                     In every group of three edge points, the angle of the middle edge point is calculated
                      using vector approximations, namely by leveraging the fact that the angle between two vectors is an inverse cosine of their dot product divided 
                      by their multiplied magnitude. Once all angles are calculated for all edge points, the smallest and largest angles are determined and 
                      their ratio calculated. Note that some contours have excessive contours or abnormal shapes that lead to extremelly small ratios, which 
                      paired with floating point rounding can sometimes lead to pointiness values of 0. 
                   </p>
+                  <figure>
+                        <div>
+                          <img id="Talke" src={CellPointiness} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
+                          <img id="Talke" src={Formula} alt="U-Net Layers" style={{width:"150px", height: "auto"}}/>
+                        </div>
+                        <figcaption>Fig.8 - Angles of all edge points are determined using properties of 2D vectors.
+                        </figcaption>
+                    </figure>
               </div>
               </section>
                 </section>
