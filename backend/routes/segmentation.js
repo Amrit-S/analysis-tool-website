@@ -1,6 +1,7 @@
 var express = require('express');
 const fs = require("fs");
 const path = require('path');
+const parser = require('json2csv');
 const {RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, CROPPED_IMG_DST, COLORED_IMG_SRC_DIR} = require("../segmentation/constants");
 const {segmentation, analyzeSegmentation, naturalCompare, base64_encode} = require("../services/segmentation");
 const {str2ab, clearDirectories} = require("../services/general");
