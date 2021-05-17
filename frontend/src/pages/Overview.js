@@ -135,7 +135,7 @@ class Overview extends Component {
                     for potential incorrect segmentation. These constraints were based on general patterns seen in incorrectly segmented cells,
                     namely when two small cells were merged as a single larger cell, or less frequently, when a single larger cell 
                     was segmented as two smaller cells. To account for this, any cells that had a deceptively small cell area, were excessively
-                    elonaged in shape, or had a large enough deviation in general structure (extreme asymmetry, excessive jagged lines) were ignored.The
+                    elonaged in shape, or had a large enough deviation in general structure (extreme asymmetry, excessive jagged lines) were ignored. The
                     excessive jagged lines (implemented through a closest polygon approximation within the contour) were especially useful in detecting 
                     conjoined cells whose dividing cell border was only partially found. 
                     Specific threshold values were determined through trial and error, and constraints were mathematially implemented using
@@ -161,7 +161,7 @@ class Overview extends Component {
                       <p>
                         Size was the most straightforward to calculate, and was quantified as the 
                         total internal area enclosed by the contour within the image. It was calculated using OpenCV's contourArea
-                        function. According to Dr.Melles, determining rejection on a time series of endothelial images is largely 
+                        function. According to Dr. Melles, determining rejection on a time series of endothelial images is largely 
                         tracked on the influx of cell size over time, with inflation in cell sizes usually indicative of cell swelling
                         and hence potential DMEK rejection. 
                       </p>
