@@ -101,14 +101,14 @@ function segmentation(filenames){
       // analyze segmented images
       const analyzeProcess = spawn('python',[`${PYTHON_FILES_SRC_DIR}analyzeCells.py`, UNET_IMG_SRC_DIR, COLORED_IMG_SRC_DIR, CSV_DATA_SRC_DIR, CROPPED_IMG_DST, JSON.stringify(options), JSON.stringify(filenames)]);
   
-      let statistics = null;
+      let statistics = [];
 
       // called whenever it received standard output from file
       analyzeProcess.stdout.on('data', (data) => {
 
         // track retrieved data on segmentation statistics 
-        console.log(`Received data: ${data}`);
-        statistics = JSON.parse(data);
+        console.log(`Received data: ${data.toString()}`);
+        statistics.push(...JSON.parse(data.toString()));
       });
   
       // called when process is terminated, either on completion or on error 
