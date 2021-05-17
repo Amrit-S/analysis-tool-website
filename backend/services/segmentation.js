@@ -158,6 +158,9 @@ function segmentation(filenames){
      * @returns Encoded string. 
      */
     function base64_encode(file) {
+
+      if(!file) return null;
+
       // read binary data
       var bitmap = fs.readFileSync(file);
       // convert binary data to base64 encoded string
