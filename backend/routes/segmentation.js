@@ -1,6 +1,7 @@
 var express = require('express');
 const fs = require("fs");
 const path = require('path');
+const parser = require('json2csv');
 const {RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, CROPPED_IMG_DST, COLORED_IMG_SRC_DIR} = require("../segmentation/constants");
 const {segmentation, analyzeSegmentation, naturalCompare, base64_encode} = require("../services/segmentation");
 const {str2ab, clearDirectories} = require("../services/general");
@@ -40,8 +41,8 @@ router.post('/predict', async (req, res) => {
     const results = statistics.map((stat, i) => {
 
       const filename = filenames[i];
-      // filepath to raw image (cropped if an overlay was done, otherwise original image)
-      const raw_img_path = requestedOptions.overlay ? `${CROPPED_IMG_DST}${filename}`: `${RAW_IMG_SRC_DIR}${filename}`;
+      // filepath to cropped image, otherwise null if no overlay option was chosen 
+      const raw_img_path = requestedOptions.overlay ? `${CROPPED_IMG_DST}${filename}`: null;
       // filepath to overlayed image with segmentation results 
       const overlay_img_path = `${COLORED_IMG_SRC_DIR}${path.parse(filename).name}.png`;
       let totalCells = null;

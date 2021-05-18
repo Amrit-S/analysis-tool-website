@@ -33,14 +33,14 @@ export default function NavBar() {
                   <img src={CMRR} alt="CMRR Logo"/>
                 </picture>
                 <picture>
-                  <a href="https://www.talkelab.ucsd.edu">
+                  <a href="https://www.talkelab.ucsd.edu" target="_blank" rel="noopener noreferrer">
                     <img id="Talke" src={Talke} alt="Talke Group Logo"/>
                   </a>
                 </picture>
               </section>
               {/* NavBar Right: Linked Domain Pages */}
               <section className="Pages">
-                <a className={isPageActive("/overview")} href="/overview">Model Overview</a>
+                <a className={isPageActive("/segmentation")} href="/segmentation">Segmentation Overview</a>
                 <a className={isPageActive("/")} href="/">Analysis Tool</a>
               </section>
           </main>

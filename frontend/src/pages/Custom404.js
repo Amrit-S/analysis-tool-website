@@ -1,8 +1,5 @@
 import React, { Component} from 'react';
 
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
-
 class Custom404 extends Component {
 
     render (){
@@ -10,11 +7,9 @@ class Custom404 extends Component {
       return (
 
           <div>
-              <NavBar/>
               <div style={{marginTop: "30px"}}>
                   Custom 404 page because CSE134B says its a thing :)
               </div>
-              <Footer/>
           </div>
 
       )

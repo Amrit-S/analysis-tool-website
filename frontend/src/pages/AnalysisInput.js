@@ -1,7 +1,5 @@
 import React, {useCallback} from 'react';
 
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
 import InputInstructions from '../components/InputInstructions';
 import DropBox from '../components/DropBox';
 import CustomizeSettingsDropDown from "../components/CustomizeSettingsDropDown";
@@ -353,7 +351,6 @@ export default function AnalysisInput() {
       return (
 
           <div>
-              <NavBar/>
               <p className="Subsection-Step-Title"> Step #1: Upload Images </p>
               <section className="Step-1-Container">
                   <InputInstructions/>
@@ -413,7 +410,6 @@ export default function AnalysisInput() {
               </div>
               <p className="errorText" style={{display: error.display ? null:'none'}}> {error.message}</p>
               <LoadingScreen open={progressBar.show} handleClose={closeProgressBar} title={progressBar.title}/>
-              <Footer/>
           </div>
 
       )
