@@ -12,9 +12,9 @@
 .Filename {
     border: 1px solid black;
     border-left: none;
-    width: 25vw;
+    width: fit-content;
     color: white;
-    padding: 10px 55px;
+    padding: 10px 130px;
     font-size: large;
     text-align: center;
 }
@@ -107,6 +107,32 @@
 
 /* Tablet View */ 
 @media only screen and (max-width: 1110px){
+
+    .Content{
+        flex-direction: column;
+    }
+
+    .Cell-Images, .Info {
+        margin: 0px;
+    }
+
+    .Cell-Images {
+        width: auto;
+    }
+    
+    .Info {
+        width: 100%;
+    }
+
+    .Table {
+        width: 90vw;
+        padding: 0rem 8vw;
+    }
+  
+  }
+
+/* Mobile View */ 
+@media only screen and (max-width: 550px){
 
     .Content{
         flex-direction: column;
