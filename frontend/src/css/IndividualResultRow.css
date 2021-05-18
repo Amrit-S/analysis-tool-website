@@ -9,13 +9,14 @@
     justify-content: flex-end;
 }
 
-.Title {
+.Filename {
     border: 1px solid black;
     border-left: none;
-    width: fit-content;
+    width: 25vw;
     color: white;
     padding: 10px 55px;
     font-size: large;
+    text-align: center;
 }
 
 .Grey-Title {

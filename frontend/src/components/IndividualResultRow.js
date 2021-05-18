@@ -25,7 +25,7 @@ export default function IndividualResultRow(props) {
         <>
             {/* Title */}
             <div className={!props.greyTitle ? "Title-AlignRight":null}>
-                <p className={`Title ${props.greyTitle ? "Grey-Title": "Blue-Title"}`}> {props.title} </p>
+                <p className={`Filename ${props.greyTitle ? "Grey-Title": "Blue-Title"}`}> {props.title} </p>
             </div>
 
             {/* Content */}
