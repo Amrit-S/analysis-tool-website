@@ -32,7 +32,7 @@ export default function IndividualResults(props) {
             greyTitle={i % 2 === 0} 
             stats={seg ? seg[i].stats : null}
             pred={cnn[i]}
-            img_norm={seg ? seg[i].raw_img : null}
+            img_norm={seg ? seg[i].raw_img : data.buffer}
             img_seg={seg ? seg[i].segmented_img : null}
             options={getOptions()}
             />

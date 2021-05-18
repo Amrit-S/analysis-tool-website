@@ -6,6 +6,8 @@
  */
 
 import React from 'react';
+
+import {str2ab, arrayBufferToBase64} from '../util/Img_Conversion';
  
 import '../css/IndividualResultRow.css';
  
@@ -19,6 +21,9 @@ export default function IndividualResultRow(props) {
     let numCells = props.stats
         ? (props.stats.size || props.stats.shape || props.stats.pointiness).totalCells
         : null;
+
+    // handle CNN-only raw image
+    let normal_img = props.stats ? props.img_norm : arrayBufferToBase64(str2ab(props.img_norm));
  
     return (
 
@@ -32,15 +37,15 @@ export default function IndividualResultRow(props) {
             <section className="Content">
 
                 {/* Left - Images  */}
-                {props.stats ?
-                    <section className="Cell-Images">
-                        <section class="Image-Pair">
-                            <img class="Cell-Image"
-                                src={"data:image/jpeg;base64," + props.img_norm}
-                                alt="Cells">
-                            </img>
-                            <p class="Cell-Image-Text">Original</p>
-                        </section>
+                <section className="Cell-Images">
+                    <section class="Image-Pair">
+                        <img class="Cell-Image"
+                            src={"data:image/jpeg;base64," + normal_img}
+                            alt="Cells">
+                        </img>
+                        <p class="Cell-Image-Text">Original</p>
+                    </section>
+                    {props.stats ?
                         <section class="Image-Pair">
                             <img class="Cell-Image"
                                 src={"data:image/jpeg;base64," + props.img_seg}
@@ -49,8 +54,8 @@ export default function IndividualResultRow(props) {
                             <p class="Cell-Image-Text">Cell Segmentation</p>
                             <p class="Cell-Image-Text">({numCells} cells detected)</p>
                         </section>
-                    </section>
-                :null}
+                    :null}
+                </section>
 
                 {/* Right - Analysis Information  */}
                 <section className="Info">
