@@ -167,6 +167,28 @@ function segmentation(filenames){
       return new Buffer.from(bitmap).toString('base64');
     }
 
+    function retrieveCSVHeaders(json){
+      function getHeader(attribute){
+        switch(attribute){
+          case 'size':
+            return 'Size'
+          case 'shape':
+            return 'Sides'
+          case 'pointiness':
+            return 'Pointiness'
+          default:
+            return attribute;
+        }
+      }
+      let fields = Object.keys(json).map((key) => {
+        return {
+          label: getHeader(key) ,
+          value: key
+        }
+      }) || [];
+      return fields;
+    }
+
 
 module.exports = {
     loadUnetModel,
@@ -174,5 +196,6 @@ module.exports = {
     segmentation,
     analyzeSegmentation,
     naturalCompare,
-    base64_encode
+    base64_encode,
+    retrieveCSVHeaders
 };

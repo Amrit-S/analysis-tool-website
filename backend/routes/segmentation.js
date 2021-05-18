@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require('path');
 const parser = require('json2csv');
 const {RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, CROPPED_IMG_DST, COLORED_IMG_SRC_DIR} = require("../segmentation/constants");
-const {segmentation, analyzeSegmentation, naturalCompare, base64_encode} = require("../services/segmentation");
+const {segmentation, analyzeSegmentation, naturalCompare, base64_encode, retrieveCSVHeaders} = require("../services/segmentation");
 const {str2ab, clearDirectories} = require("../services/general");
 var router = express.Router();
 
@@ -78,6 +78,46 @@ router.post('/predict', async (req, res) => {
     console.error(err);
     return res.status(400).json(err);
 }
+});
+
+
+router.post('/download', async (req, res) => {
+  try{
+    const data = req.body.data;
+    // for all stats in array
+    for(const entry of data){
+      const fields = retrieveCSVHeaders(entry.stats);
+      const numCells = entry.totalCells;
+      console.log(entry);
+      console.log(fields);
+      let jsonData = [];
+      for(let i = 0; i < numCells; i++){
+        let cellRow = {
+          "cell": i + 1
+        };
+        for(let header of fields){
+          let key = header.value;
+          cellRow[key] = entry.stats[key][i];
+        }
+        jsonData.push(cellRow);
+      };
+      console.log(jsonData);
+      // change to unshift
+      fields.unshift({
+           label: 'Cell #',
+           value: 'cell'
+      })
+      const json2csv = new parser.Parser({ fields });
+      const csv = json2csv.parse(jsonData);
+      res.header('Content-Type', 'text/csv');
+      res.attachment('stats.csv');
+      return res.status(200).send(csv);
+    }
+  // uh oh, something failed
+    } catch(err){
+      console.error(err);
+      return res.status(400).json(err);
+    }
 });
 
 module.exports = router;
