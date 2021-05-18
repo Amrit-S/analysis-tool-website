@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
 import ResultsNavBar from '../components/ResultsNavBar';
 import IndividualResults from '../components/IndividualResults';
 import GroupResults from '../components/GroupResults';
@@ -58,7 +56,6 @@ export default function AnalysisResults() {
       return (
 
           <div>
-              <NavBar/>
                <ResultsNavBar renderCallback={showDifferentSection}/>
                {
                  showIndividual ?
@@ -66,7 +63,6 @@ export default function AnalysisResults() {
                  :
                  <GroupResults inputPageData={inputPageData}/>
                }
-              <Footer/>
           </div>
 
       )

@@ -1,13 +1,9 @@
 .footer {
     background-color: #004970;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    bottom: 0;
-    /* width: 100%; */
     color: #FFFFFF;
+    vertical-align: middle;
     padding: 5px;
     font-size: 17px;
     text-align: center; 
+    height: 60px;
   }

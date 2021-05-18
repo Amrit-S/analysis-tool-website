@@ -30,6 +30,7 @@ FILENAMES = json.loads(sys.argv[6])
 
 # Expected dimensions for ideal segmentation analysis
 IMG_H, IMG_W = 256, 256
+BATCH_SIZE_FILES = 5
 
 # Incorrect Segmentation Analysis
 MIN_CELL_SIZE_THRESHOLD = 100
@@ -287,59 +288,66 @@ def extractCharachteristic( cnts, external_contours, options):
     
     return dict_count
 
+def batch(iterable, n=1):
+    l = len(iterable)
+    for ndx in range(0, l, n):
+        yield iterable[ndx:min(ndx + n, l)]
+
 '''
 
 Main function of the file, responsible for calling all relevent sub-functions aboves. Utilizes constraints
 passed by calling system (Node), and outputs in accordance to desired output. 
 
 '''
-def main(unet_src_imgs, colored_imgs_dst, csv_data_dst, cropped_img_dest, options, filenames):
+def main(unet_src_imgs, colored_imgs_dst, csv_data_dst, cropped_img_dest, options, filenamesSet):
 
-    img_stats = []
+    for filenames in batch(filenamesSet, BATCH_SIZE_FILES):
 
-    # Loops through all segmented images
-    for img in filenames:
+        img_stats = []
 
-        # Needed filepaths
-        dest_filename = os.path.join(colored_imgs_dst, os.path.splitext(img)[0] + ".png")
-        csv_filename = os.path.join(csv_data_dst, os.path.splitext(img)[0] + ".csv")
+        # Loops through all segmented images
+        for img in filenames:
 
-        # Contour extraction
-        image_clean, cnts, external_contours = findContours(os.path.join(unet_src_imgs, img))
+            # Needed filepaths
+            dest_filename = os.path.join(colored_imgs_dst, os.path.splitext(img)[0] + ".png")
+            csv_filename = os.path.join(csv_data_dst, os.path.splitext(img)[0] + ".csv")
 
-        # Produce an overlay image of segmentation result over original image
-        if options["overlay"]:
-            image_clean = colorizeCellBorders(image_clean, cnts, external_contours)
+            # Contour extraction
+            image_clean, cnts, external_contours = findContours(os.path.join(unet_src_imgs, img))
 
-            overlay_path = os.path.join(colored_imgs_dst, "OV_{}.png".format(os.path.splitext(img)[0]))
-            cv2.imwrite(overlay_path, image_clean)
+            # Produce an overlay image of segmentation result over original image
+            if options["overlay"]:
+                image_clean = colorizeCellBorders(image_clean, cnts, external_contours)
 
-            bg_path = os.path.join(cropped_img_dest, img)
-            overlay(overlay_path, bg_path, dest_filename)
+                overlay_path = os.path.join(colored_imgs_dst, "OV_{}.png".format(os.path.splitext(img)[0]))
+                cv2.imwrite(overlay_path, image_clean)
 
-        # Generate cell statistics on image segmentation 
-        dict_feature_stats = {}
+                bg_path = os.path.join(cropped_img_dest, img)
+                overlay(overlay_path, bg_path, dest_filename)
 
-        # Chose to analyze size
-        if options["size"]:
-            dict_stats = extractCharachteristic( cnts, external_contours, SIZE)
-            dict_feature_stats[SIZE] = dict_stats
+            # Generate cell statistics on image segmentation 
+            dict_feature_stats = {}
 
-        # Chose to analyze shape
-        if options["shape"]:
-            dict_stats = extractCharachteristic( cnts, external_contours, SHAPE)
-            dict_feature_stats[SHAPE] = dict_stats
+            # Chose to analyze size
+            if options["size"]:
+                dict_stats = extractCharachteristic( cnts, external_contours, SIZE)
+                dict_feature_stats[SIZE] = dict_stats
 
-        # Chose to analyze pointiness 
-        if options["pointiness"]:
-            dict_stats = extractCharachteristic( cnts, external_contours, POINTINESS)
-            dict_feature_stats[POINTINESS] = dict_stats
+            # Chose to analyze shape
+            if options["shape"]:
+                dict_stats = extractCharachteristic( cnts, external_contours, SHAPE)
+                dict_feature_stats[SHAPE] = dict_stats
 
-        # Save all stats data for this image
-        img_stats.append(dict_feature_stats)
+            # Chose to analyze pointiness 
+            if options["pointiness"]:
+                dict_stats = extractCharachteristic( cnts, external_contours, POINTINESS)
+                dict_feature_stats[POINTINESS] = dict_stats
 
-    # Information sent back to Node
-    print(json.dumps(img_stats))
-    sys.stdout.flush()
+            # Save all stats data for this image
+            img_stats.append(dict_feature_stats)
+
+        # Information sent back to Node
+        print(json.dumps(img_stats))
+        sys.stdout.flush()
 
 main(UNET_SRC_DIR, COLORED_IMG_DST, CSV_DATA_DST, CROPPED_IMG_DST, OPTIONS, FILENAMES)

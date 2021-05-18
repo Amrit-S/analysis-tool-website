@@ -98,13 +98,14 @@ def testGenerator(test_path, filenames):
         
         # Grayscale
         img = io.imread(os.path.join(test_path,imgName),as_gray = True)
+        
         # Crop 256 x 256 (top left)
-        img = img[X_OFFSET:X_OFFSET + CROP_WIDTH, Y_OFFSET:Y_OFFSET + CROP_HEIGHT]
-        io.imsave(os.path.join(CROPPED_IMG_DST, "{}".format(imgName)),img) # save for later use in segmentation 
+        img = img[X_OFFSET:X_OFFSET + CROP_WIDTH, Y_OFFSET:Y_OFFSET + CROP_HEIGHT] 
 
         # Normalize pixel values
         img = img / 255
         img = trans.resize(img,target_size)
+        io.imsave(os.path.join(CROPPED_IMG_DST, "{}".format(imgName)),img) # save for later use in segmentation
 
         # Reshape into correct number of channels for UNET
         img = np.reshape(img,img.shape+(1,))
