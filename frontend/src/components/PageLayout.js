@@ -5,7 +5,7 @@ import Footer from "./Footer";
 export default function PageLayout(props) {
     return (
         <div>
-            <div style={{minHeight: "calc(100vh - 60px)"}}>
+            <div style={{minHeight: "calc(100vh - 80px)"}}>
                 <NavBar />
                 {props.children}
             </div>
