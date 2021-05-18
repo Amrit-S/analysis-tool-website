@@ -132,7 +132,7 @@
   }
 
 /* Mobile View */ 
-@media only screen and (max-width: 550px){
+@media only screen and (max-width: 600px){
 
     .Content{
         flex-direction: column;
