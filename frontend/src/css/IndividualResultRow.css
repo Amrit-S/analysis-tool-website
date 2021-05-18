@@ -41,7 +41,7 @@
 }
 
 .Cell-Images {
-    width: 60vw;
+    width: 50vw;
     display: flex;
     flex-direction: row;
     justify-content: center; 
@@ -68,6 +68,7 @@
     border-radius: 10px;
     padding: 5px 15px;
     width: fit-content;
+    text-align: center;
 }
 
 .Pred {
@@ -77,29 +78,29 @@
 
 .CNN-Pred-Val {
     border-bottom: 2.5px solid var(--blue);
-    width: 300px;
+    width: 25vw;
     text-align: center;
-    margin-left: 30px;
+    margin-left: 1.5vw;
 }
 
-.Stats-Table {
+.Table {
     width: 100%;
-    table-layout: fixed;
+    table-layout: auto;
     padding: 0rem 1rem;
 }
 
-.Stats-Table th, td {
+.Table th, td {
     display: table-cell;
     text-align: center;
 }
 
 
-.Stats-Table th {
+.Table th {
     font-style: italic;
     font-weight: normal;
 }
 
-.Stats-Table td {
+.Table td {
     background-color: lightgrey;
     padding: 10px 5px;
 }
@@ -116,14 +117,16 @@
     }
 
     .Cell-Images {
-        width: 100%;
+        flex-direction: column;
+        width: auto;
     }
     
     .Info {
         width: 100%;
     }
 
-    .Stats-Table {
+    .Table {
+        width: 90vw;
         padding: 0rem 8vw;
     }
   

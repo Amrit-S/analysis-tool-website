@@ -69,7 +69,7 @@ export default function IndividualResultRow(props) {
 
                     {/* Table */}
                     {props.stats ?
-                        <table className="Stats-Table">
+                        <table className="Table">
                             <tr>
                                 <th></th>
                                 <th>Min</th>
