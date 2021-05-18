@@ -1,5 +1,5 @@
 .Researchers-Container{
-    padding: 20px 50px;
+    padding: 20px 50px 40px;
 }
 
 .Researchers-Container .Researchers, .Researchers-Container .Advisors{
@@ -7,28 +7,22 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(white, white, var(--grey),  white);
 }
 
 .Researchers-Container .Profiles {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .Researchers-Container .header{
-    /* border: 1px solid black;
-    border-left: none;
-    width: fit-content;
-    color: white;
-    width: 100%;
-    padding: 10px 0px;
-    text-align: center;
-    font-size: large;
-    background-color: var(--blue); */
     width: 100%;
     border-bottom: 30px solid var(--blue);
     border-top: 30px solid var(--grey);
     text-align: center;
+}
+
+.Researchers-Container .icon{
+    font-size: 20px;
 }

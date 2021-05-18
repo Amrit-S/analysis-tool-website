@@ -20,4 +20,5 @@
 .Researcher-Profile .info{
     font-size: medium;
     text-align: center;
+    white-space: pre-wrap;
 }

@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import "../../css/Overview.css";
+import "../../css/Segmentation.css";
 import UnetLayers from '../../media/unet-layers.png';
 import PostProcess from '../../media/postprocess.jpg';
 import UnetTestPred from '../../media/unet-pred.jpg';
