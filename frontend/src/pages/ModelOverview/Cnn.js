@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 
-class Usage extends Component {
+class CNN extends Component {
 
     render (){
 
@@ -8,7 +8,7 @@ class Usage extends Component {
 
           <div>
               <div style={{marginTop: "30px"}}>
-                  This is the How To Use Page.
+                  This is the CNN Page.
               </div>
           </div>
 
@@ -16,4 +16,4 @@ class Usage extends Component {
     }
   }
   
-  export default Usage;
+  export default CNN;
