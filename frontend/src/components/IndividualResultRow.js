@@ -63,7 +63,7 @@ export default function IndividualResultRow(props) {
                     {props.options.pred ?
                         <section className="Pred">
                             <p className="Info-Label"> CNN Prediction </p>
-                            <p className="CNN-Pred-Val"> {(props.pred[0]* 100).toFixed(1)}% Normal </p>
+                            <p className="CNN-Pred-Val"> {(props.pred[1]* 100).toFixed(1)}% Reject </p>
                         </section>
                     :null}
 
