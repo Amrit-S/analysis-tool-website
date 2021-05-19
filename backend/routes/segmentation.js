@@ -83,36 +83,48 @@ router.post('/predict', async (req, res) => {
 
 router.post('/download', async (req, res) => {
   try{
-    const data = req.body.data;
-    // for all stats in array
-    for(const entry of data){
-      const fields = retrieveCSVHeaders(entry.stats);
-      const numCells = entry.totalCells;
-      console.log(entry);
-      console.log(fields);
-      let jsonData = [];
-      for(let i = 0; i < numCells; i++){
-        let cellRow = {
-          "cell": i + 1
-        };
-        for(let header of fields){
-          let key = header.value;
-          cellRow[key] = entry.stats[key][i];
-        }
-        jsonData.push(cellRow);
+    // retrieve data from request 
+    const entry = req.body.data;
+
+    // extract csv headers from data
+    const fields = retrieveCSVHeaders(entry.stats);
+    const numCells = entry.totalCells;
+   
+    let jsonData = [];
+
+    // loop through number of cells 
+    for(let i = 0; i < numCells; i++){
+
+      // cell row construction 
+      let cellRow = {
+        "cell": i + 1 // index value 
       };
-      console.log(jsonData);
-      // change to unshift
-      fields.unshift({
-           label: 'Cell #',
-           value: 'cell'
-      })
-      const json2csv = new parser.Parser({ fields });
-      const csv = json2csv.parse(jsonData);
-      res.header('Content-Type', 'text/csv');
-      res.attachment('stats.csv');
-      return res.status(200).send(csv);
-    }
+
+      // retrieve cell data per csv header 
+      for(let header of fields){
+        let key = header.value;
+        cellRow[key] = entry.stats[key][i];
+      }
+
+      // push cell row data to bigger json container 
+      jsonData.push(cellRow);
+    };
+
+    // add cell index as first column in csv headers
+    fields.unshift({
+          label: 'Cell #',
+          value: 'cell'
+    })
+
+    // construct csv constructor object 
+    const json2csv = new parser.Parser({ fields });
+    const csv = json2csv.parse(jsonData);
+
+    // send response 
+    res.header('Content-Type', 'text/csv');
+    res.attachment('stats.csv');
+    return res.status(200).send(csv);
+
   // uh oh, something failed
     } catch(err){
       console.error(err);

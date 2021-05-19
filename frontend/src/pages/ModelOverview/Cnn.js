@@ -8,7 +8,7 @@ class CNN extends Component {
             const res = {
 
                 // dummy data 
-                "data": [
+                "data": 
                     {
                         "stats": {
                              "size": [1,2,3,4,5],
@@ -16,16 +16,7 @@ class CNN extends Component {
                             "pointiness":  [100,200,300,400,500]
                         },
                         "totalCells": 5
-                    },
-                    {
-                      "stats": {
-                           "size": [5,10],
-                          "shape": [50,100],
-                          "pointiness":  [500, 1000]
-                      },
-                      "totalCells": 2
-                  }
-                ]
+                    }
             };
               return await fetch('/segmentation/download', {
                   method: 'POST',
@@ -33,10 +24,13 @@ class CNN extends Component {
                   responseType: 'text/csv',
                   body: JSON.stringify(res)
               }).then(async (res) => {
-                  // successful response, return predictions
+                  // successful response
                   if(res.status === 200){
+                    
+                    // get csv file, and make it browser readable 
                     var data = new Blob([await res.blob()], {type: 'text/csv'});
                     var csvURL = window.URL.createObjectURL(data);
+                    // auto-download it on browser 
                     window.open(csvURL);
                   }
               })
