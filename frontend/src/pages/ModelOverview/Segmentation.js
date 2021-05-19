@@ -1,19 +1,19 @@
 import React, { Component} from 'react';
-import "../css/Overview.css";
-import UnetLayers from '../media/unet-layers.png';
-import PostProcess from '../media/postprocess.jpg';
-import UnetTestPred from '../media/unet-pred.jpg';
-import UnetTrainPred from '../media/unet-train-pred.jpg';
-import SegFilter from '../media/seg-filter.png';
-import CellSize from '../media/cell-size.png';
-import CellShape from '../media/cell-shape.png';
-import CellPointiness from '../media/cell-pointiness.png';
-import Formula from "../media/formula.png";
-const config = require('../config');
+import "../../css/Segmentation.css";
+import UnetLayers from '../../media/unet-layers.png';
+import PostProcess from '../../media/postprocess.jpg';
+import UnetTestPred from '../../media/unet-pred.jpg';
+import UnetTrainPred from '../../media/unet-train-pred.jpg';
+import SegFilter from '../../media/seg-filter.png';
+import CellSize from '../../media/cell-size.png';
+import CellShape from '../../media/cell-shape.png';
+import CellPointiness from '../../media/cell-pointiness.png';
+import Formula from "../../media/formula.png";
+const config = require('../../config');
 
 const BACKEND_URL = config.backend.uri;
 
-class Overview extends Component {
+class Segmentation extends Component {
 
     render (){
 
@@ -218,4 +218,4 @@ class Overview extends Component {
     }
   }
   
-  export default Overview;
+  export default Segmentation;

@@ -7,8 +7,9 @@ import {
 import PageLayout from "./components/PageLayout";
 import AnalysisInput from './pages/AnalysisInput';
 import AnalysisResults from './pages/AnalysisResults';
-import Overview from './pages/Overview';
-import Usage from './pages/Usage';
+import Segmentation from './pages/ModelOverview/Segmentation';
+import CNN from './pages/ModelOverview/Cnn';
+import Researchers from './pages/Researchers';
 import Custom404 from './pages/Custom404';
 
 function App() {
@@ -17,13 +18,16 @@ function App() {
       <PageLayout>
         {/* Switch gurantees that a URL can match to only one route*/}
         <Switch>
-          {/* Model Overview Page */}
+          {/* Model Segmentation Page */}
           <Route exact path="/segmentation">
-            <Overview/>
+            <Segmentation/>
+          </Route>
+          <Route exact path="/cnn">
+            <CNN/>
           </Route>
           {/* How to Use Page */}
-          <Route exact path="/usage">
-            <Usage/>
+          <Route exact path="/researchers">
+            <Researchers/>
           </Route>
           {/* Results Page */}
           <Route exact path="/analysis-results">

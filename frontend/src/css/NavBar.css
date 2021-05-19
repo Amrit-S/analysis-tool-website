@@ -1,5 +1,6 @@
 /* Color Palette */ 
 :root {
+  --darkgrey: #868585; 
   --grey: #A3A3A3; 
   --blue: #004970; 
 }
@@ -24,12 +25,13 @@
 }
 
 #Talke {
-  padding: 0px 0px 1rem 1rem;
-  height: 50px;
+  padding: 0px 0px 1.5rem 1rem;
+  height: 40px;
+  width: auto;
 }
 
 .Pages {
-  flex: 1;
+  flex: 1.5;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -38,8 +40,8 @@
   border-spacing: 1rem;
 }
 
-.Pages a {
-  flex: 1;
+.Pages a{
+  /* flex: 1; */
   margin: 5px;
   display: flex;
   justify-content: center;
@@ -47,19 +49,24 @@
   text-align: center;
   border: 2px solid white;
   background-color: var(--blue);
+  width: 8vw;
   color: white;
   text-decoration: none;
   padding: 1rem;
 }
+
+.Pages .dropdown-page{
+  margin: 0px;
+}
 /* Page Hovering */ 
-.Pages > a:hover {
-  background-color: var(--grey);
+.Pages a:hover {
+  background-color: var(--darkgrey);
   color: lightgrey;
 }
 
 /* Active Page */ 
-.Pages > .active {
-  background-color: var(--grey) !important;
+.Pages .active {
+  background-color: var(--darkgrey) !important;
   color: white;
 }
 
@@ -78,8 +85,14 @@
 
 }
 
-/* Mobile View */ 
-@media only screen and (max-width: 780px){
+/* Mobile View 780*/ 
+@media only screen and (max-width: 1300px){
+
+  #Talke {
+    padding: 1rem 0px 1rem 1rem;
+    height: min(5vw, 50px);
+    width: auto;
+  }
 
   .Container {
     padding: 10px 20px 0px;
@@ -88,11 +101,51 @@
   .Main{
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
   .Images{
     display: flex;
-    flex-direction: column;
     align-items: center;
+  }
+
+  .Pages {
+    justify-content:center;
+  }
+
+  .Pages a{
+    margin: 5px;
+    width: 20vw;
+  }
+
+  .Pages .dropdown-page{
+    margin: 0;
+  }
+
+}
+
+@media only screen and (max-width: 1100px){
+
+  .Images{
+    flex-direction: column;
+  }
+
+}
+
+/* Mobile View 780*/ 
+@media only screen and (max-width: 780px){
+
+  #Talke {
+    height: 40px;
+    width: auto;
+  }
+
+  .Pages a{
+    margin: 5px;
+    width: 15vw;
+  }
+
+  .Pages .dropdown-page{
+    margin: 0;
   }
 
 }

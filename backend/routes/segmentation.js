@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require('path');
 const parser = require('json2csv');
 const {RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, CROPPED_IMG_DST, COLORED_IMG_SRC_DIR} = require("../segmentation/constants");
-const {segmentation, analyzeSegmentation, naturalCompare, base64_encode} = require("../services/segmentation");
+const {segmentation, analyzeSegmentation, naturalCompare, base64_encode, retrieveCSVHeaders} = require("../services/segmentation");
 const {str2ab, clearDirectories} = require("../services/general");
 var router = express.Router();
 
@@ -78,6 +78,58 @@ router.post('/predict', async (req, res) => {
     console.error(err);
     return res.status(400).json(err);
 }
+});
+
+
+router.post('/download', async (req, res) => {
+  try{
+    // retrieve data from request 
+    const entry = req.body.data;
+
+    // extract csv headers from data
+    const fields = retrieveCSVHeaders(entry.stats);
+    const numCells = entry.totalCells;
+   
+    let jsonData = [];
+
+    // loop through number of cells 
+    for(let i = 0; i < numCells; i++){
+
+      // cell row construction 
+      let cellRow = {
+        "cell": i + 1 // index value 
+      };
+
+      // retrieve cell data per csv header 
+      for(let header of fields){
+        let key = header.value;
+        cellRow[key] = entry.stats[key][i];
+      }
+
+      // push cell row data to bigger json container 
+      jsonData.push(cellRow);
+    };
+
+    // add cell index as first column in csv headers
+    fields.unshift({
+          label: 'Cell #',
+          value: 'cell'
+    })
+
+    // construct csv constructor object 
+    const json2csv = new parser.Parser({ fields });
+    const csv = json2csv.parse(jsonData);
+
+    // send response 
+    res.header('Content-Type', 'text/csv');
+    res.attachment('stats.csv');
+    return res.status(200).send(csv);
+
+  // uh oh, something failed
+    } catch(err){
+      console.error(err);
+      return res.status(400).json(err);
+    }
 });
 
 module.exports = router;

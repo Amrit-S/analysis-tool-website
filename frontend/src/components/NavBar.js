@@ -6,6 +6,7 @@
 
 // Library Imports
 import React from 'react';
+import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
 
 // CSS Imports
 import '../css/NavBar.css';
@@ -39,10 +40,19 @@ export default function NavBar() {
                 </picture>
               </section>
               {/* NavBar Right: Linked Domain Pages */}
-              <section className="Pages">
+              {/* <section className="Pages">
                 <a className={isPageActive("/segmentation")} href="/segmentation">Segmentation Overview</a>
                 <a className={isPageActive("/")} href="/">Analysis Tool</a>
-              </section>
+              </section> */}
+              <Nav className="Pages">
+                  <Nav.Link className={isPageActive("/researchers")} href="/researchers">Researchers</Nav.Link>
+                  <NavDropdown className={`dropdown-container`} title="Model Overview" >
+                    <NavDropdown.Item className={`${isPageActive("/segmentation")} dropdown-page`} href="/segmentation">Segmentation</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item className={`${isPageActive("/cnn")} dropdown-page`} href="/cnn">CNN</NavDropdown.Item>
+                  </NavDropdown>
+                  <Nav.Link className={isPageActive("/")} href="/">Analysis Tool </Nav.Link>
+                </Nav>
           </main>
           {/* Seperator Underneath NavBar */}
           <hr className="Diviser"/>
