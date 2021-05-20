@@ -24,6 +24,45 @@ export default function IndividualResultRow(props) {
 
     // handle CNN-only raw image
     let normal_img = props.stats ? props.img_norm : arrayBufferToBase64(str2ab(props.img_norm));
+
+    async function download() {
+        const res = {
+            "data": 
+                {
+                    "stats": {
+                        "size": props.stats.size.data,
+                        "shape": props.stats.shape.data,
+                        "pointiness": props.stats.pointiness.data
+                    },
+                    "totalCells": numCells
+                }
+        };
+
+        return await fetch('/segmentation/download', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            responseType: 'text/csv',
+            body: JSON.stringify(res)
+        }).then(async (res) => {
+            // successful response
+            if(res.status === 200){
+                // get csv file, and make it browser readable 
+                var data = new Blob([await res.blob()], {type: 'text/csv'});
+                var csvURL = window.URL.createObjectURL(data);
+                // auto-download it on browser 
+                startDownload(csvURL, props.title + ".csv")
+            }
+        })
+    }
+
+    function startDownload(blob, filename) {
+        var a = document.createElement('a');
+        a.download = filename;
+        a.href = blob;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
  
     return (
 
@@ -115,6 +154,7 @@ export default function IndividualResultRow(props) {
                             :null}
                         </table>
                     :null}
+                    <button className="Download" title="Download full data" onClick={download}> ↓ </button>
                 </section>
             </section>
         </>
