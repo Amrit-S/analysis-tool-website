@@ -1,0 +1,123 @@
+.Main-Title{
+    text-align: center;
+}
+
+.CNN-Overview > .Diviser, .Opening-Text{
+    margin: 0px 20px;
+}
+
+.CNN-Overview > .Opening-Text{
+    margin: 30px 50px;
+}
+
+.CNN-Overview h3{
+    width: fit-content;
+    border-bottom: 3px solid var(--gold);
+}
+
+.CNN-Overview  section > p {
+    flex: 1 1 auto;
+    white-space: pre-line;
+}
+
+.Title-AlignRight {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.Title {
+    border: 1px solid black;
+    width: fit-content;
+    color: white;
+    padding: 10px 135px;
+    font-size: large;
+}
+
+.Grey-Title{
+    background-color: var(--grey);
+}
+
+.Blue-Title{
+    background-color: var(--blue);
+}
+
+figcaption{
+    font-style: italic;
+    text-align: center;
+}
+
+.Model-Selection, .Training, .Conclusion {
+    height: fit-content;
+    position: relative;
+    margin: 0px 50px;
+}
+
+.Model-Selection > .info{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.Training > .info{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Tablet View */ 
+@media only screen and (max-width: 1210px){
+
+    .Model-Selection img{
+        width: 500px !important;
+    }
+
+  }
+
+  @media only screen and (max-width: 1050px){
+
+    .Model-Selection > .info{
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .Model-Selection img{
+        width: 900px !important;
+    }
+
+    .Training img{
+        width: 400px !important;
+    }
+
+  }
+
+  @media only screen and (max-width: 950px){
+
+    .Training > .info{
+        flex-direction: column;
+    }
+
+  }
+
+  @media only screen and (max-width: 750px){
+
+    .Title {
+        padding: 10px 0px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .Model-Selection img{
+        width: 600px !important;
+    }
+
+  }
+
+  @media only screen and (max-width: 650px){
+
+    .Model-Selection img{
+        width: 450px !important;
+    }
+    
+  }
