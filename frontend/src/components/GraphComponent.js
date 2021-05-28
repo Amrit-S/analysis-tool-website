@@ -92,7 +92,18 @@
                  labelString: 'Time Lapse (Months)'
                }
              }],
-         }
+         },
+         // customize tooltip 
+         tooltips: {
+          callbacks: {
+              label: function(tooltipItem) {
+                  return parseFloat(tooltipItem.yLabel).toFixed(2);
+              },
+              title: function(tooltipItem) {
+                return null;
+              },
+          }
+      }
      };
  
        return (
