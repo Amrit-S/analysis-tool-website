@@ -49,7 +49,7 @@ class Segmentation extends Component {
 
                             The architcture was chosen for the aforementioned reasons, and trained on a set of 30 256 x 256 endothelial images. Each training image had
                             a corresponding grayscale prediction image set as its label that distinguished the outline of all visible cell borders within 
-                            the training image. Dark pixels indicated a cell border; white pixels indicated there was no cell border.  All labels were manually constructed by trained physicians, 
+                            the training image. These training images and their labels can be credited to <span> <a href="https://github.com/ckolluru/endothelial-cell-seg" target="_blank" rel="noreferrer noopener">this GitHub </a></span>. Dark pixels indicated a cell border; white pixels indicated there was no cell border.  All labels were manually constructed by trained physicians, 
                             and the architecture was trained without modification with an Adam optomizer, binary crossentropy loss, and a focus on accuracy.{'\n\n'}  
 
                             All images inputted into the analysis tool use this trained U-Net classifier for segmentation.
