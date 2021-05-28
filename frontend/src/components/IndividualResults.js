@@ -109,7 +109,7 @@ export default function IndividualResults(props) {
 
         <>
         <div className="Download-All">
-            <button className="Download" title="Download full data" onClick={downloadAll}> Download All ↓ </button>
+            <button className="Download" title="Download full data" onClick={downloadAll}> Download All ⤓ </button>
         </div>
         {
         props.inputPageData.inputFileJSONs.map( (data, i) => {

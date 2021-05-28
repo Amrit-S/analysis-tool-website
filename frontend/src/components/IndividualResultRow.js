@@ -154,7 +154,7 @@ export default function IndividualResultRow(props) {
                             :null}
                         </table>
                     :null}
-                    <button className="Download" title="Download full data" onClick={download}> ↓ </button>
+                    <button className="Download" title="Download full data" onClick={download}> ⤓ </button>
                 </section>
             </section>
         </>
