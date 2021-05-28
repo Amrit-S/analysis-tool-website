@@ -1,0 +1,12 @@
+.Results-Analysis-Tips{
+    padding: 50px;
+}
+
+.Results-Analysis-Tips h2{
+    width: fit-content;
+    border-bottom: 3px solid var(--gold);
+}
+
+.Results-Analysis-Tips p{
+    white-space: pre-wrap;
+}

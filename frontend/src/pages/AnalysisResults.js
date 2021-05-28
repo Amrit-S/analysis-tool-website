@@ -4,6 +4,9 @@ import { useHistory } from "react-router-dom";
 import ResultsNavBar from '../components/ResultsNavBar';
 import IndividualResults from '../components/IndividualResults';
 import GroupResults from '../components/GroupResults';
+import AnalysisTips from '../components/AnalysisTips';
+
+import {Sections} from "../components/Sections";
 const config = require('../config');
 
 //const BACKEND_URL = config.backend.uri;
@@ -13,7 +16,7 @@ export default function AnalysisResults() {
   const history = useHistory();
 
       // track which subsection to display, default Individual 
-      const[ showIndividual, setShowIndividual] = React.useState(true); // true = Individual, false = Group
+      const[ showSection, setShowSection] = React.useState(Sections.INDIVUDAL); // true = Individual, false = Group
       const [inputPageData, setInputPageData] = React.useState({
         inputFileJSONs: [],
         analysisData: {
@@ -25,13 +28,13 @@ export default function AnalysisResults() {
       })
 
       // rerender page to display newly chosen section
-      function showDifferentSection(showIndividualSection){
-        setShowIndividual(showIndividualSection);
+      function showDifferentSection(updatedSection){
+        setShowSection(updatedSection);
       }
 
-        // on load of screen, default filter button highlighted
+  
         useEffect(() => {
-          // parse location object to see if cart must be toggled upon render
+          // parse location object to see if data has been given 
           try {
             const state = history.location.state;
             setInputPageData({
@@ -43,7 +46,7 @@ export default function AnalysisResults() {
               individualOptions: state.individualOptions,
               groupOptions: state.groupOptions
             });
-            // alert(inputPageData);
+          
           } catch (err) {
               return;
           }
@@ -53,17 +56,27 @@ export default function AnalysisResults() {
 
         }, []);
 
-      return (
-
-          <div>
-               <ResultsNavBar renderCallback={showDifferentSection}/>
-               {
-                 showIndividual ?
-                 <IndividualResults inputPageData={inputPageData}/>
-                 :
-                 <GroupResults inputPageData={inputPageData}/>
-               }
-          </div>
-
-      )
+      switch(showSection){
+        case Sections.INDIVUDAL:
+          return(
+            <div>
+                  <ResultsNavBar renderCallback={showDifferentSection}/>
+                  <IndividualResults inputPageData={inputPageData}/>
+            </div>
+          );
+        case Sections.GROUP:
+          return(
+            <div>
+                  <ResultsNavBar renderCallback={showDifferentSection}/>
+                  <GroupResults inputPageData={inputPageData}/>
+            </div>
+          )
+        case Sections.TIPS:
+          return(
+            <div>
+                  <ResultsNavBar renderCallback={showDifferentSection}/>
+                  <AnalysisTips/>
+            </div>
+          )
+      }
   }

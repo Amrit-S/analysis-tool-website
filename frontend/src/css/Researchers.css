@@ -17,9 +17,15 @@
 }
 
 .Researchers-Container .header{
+
+    border: 1px solid black;
+    border-left: none;
+    width: fit-content;
+    color: white;
+    padding: 10px 55px;
+    font-size: large;
+    background-color: var(--blue);
     width: 100%;
-    border-bottom: 30px solid var(--blue);
-    border-top: 30px solid var(--grey);
     text-align: center;
 }
 
