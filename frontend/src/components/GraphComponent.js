@@ -7,34 +7,66 @@
  * @summary     Renders a single group analysis row on the group results page. 
  */
 
- import React from 'react';
+ import React, {useEffect} from 'react';
  import {Line} from 'react-chartjs-2';
  
- import {getMean, getMin, getMax, getMedian, getSTD, getMovingAverage} from '../util/Stats';
+ import {getMean, getMin, getMax, getMedian, getSTD} from '../util/Stats';
  
  import '../css/GraphComponent.css';
+
+ const CNN_REJECTION_BASELINE_VAL = 50;
  
  export default function GraphComponent(props) {
+
+  const[ datasets, setDatasets] = React.useState([]); 
  
      const graphData = {
          labels: props.labels,
-         datasets: [
-           {
-             label: 'Time Series',
-             fill: false, 
-             borderColor: 'rgba(75,192,192,1)',
-             borderWidth: 2,
-             data: props.data
-           },
-           {
-             label: 'Moving Average',
-             fill: false, 
-             borderColor: '#DABA11',
-             borderWidth: 2,
-             data: getMovingAverage(props.data)
-           }
-         ]
-       }
+         datasets: datasets
+      }
+
+      // loads in data needed for graph curves 
+       useEffect(() => {
+        try {
+
+          // load the graph data
+          let graphData = [
+                    {
+              label: 'Time Series',
+              fill: false, 
+              borderColor: 'rgba(75,192,192,1)',
+              borderWidth: 2,
+              data: props.data
+            },
+            {
+              label: 'Moving Average',
+              fill: false, 
+              borderColor: '#DABA11',
+              borderWidth: 2,
+              data: props.movAvgData
+            }
+          ]
+          
+
+          // show the CNN Rejection baseline 
+          if(props.showCNNBaseline){
+            graphData.push({
+              label: 'Rejection Baseline',
+              fill: 'end', 
+              backgroundColor: 'rgba(255, 0, 0, 0.178)',
+              borderColor: 'red',
+              borderWidth: 2,
+              data: props.labels.map((label) => {return CNN_REJECTION_BASELINE_VAL;})
+            })
+          }
+
+          setDatasets(graphData);
+
+        } catch (err) {
+            return;
+        }
+
+    }, []);
  
        // customize graph 
        const options = {
@@ -112,11 +144,11 @@
                              <th>STD</th>
                          </tr>
                          <tr>
-                             <td>{getMin(getMovingAverage(props.data))}</td>
-                             <td>{getMax(getMovingAverage(props.data))}</td>
-                             <td>{getMedian(getMovingAverage(props.data))}</td>
-                             <td>{getMean(getMovingAverage(props.data))}</td>
-                             <td>{getSTD(getMovingAverage(props.data))}</td>
+                             <td>{getMin(props.movAvgData)}</td>
+                             <td>{getMax(props.movAvgData)}</td>
+                             <td>{getMedian(props.movAvgData)}</td>
+                             <td>{getMean(props.movAvgData)}</td>
+                             <td>{getSTD(props.movAvgData)}</td>
                          </tr>
                      </table>
                  </section>

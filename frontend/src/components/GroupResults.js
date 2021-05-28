@@ -4,6 +4,7 @@
  import React from 'react';
  import GraphComponent from "../components/GraphComponent";
  import {ANALYSIS_OPTIONS} from "../constants/analysisOptions";
+ import {getMovingAverage} from '../util/Stats';
  
  export default function GroupResults(props) {
  
@@ -188,8 +189,10 @@
                analysis={text}
                greyTitle={i % 2 === 0} 
                data={graphOptions.data}
+               movAvgData={getMovingAverage(graphOptions.data)}
                labels={getLabels()}
                options={graphOptions}
+               showCNNBaseline={option === ANALYSIS_OPTIONS.GROUP_CNN}
                />
              })
            }

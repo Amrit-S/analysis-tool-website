@@ -37,7 +37,10 @@ export default function InputInstructions(props) {
             {
                 showInstructions ?
                 <section className="Instructions-Container">
-                    <p> Drag and drop endothelial images into the upload box.  </p>
+                    <p style={{whiteSpace: "pre-wrap"}}> Drag and drop endothelial images into the upload box. 
+                        {'\n'}
+                    <span style={{color: "red"}}> Note: </span> Any images uploaded will not be collected by the site.
+                    </p>
                     <p style={{textDecoration: "underline"}}> Upload Requirements:  </p>
                     <ul>
                         <li> <p> Must have an image based extension   (.jpeg, .png, .jpg, etc.) </p> </li>
