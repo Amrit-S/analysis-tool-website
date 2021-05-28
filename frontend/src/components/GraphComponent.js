@@ -8,7 +8,6 @@
  */
 
  import React from 'react';
-
  import {Line} from 'react-chartjs-2';
  
  import {getMean, getMin, getMax, getMedian, getSTD, getMovingAverage} from '../util/Stats';
