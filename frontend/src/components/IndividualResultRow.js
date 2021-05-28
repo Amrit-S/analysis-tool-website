@@ -8,6 +8,7 @@
 import React from 'react';
 
 import {str2ab, arrayBufferToBase64} from '../util/Img_Conversion';
+import { AiOutlineDownload } from "react-icons/ai/";
  
 import '../css/IndividualResultRow.css';
  
@@ -154,7 +155,9 @@ export default function IndividualResultRow(props) {
                             :null}
                         </table>
                     :null}
-                    <button className="Download" title="Download full data" onClick={download}> ⤓ </button>
+                    <button className="Download" title="Download full data" onClick={download}>
+                        <AiOutlineDownload/>
+                    </button>
                 </section>
             </section>
         </>

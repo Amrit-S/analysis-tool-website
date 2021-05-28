@@ -5,6 +5,7 @@ import FileSaver from 'file-saver';
 
 import IndividualResultRow from "../components/IndividualResultRow";
 import {ANALYSIS_OPTIONS} from "../constants/analysisOptions";
+import { AiOutlineDownload } from "react-icons/ai/";
 import '../css/IndividualResults.css';
 
 export default function IndividualResults(props) {
@@ -109,7 +110,9 @@ export default function IndividualResults(props) {
 
         <>
         <div className="Download-All">
-            <button className="Download" title="Download full data" onClick={downloadAll}> Download All ⤓ </button>
+            <button className="Download" title="Download full data" onClick={downloadAll}>
+                Download All <AiOutlineDownload/>
+            </button>
         </div>
         {
         props.inputPageData.inputFileJSONs.map( (data, i) => {
