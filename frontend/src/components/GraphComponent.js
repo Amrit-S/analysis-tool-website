@@ -82,10 +82,10 @@
                   {/* Right - Analysis Information  */}
                  <section className="Info">
                      {/* Top - Tips on Analysis */}
-                     <p className="Analysis-Tips"> Analysis Tips </p>
-                     <p className="Analysis-Tips-Text"> 
+                     <p className="Analysis-Tips"> Time Series Statistics </p>
+                     {/* <p className="Analysis-Tips-Text"> 
                          {props.analysis}
-                     </p>
+                     </p> */}
                      {/* Bottom - Statisitical Breakdown */}
                      <table className="Stats-Table">
                          <tr>
@@ -101,6 +101,23 @@
                              <td>{getMedian(props.data)}</td>
                              <td>{getMean(props.data)}</td>
                              <td>{getSTD(props.data)}</td>
+                         </tr>
+                     </table>
+                     <p className="Analysis-Tips"> Moving Average Statistics </p>
+                     <table className="Stats-Table">
+                         <tr>
+                             <th>Min</th>
+                             <th>Max</th>
+                             <th>Med.</th>
+                             <th>Mean</th>
+                             <th>STD</th>
+                         </tr>
+                         <tr>
+                             <td>{getMin(getMovingAverage(props.data))}</td>
+                             <td>{getMax(getMovingAverage(props.data))}</td>
+                             <td>{getMedian(getMovingAverage(props.data))}</td>
+                             <td>{getMean(getMovingAverage(props.data))}</td>
+                             <td>{getSTD(getMovingAverage(props.data))}</td>
                          </tr>
                      </table>
                  </section>

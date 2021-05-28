@@ -59,10 +59,12 @@
     .Wrap-Container{
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
     }
 
-
+    .Wrap-Container .Section{
+        margin-left: 0vw;
+    }
 
 }
