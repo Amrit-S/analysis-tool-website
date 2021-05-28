@@ -94,6 +94,10 @@ figcaption{
 
   @media only screen and (max-width: 950px){
 
+    .Model-Selection img{
+        width: 750px !important;
+    }
+
     .Training > .info{
         flex-direction: column;
     }
