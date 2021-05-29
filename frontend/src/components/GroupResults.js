@@ -6,10 +6,10 @@
  import {ANALYSIS_OPTIONS} from "../constants/analysisOptions";
  import {getMovingAverage} from '../util/Stats';
  import { BsFillExclamationDiamondFill } from 'react-icons/bs';
+
  
  export default function GroupResults(props) {
- 
-       const text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
  
        function getDataForOption(opt){
  
@@ -192,7 +192,6 @@
  
                return <GraphComponent 
                title={option} 
-               analysis={text}
                greyTitle={i % 2 === 0} 
                data={graphOptions.data}
                movAvgData={getMovingAverage(graphOptions.data)}

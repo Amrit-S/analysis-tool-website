@@ -11,12 +11,35 @@
  import {Line} from 'react-chartjs-2';
  
  import {getMean, getMin, getMax, getMedian, getSTD} from '../util/Stats';
+ import Tooltip from '@material-ui/core/Tooltip';
+ import { FaInfoCircle } from 'react-icons/fa';
+ import { Button } from "@material-ui/core";
+ import { AiOutlineDownload } from "react-icons/ai/";
+ import { makeStyles } from "@material-ui/core/styles";
+ import { saveAs } from 'file-saver';
+
  
  import '../css/GraphComponent.css';
 
  const CNN_REJECTION_BASELINE_VAL = 50;
- 
+ const MOV_AVG_TOOLTIP_TEXT = "Note: Every moving average data point is the average of all time series datapoints that occur before it."
  export default function GraphComponent(props) {
+
+  const useStyles = makeStyles((theme) => ({
+    button: {
+      "& .MuiButton-root": {
+        margin: theme.spacing(3),
+        color: "white",
+        background: "#004970",
+        //padding: "10px 40px",
+        fontSize: "12px",
+        border: "1px solid black",
+      },
+    },
+  }));
+
+  const classes = useStyles();
+
 
   const[ datasets, setDatasets] = React.useState([]); 
  
@@ -105,6 +128,13 @@
           }
       }
      };
+
+     function handleDownload(){
+      const canvasSave = document.getElementById(props.title);
+      canvasSave.toBlob(function (blob) {
+          saveAs(blob, `${props.title}.png`)
+      })
+     }
  
        return (
  
@@ -119,15 +149,13 @@
                  <Line
                      data={graphData}
                      options={options}
+                     id={props.title}
                      />
                  </section>
                   {/* Right - Analysis Information  */}
                  <section className="Info">
                      {/* Top - Tips on Analysis */}
                      <p className="Analysis-Tips"> Time Series Statistics </p>
-                     {/* <p className="Analysis-Tips-Text"> 
-                         {props.analysis}
-                     </p> */}
                      {/* Bottom - Statisitical Breakdown */}
                      <table className="Stats-Table">
                          <tr>
@@ -145,7 +173,15 @@
                              <td>{getSTD(props.data)}</td>
                          </tr>
                      </table>
-                     <p className="Analysis-Tips"> Moving Average Statistics </p>
+                     
+                     <p className="Analysis-Tips Moving-Average"> 
+                     Moving Average Statistics&nbsp;   
+                     {/* <Tooltip title={MOV_AVG_TOOLTIP_TEXT} arrow>
+                      <div>
+                      <FaInfoCircle />
+                      </div>
+                    </Tooltip> */}
+                    </p>
                      <table className="Stats-Table">
                          <tr>
                              <th>Min</th>
@@ -162,6 +198,17 @@
                              <td>{getSTD(props.movAvgData)}</td>
                          </tr>
                      </table>
+                     {/* <p style={{padding: "10px 5px", fontStyle: "italic"}}> {MOV_AVG_TOOLTIP_TEXT}</p> */}
+                     <div className={`${classes.button} Submit-Button`} >
+                      <Button 
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        startIcon={<AiOutlineDownload/>}
+                        onClick={handleDownload}>
+                          Download Graph 
+                        </Button>
+                     </div>
                  </section>
              </section>
          </>
