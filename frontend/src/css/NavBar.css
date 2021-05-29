@@ -55,11 +55,9 @@
   padding: 1rem;
 }
 
-.Pages #dropdown{
-  background-color: var(--darkgrey) !important;
-  color: white;
+.Pages .dropdown-page{
+  margin: 0px;
 }
-
 /* Page Hovering */ 
 .Pages a:hover {
   background-color: var(--darkgrey);
@@ -67,12 +65,10 @@
 }
 
 /* Active Page */ 
-.Pages .active {
+.Pages .active, .Pages #dropdown {
   background-color: var(--darkgrey) !important;
   color: white;
 }
-
-
 
 .Diviser{
   height: 3px; 

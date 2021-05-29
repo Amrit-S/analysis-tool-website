@@ -25,14 +25,7 @@ export default function NavBar() {
       return (pageToCheck === window.location.pathname) ? "active" : "";
      }
 
-     /**
-      * Returns an id if the dropdown should be set as active, as one of its pages is currently active. Otherwise
-      * no id is set to indicate no activity is occuring in dropdown. The dropdown highlight is trickier to do, so this
-      * is a current workaround being used.
-      * 
-      * @returns Id tag 
-      */
-     function isDropdownPageActive(){
+     function isDropdownActive(){
        return (isPageActive("/cnn") || isPageActive("/segmentation")) ? "dropdown":null; 
      }
 
@@ -50,11 +43,14 @@ export default function NavBar() {
                   </a>
                 </picture>
               </section>
-              {/* NavBar Right: Tabs */}
+              {/* NavBar Right: Linked Domain Pages */}
+              {/* <section className="Pages">
+                <a className={isPageActive("/segmentation")} href="/segmentation">Segmentation Overview</a>
+                <a className={isPageActive("/")} href="/">Analysis Tool</a>
+              </section> */}
               <Nav className="Pages">
                   <Nav.Link className={isPageActive("/researchers")} href="/researchers">Researchers</Nav.Link>
-                  {/* Dropdown */}
-                  <NavDropdown id={isDropdownPageActive()} title="Model Overview" >
+                  <NavDropdown id={isDropdownActive()} className={`dropdown-container`} title="Model Overview" >
                     <NavDropdown.Item className={`${isPageActive("/segmentation")} dropdown-page`} href="/segmentation">Segmentation</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item className={`${isPageActive("/cnn")} dropdown-page`} href="/cnn">CNN</NavDropdown.Item>
