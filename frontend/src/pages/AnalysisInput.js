@@ -13,6 +13,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import "../css/AnalysisInput.css";
+import { FaAllergies } from 'react-icons/fa';
 
 const config = require('../config');
 //const BACKEND_URL = config.backend.uri;
@@ -84,6 +85,39 @@ export default function AnalysisInput() {
 
     const closeProgressBar = () => {
         setProgressBar(false);
+    }
+
+    const getAllIndividualOptions = () =>{
+        return [
+            ANALYSIS_OPTIONS.INDIVIDUAL_CNN, 
+            ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SIZE,
+            ANALYSIS_OPTIONS.INDIVIDUAL_SEG_SHAPE , 
+            ANALYSIS_OPTIONS.INDIVIDUAL_SEG_POINTINESS,
+        ]
+    }
+
+    const getAllGroupOptions = () =>{
+        return [
+            ANALYSIS_OPTIONS.GROUP_CNN , 
+
+            ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MEAN,
+            ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MEDIAN,
+            ANALYSIS_OPTIONS.GROUP_SEG_SIZE_STD,
+            ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MIN,
+            ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MAX,
+
+            ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MEAN,
+            ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MEDIAN,
+            ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_STD,
+            ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MIN,
+            ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MAX,
+        
+            ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MEAN,
+            ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MEDIAN,
+            ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_STD,
+            ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MIN,
+            ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MAX
+        ]
     }
 
     const determineCustomizations = () => {
@@ -360,6 +394,7 @@ export default function AnalysisInput() {
               <section className="Step-2-Container">
                   <CustomizeSettingsDropDown title="Individual Image Analysis" info={"Analysis will be conducted on each individual image seperately."}
                   callback={setIndividualAnalysisCallback}
+                  retrieveAllOptions={getAllIndividualOptions}
                   >
                        <ListSubheader disableSticky={true}>CNN Model</ListSubheader>
                         <MenuItem value={ANALYSIS_OPTIONS.INDIVIDUAL_CNN}>{ANALYSIS_OPTIONS.INDIVIDUAL_CNN}</MenuItem>
@@ -371,6 +406,7 @@ export default function AnalysisInput() {
                 <div class="vl"></div>
                 <CustomizeSettingsDropDown title="Group Image Analysis" info={"Analysis will be conducted on all images holistically via time series. Recommended for 2+ images."}
                 callback={setGroupAnalysisCallback}
+                retrieveAllOptions={getAllGroupOptions}
                 >
                     <ListSubheader disableSticky={true}>CNN Model</ListSubheader>
                     <MenuItem value={ANALYSIS_OPTIONS.GROUP_CNN}>{ANALYSIS_OPTIONS.GROUP_CNN}</MenuItem>
