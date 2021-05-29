@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { BsFillExclamationDiamondFill } from 'react-icons/bs';
 import IndividualResultRow from "../components/IndividualResultRow";
 import {ANALYSIS_OPTIONS} from "../constants/analysisOptions";
 
@@ -25,6 +25,11 @@ export default function IndividualResults(props) {
     return (
 
         <>
+         <p style={{textAlign: "center", padding: "10px"}}> 
+             <BsFillExclamationDiamondFill style={{fontSize: "16px", color: "#004970"}}/> 
+             See <span style={{color: "#004970"}}> Analysis Tips </span> section to get insight on how to better interpret these results. 
+             <BsFillExclamationDiamondFill style={{fontSize: "16px", color: "#004970"}}/>
+           </p>
         {
         props.inputPageData.inputFileJSONs.map( (data, i) => {
             return <IndividualResultRow 

@@ -8,6 +8,10 @@
 
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
 
+.MuiListSubheader-root {
+    pointer-events: none;
+}
+
 .Subsection-Step-Title {
     border: 1px solid black;
     border-left: none;

@@ -5,6 +5,7 @@
  import GraphComponent from "../components/GraphComponent";
  import {ANALYSIS_OPTIONS} from "../constants/analysisOptions";
  import {getMovingAverage} from '../util/Stats';
+ import { BsFillExclamationDiamondFill } from 'react-icons/bs';
  
  export default function GroupResults(props) {
  
@@ -179,6 +180,11 @@
        return (
  
            <>
+           <p style={{textAlign: "center", padding: "10px"}}> 
+             <BsFillExclamationDiamondFill style={{fontSize: "16px", color: "#004970"}}/> 
+             See <span style={{color: "#004970"}}> Analysis Tips </span> section to get insight on how to better interpret these graphs. 
+             <BsFillExclamationDiamondFill style={{fontSize: "16px", color: "#004970"}}/>
+           </p>
            {
              props.inputPageData.groupOptions.map( (option, i) => {
  
