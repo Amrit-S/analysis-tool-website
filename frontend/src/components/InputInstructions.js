@@ -46,7 +46,7 @@ export default function InputInstructions(props) {
                 <section className="Instructions-Container">
                     <p style={{ whiteSpace: "pre-wrap" }}>
                         {" "}
-                        Drag and drop endothelial images into the upload box.
+                        Upload endothelial images into the dropbox.
                         {"\n"}
                         <span style={{ color: "red" }}> Note: </span> Any images uploaded will not
                         be collected by the site.
@@ -73,7 +73,15 @@ export default function InputInstructions(props) {
                             <p>
                                 {" "}
                                 All images must be solely focused on the cellular region, avoiding
-                                any blurs or extra dark space{" "}
+                                any blurs or extra dark space as possible{" "}
+                            </p>{" "}
+                        </li>
+                        <li>
+                            {" "}
+                            <p>
+                                {" "}
+                                All images are highly recommended to be at least 256 x 256 in dimensions,
+                                especially for any segmentation analysis{" "}
                             </p>{" "}
                         </li>
                     </ul>
