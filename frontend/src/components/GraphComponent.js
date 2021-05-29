@@ -11,7 +11,6 @@
  import {Line} from 'react-chartjs-2';
  
  import {getMean, getMin, getMax, getMedian, getSTD} from '../util/Stats';
- import { FaInfoCircle } from 'react-icons/fa';
  import { Button } from "@material-ui/core";
  import { AiOutlineDownload } from "react-icons/ai/";
  import { makeStyles } from "@material-ui/core/styles";
@@ -22,7 +21,6 @@
  import '../css/GraphComponent.css';
 
  const CNN_REJECTION_BASELINE_VAL = 50;
- const MOV_AVG_TOOLTIP_TEXT = "Note: Every moving average data point is the average of all time series datapoints that occur before it."
  export default function GraphComponent(props) {
 
   const useStyles = makeStyles((theme) => ({

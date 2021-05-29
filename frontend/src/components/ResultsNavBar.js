@@ -8,7 +8,6 @@
 import React, {useEffect} from 'react';
 import "../css/ResultsNavBar.css";
 import {Sections} from "../constants/resultsSections";
-import {SITE_PAGES} from '../constants/links';
 
 export default function ResultsNavBar({renderCallback, sectionsToDisplay}) {
 

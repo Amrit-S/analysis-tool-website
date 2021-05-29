@@ -99,5 +99,11 @@ export default function AnalysisResults() {
                   <AnalysisTips/>
             </div>
           )
+        default:
+          return(
+            <div>
+                  <ResultsNavBar renderCallback={showDifferentSection} sectionsToDisplay={determineDisplayedSection()}/>
+            </div>
+          )
       }
   }

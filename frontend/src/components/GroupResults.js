@@ -168,6 +168,9 @@
              });
  
              return graphOptions;
+
+             default:
+               return graphOptions;
          }
        }
  
