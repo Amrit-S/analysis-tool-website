@@ -6,10 +6,7 @@ import IndividualResults from '../components/IndividualResults';
 import GroupResults from '../components/GroupResults';
 import AnalysisTips from '../components/AnalysisTips';
 
-import {Sections} from "../components/Sections";
-const config = require('../config');
-
-//const BACKEND_URL = config.backend.uri;
+import {Sections} from "../constants/Sections";
 
 export default function AnalysisResults() {
 

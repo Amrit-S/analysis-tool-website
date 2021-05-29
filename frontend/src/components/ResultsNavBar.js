@@ -7,7 +7,7 @@
  */
 import React from 'react';
 import "../css/ResultsNavBar.css";
-import {Sections} from "./Sections";
+import {Sections} from "../constants/Sections";
 
 export default function ResultsNavBar({renderCallback}) {
 
