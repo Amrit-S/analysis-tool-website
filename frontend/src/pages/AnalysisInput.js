@@ -177,12 +177,12 @@ export default function AnalysisInput() {
       return (
 
           <div>
-              <p className="Subsection-Step-Title"> Step #1: Upload Images </p>
+              <p className="Subsection-Step-Title animate-slide-right"> Step #1: Upload Images </p>
               <section className="Step-1-Container">
                   <InputInstructions/>
                   <DropBox handleFiles={setFilesCallback}/>
               </section>
-              <p className="Subsection-Step-Title"> Step #2: Customize Settings </p>
+              <p className="Subsection-Step-Title animate-slide-left"> Step #2: Customize Settings </p>
               <section className="Step-2-Container">
                   <CustomizeSettingsDropDown title="Individual Image Analysis" info={"Analysis will be conducted on each individual image seperately."}
                   callback={setIndividualAnalysisCallback}

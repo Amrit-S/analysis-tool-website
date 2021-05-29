@@ -53,6 +53,8 @@
   color: white;
   text-decoration: none;
   padding: 1rem;
+  
+  z-index: 999;
 }
 
 .Pages .dropdown-page{

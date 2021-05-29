@@ -9,9 +9,6 @@ import CellSize from '../../media/cell-size.png';
 import CellShape from '../../media/cell-shape.png';
 import CellPointiness from '../../media/cell-pointiness.png';
 import Formula from "../../media/formula.png";
-const config = require('../../config');
-
-const BACKEND_URL = config.backend.uri;
 
 class Segmentation extends Component {
 

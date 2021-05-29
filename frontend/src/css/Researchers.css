@@ -1,5 +1,6 @@
 .Researchers-Container{
     padding: 20px 50px 40px;
+    overflow: hidden;
 }
 
 .Researchers-Container .Researchers, .Researchers-Container .Advisors{
@@ -19,7 +20,7 @@
 .Researchers-Container .header{
 
     border: 1px solid black;
-    border-left: none;
+    margin-left: none;
     width: fit-content;
     color: white;
     padding: 10px 55px;

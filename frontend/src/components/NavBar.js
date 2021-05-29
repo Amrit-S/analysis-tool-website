@@ -47,7 +47,7 @@ export default function NavBar() {
               <Nav className="Pages">
                   <Nav.Link className={isPageActive(SITE_PAGES.RESEARCHERS)} href={SITE_PAGES.RESEARCHERS}>Researchers</Nav.Link>
                   <NavDropdown id={isDropdownActive()} className={`dropdown-container`} title="Model Overview" >
-                    <NavDropdown.Item className={`${isPageActive(SITE_PAGES.OVERVIEW_SEGMENTATION)} dropdown-page`} href={SITE_PAGES.OVERVIEW_SEGMENTATION}>Segmentation</NavDropdown.Item>
+                  <NavDropdown.Item className={`${isPageActive(SITE_PAGES.OVERVIEW_SEGMENTATION)} dropdown-page`} href={SITE_PAGES.OVERVIEW_SEGMENTATION}>Segmentation</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item className={`${isPageActive(SITE_PAGES.OVERVIEW_CNN)} dropdown-page`} href={SITE_PAGES.OVERVIEW_CNN}>CNN</NavDropdown.Item>
                   </NavDropdown>
