@@ -1,5 +1,4 @@
 export class ANALYSIS_OPTIONS {
-
     // Individual Options
     static INDIVIDUAL_CNN = "CNN Predictions";
     static INDIVIDUAL_SEG_SIZE = "Cell Size";

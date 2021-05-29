@@ -1,33 +1,32 @@
 /**
  * Renders one row of the individual results page. Conditionally displays cell images,
  * CNN prediciton, and various segmentation statistics.
- * 
- * @summary     Renders a single row on the individual results page. 
+ *
+ * @summary     Renders a single row on the individual results page.
  */
 
-import React from 'react';
+import React from "react";
 
-import {str2ab, arrayBufferToBase64} from '../util/Img_Conversion';
+import { str2ab, arrayBufferToBase64 } from "../util/Img_Conversion";
 import { AiOutlineDownload } from "react-icons/ai/";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import Tooltip from '@material-ui/core/Tooltip';
-import '../css/IndividualResultRow.css';
- 
-export default function IndividualResultRow(props) {
+import Tooltip from "@material-ui/core/Tooltip";
+import "../css/IndividualResultRow.css";
 
+export default function IndividualResultRow(props) {
     const useStyles = makeStyles((theme) => ({
         button: {
-          "& .MuiButton-root": {
-            margin: theme.spacing(3),
-            color: "white",
-            background: "#004970",
-            padding: "10px 5px",
-            fontSize: "20px",
-            border: "1px solid black",
-          },
+            "& .MuiButton-root": {
+                margin: theme.spacing(3),
+                color: "white",
+                background: "#004970",
+                padding: "10px 5px",
+                fontSize: "20px",
+                border: "1px solid black",
+            },
         },
-      }));
+    }));
 
     const classes = useStyles();
 
@@ -45,92 +44,95 @@ export default function IndividualResultRow(props) {
 
     async function download() {
         const res = {
-            "data": 
-                {
-                    "stats": {
-                        "size": props.stats.size.data,
-                        "shape": props.stats.shape.data,
-                        "pointiness": props.stats.pointiness.data
-                    },
-                    "totalCells": numCells
-                }
+            data: {
+                stats: {
+                    size: props.stats.size.data,
+                    shape: props.stats.shape.data,
+                    pointiness: props.stats.pointiness.data,
+                },
+                totalCells: numCells,
+            },
         };
 
-        return await fetch('/segmentation/download', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            responseType: 'text/csv',
-            body: JSON.stringify(res)
+        return await fetch("/segmentation/download", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            responseType: "text/csv",
+            body: JSON.stringify(res),
         }).then(async (res) => {
             // successful response
-            if(res.status === 200){
-                // get csv file, and make it browser readable 
-                var data = new Blob([await res.blob()], {type: 'text/csv'});
+            if (res.status === 200) {
+                // get csv file, and make it browser readable
+                var data = new Blob([await res.blob()], { type: "text/csv" });
                 var csvURL = window.URL.createObjectURL(data);
-                // auto-download it on browser 
-                startDownload(csvURL, props.title + ".csv")
+                // auto-download it on browser
+                startDownload(csvURL, props.title + ".csv");
             }
-        })
+        });
     }
 
     function startDownload(blob, filename) {
-        var a = document.createElement('a');
+        var a = document.createElement("a");
         a.download = filename;
         a.href = blob;
         document.body.appendChild(a);
         a.click();
         a.remove();
-      }
- 
-    return (
+    }
 
+    return (
         <>
             {/* Title */}
-            <div className={!props.greyTitle ? "Title-AlignRight":null}>
-                <p className={`Filename ${props.greyTitle ? "Grey-Title": "Blue-Title"}`}> {props.title} </p>
+            <div className={!props.greyTitle ? "Title-AlignRight" : null}>
+                <p className={`Filename ${props.greyTitle ? "Grey-Title" : "Blue-Title"}`}>
+                    {" "}
+                    {props.title}{" "}
+                </p>
             </div>
 
             {/* Content */}
             <section className="Content">
-
                 {/* Left - Images  */}
                 <section className="Cell-Images">
                     <section class="Image-Pair">
-                        <img class="Cell-Image"
+                        <img
+                            class="Cell-Image"
                             src={"data:image/jpeg;base64," + normal_img}
-                            alt="Cells">
-                        </img>
+                            alt="Cells"
+                        ></img>
                         <p class="Cell-Image-Text">Original</p>
                     </section>
-                    {props.stats ?
+                    {props.stats ? (
                         <section class="Image-Pair">
-                            <img class="Cell-Image"
+                            <img
+                                class="Cell-Image"
                                 src={"data:image/jpeg;base64," + props.img_seg}
-                                alt="Segmented Cells">
-                            </img>
+                                alt="Segmented Cells"
+                            ></img>
                             <p class="Cell-Image-Text">Cell Segmentation</p>
                             <p class="Cell-Image-Text">({numCells} cells detected)</p>
                         </section>
-                    :null}
+                    ) : null}
                 </section>
 
                 {/* Right - Analysis Information  */}
                 <section className="Info">
                     {/* CNN Prediction */}
-                    {props.options.pred ?
+                    {props.options.pred ? (
                         <section className="Pred">
                             <p className="Info-Label"> CNN Prediction </p>
-                            <p className="CNN-Pred-Val"> {(props.pred[1]* 100).toFixed(1)}% Reject </p>
+                            <p className="CNN-Pred-Val">
+                                {" "}
+                                {(props.pred[1] * 100).toFixed(1)}% Reject{" "}
+                            </p>
                         </section>
-                    :null}
+                    ) : null}
 
                     {/* Segmentation Stats */}
-                    {props.stats ?
-                        <p className="Info-Label"> Segmentation </p>
-                    :null}
+                    {props.stats ? <p className="Info-Label"> Segmentation </p> : null}
 
                     {/* Table */}
-                    {props.stats ?
+                    {props.stats ? (
                         <table className="Table">
                             <tr>
                                 <th></th>
@@ -140,7 +142,7 @@ export default function IndividualResultRow(props) {
                                 <th>Mean</th>
                                 <th>STD</th>
                             </tr>
-                            {props.options.size ?
+                            {props.options.size ? (
                                 <tr>
                                     <th>Cell Size</th>
                                     <td>{cleanNum(props.stats.size.min)}</td>
@@ -149,8 +151,8 @@ export default function IndividualResultRow(props) {
                                     <td>{cleanNum(props.stats.size.mean)}</td>
                                     <td>{cleanNum(props.stats.size.std)}</td>
                                 </tr>
-                            :null}
-                            {props.options.shape ?
+                            ) : null}
+                            {props.options.shape ? (
                                 <tr>
                                     <th>Cell Sides</th>
                                     <td>{cleanNum(props.stats.shape.min)}</td>
@@ -159,8 +161,8 @@ export default function IndividualResultRow(props) {
                                     <td>{cleanNum(props.stats.shape.mean)}</td>
                                     <td>{cleanNum(props.stats.shape.std)}</td>
                                 </tr>
-                            :null}
-                            {props.options.pointiness ?
+                            ) : null}
+                            {props.options.pointiness ? (
                                 <tr>
                                     <th>Cell Pointiness</th>
                                     <td>{cleanNum(props.stats.pointiness.min)}</td>
@@ -169,26 +171,24 @@ export default function IndividualResultRow(props) {
                                     <td>{cleanNum(props.stats.pointiness.mean)}</td>
                                     <td>{cleanNum(props.stats.pointiness.std)}</td>
                                 </tr>
-                            :null}
+                            ) : null}
                         </table>
-                    :null}
-                     
-                     <div className={`${classes.button}`}>
+                    ) : null}
+
+                    <div className={`${classes.button}`}>
                         <Tooltip title="Download Segmentation Data" arrow>
-                                <Button 
+                            <Button
                                 variant="contained"
                                 color="primary"
                                 type="submit"
-                                onClick={download}>
-                                    <AiOutlineDownload/>
-                                </Button>
+                                onClick={download}
+                            >
+                                <AiOutlineDownload />
+                            </Button>
                         </Tooltip>
                     </div>
-                   
-                    
                 </section>
             </section>
         </>
-
-    )
+    );
 }
