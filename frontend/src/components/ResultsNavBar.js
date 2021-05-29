@@ -5,14 +5,15 @@
  * 
  * @summary     Mini navbar on result page. 
  */
-import React from 'react';
+import React, {useEffect} from 'react';
 import "../css/ResultsNavBar.css";
 import {Sections} from "../constants/resultsSections";
+import {SITE_PAGES} from '../constants/links';
 
-export default function ResultsNavBar({renderCallback}) {
+export default function ResultsNavBar({renderCallback, sectionsToDisplay}) {
 
         // tracks which section to show, default shows Individual 
-        const[ showSection, setShowSection] = React.useState(Sections.INDIVUDAL); // true = Individual, false = Group
+        const[ showSection, setShowSection] = React.useState(Sections.TIPS); // default is analysis tips
 
         // determines which page to show underline effect to indicate selected page
         function isActive(section){
@@ -27,13 +28,25 @@ export default function ResultsNavBar({renderCallback}) {
             setShowSection(updatedSection);
         }
 
+        useEffect(() => {
+            try{
+                setShowSection(sectionsToDisplay[0]);
+            } catch(e){}
+  
+          }, []);
+
       return (
 
           <>
             <section className="Wrap-Container Margin">
                 <div className="Results-Title-Container">  <p> Results: </p> </div>
-                <div className={`Section ${isActive(Sections.INDIVUDAL)}`} onClick={() => updateResult(Sections.INDIVUDAL)}> <p> Individual </p> </div>
-                <div className={`Section ${isActive(Sections.GROUP)}`} onClick={() => updateResult(Sections.GROUP)}> <p> Group </p> </div>
+                {
+                    sectionsToDisplay.map((section) => (
+                        <div className={`Section ${isActive(section)}`} onClick={() => updateResult(section)}> <p> {section} </p> </div>
+                    ))
+                }
+                {/* <div className={`Section ${isActive(Sections.INDIVUDAL)}`} onClick={() => updateResult(Sections.INDIVUDAL)}> <p> Individual </p> </div>
+                <div className={`Section ${isActive(Sections.GROUP)}`} onClick={() => updateResult(Sections.GROUP)}> <p> Group </p> </div> */}
                 <div className={`Section ${isActive(Sections.TIPS)}`} onClick={() => updateResult(Sections.TIPS)}> <p> Analysis Tips </p> </div>
             </section>
             <hr className="Diviser-Mod Margin"/>

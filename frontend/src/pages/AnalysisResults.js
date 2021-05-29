@@ -7,13 +7,14 @@ import GroupResults from '../components/GroupResults';
 import AnalysisTips from '../components/AnalysisTips';
 
 import {Sections} from "../constants/resultsSections";
+import { SITE_PAGES } from '../constants/links';
 
 export default function AnalysisResults() {
 
   const history = useHistory();
 
       // track which subsection to display, default Individual 
-      const[ showSection, setShowSection] = React.useState(Sections.INDIVUDAL); // true = Individual, false = Group
+      const[ showSection, setShowSection] = React.useState(Sections.TIPS); // default is analysis tips
       const [inputPageData, setInputPageData] = React.useState({
         inputFileJSONs: [],
         analysisData: {
@@ -22,11 +23,30 @@ export default function AnalysisResults() {
         },
         individualOptions: [],
         groupOptions: []
-      })
+      });
+
+      function handleInsufficientDataError(){
+        history.push(SITE_PAGES.ANALYSIS_INPUT);
+      }
 
       // rerender page to display newly chosen section
       function showDifferentSection(updatedSection){
         setShowSection(updatedSection);
+      }
+
+      function determineDisplayedSection(){
+        let displayedSections = [];
+
+        try{
+
+          const state = history.location.state;
+          if(state.individualOptions.length > 0) displayedSections.push(Sections.INDIVUDAL);
+          if(state.groupOptions.length > 0) displayedSections.push(Sections.GROUP);
+
+        } catch(e){
+          handleInsufficientDataError();
+        }
+        return displayedSections;
       }
 
   
@@ -43,9 +63,11 @@ export default function AnalysisResults() {
               individualOptions: state.individualOptions,
               groupOptions: state.groupOptions
             });
+
+            setShowSection(determineDisplayedSection()[0]);
           
           } catch (err) {
-              return;
+              handleInsufficientDataError();
           }
 
           // clear loaded values so refreshes/redirects start anew
@@ -57,21 +79,21 @@ export default function AnalysisResults() {
         case Sections.INDIVUDAL:
           return(
             <div>
-                  <ResultsNavBar renderCallback={showDifferentSection}/>
+                  <ResultsNavBar renderCallback={showDifferentSection} sectionsToDisplay={determineDisplayedSection()}/>
                   <IndividualResults inputPageData={inputPageData}/>
             </div>
           );
         case Sections.GROUP:
           return(
             <div>
-                  <ResultsNavBar renderCallback={showDifferentSection}/>
+                  <ResultsNavBar renderCallback={showDifferentSection} sectionsToDisplay={determineDisplayedSection()}/>
                   <GroupResults inputPageData={inputPageData}/>
             </div>
           )
         case Sections.TIPS:
           return(
             <div>
-                  <ResultsNavBar renderCallback={showDifferentSection}/>
+                  <ResultsNavBar renderCallback={showDifferentSection} sectionsToDisplay={determineDisplayedSection()}/>
                   <AnalysisTips/>
             </div>
           )
