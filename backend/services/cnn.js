@@ -24,15 +24,13 @@ async function predict(imgPath) {
         const image = jpeg.decode(buf, true);
 
         // preprocess image for VGG16
-        const tensor = tf.browser.fromPixels(image)
-            .resizeBilinear([224, 224], false, true);
+        const tensor = tf.browser.fromPixels(image).resizeBilinear([224, 224], false, true);
         const meanImageNetRGB = tf.tensor1d([104, 117, 123]);
-        const processedTensor = tensor.sub(meanImageNetRGB)
-            .expandDims();
-        
+        const processedTensor = tensor.sub(meanImageNetRGB).expandDims();
+
         // predict
         const prediction = await model.predict(processedTensor).data();
-        
+
         return prediction;
     } catch (err) {
         console.log("Prediction failed: " + err);
@@ -41,5 +39,5 @@ async function predict(imgPath) {
 
 module.exports = {
     loadModel,
-    predict
+    predict,
 };
