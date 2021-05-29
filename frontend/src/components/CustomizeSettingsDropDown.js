@@ -6,7 +6,7 @@
  * @summary     Mini navbar on result page. 
  */
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -17,7 +17,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import { FaInfoCircle } from 'react-icons/fa';
-import {ANALYSIS_OPTIONS} from "../constants/analysisOptions";
+
 import "../css/CustomizeSettingsDropDown.css";
 
 
@@ -73,18 +73,8 @@ export default function CustomizeSettingsDropDown(props) {
           
 
         const classes = useStyles();
-        const theme = useTheme();
         const [chosenDropdownOptions, setchosenDropdownOptions] = React.useState([]);
         const [noneCheckbox, setNoneCheckbox] = React.useState(false);
-
-        function getStyles(name, chosenDropdownOptions, theme) {
-            return {
-              fontWeight:
-                chosenDropdownOptions.indexOf(name) === -1
-                  ? theme.typography.fontWeightRegular
-                  : theme.typography.fontWeightMedium,
-            };
-        }
     
         const handleChange = (event) => {
 
@@ -127,7 +117,7 @@ export default function CustomizeSettingsDropDown(props) {
               </Tooltip>
             </p>
             <FormControl className={`${classes.formControl} Dropdown-Form`}>
-                <InputLabel variant='filled' style={{color: "black"}}>Select All</InputLabel>
+                <InputLabel variant='filled' style={{color: "black"}}>Select Options</InputLabel>
                 <Select
                 className={classes.select}
                 multiple
