@@ -1,9 +1,5 @@
 export class ANALYSIS_OPTIONS {
 
-    // Select All
-    static INDIVIDUAL_ALL = 'Select All';
-    static GROUP_ALL = 'Select All';
-
     // Individual Options
     static INDIVIDUAL_CNN = "CNN Predictions";
     static INDIVIDUAL_SEG_SIZE = "Cell Size";

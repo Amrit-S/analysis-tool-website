@@ -4,6 +4,8 @@ import {
   Route
 } from "react-router-dom";
 
+import {SITE_PAGES} from './constants/links';
+
 import PageLayout from "./components/PageLayout";
 import AnalysisInput from './pages/AnalysisInput';
 import AnalysisResults from './pages/AnalysisResults';
@@ -19,22 +21,22 @@ function App() {
         {/* Switch gurantees that a URL can match to only one route*/}
         <Switch>
           {/* Model Segmentation Page */}
-          <Route exact path="/segmentation">
+          <Route exact path={SITE_PAGES.OVERVIEW_SEGMENTATION}>
             <Segmentation/>
           </Route>
-          <Route exact path="/cnn">
+          <Route exact path={SITE_PAGES.OVERVIEW_CNN}>
             <CNN/>
           </Route>
           {/* How to Use Page */}
-          <Route exact path="/researchers">
+          <Route exact path={SITE_PAGES.RESEARCHERS}>
             <Researchers/>
           </Route>
           {/* Results Page */}
-          <Route exact path="/analysis-results">
+          <Route exact path={SITE_PAGES.ANALYSIS_RESULTS}>
             <AnalysisResults/>
           </Route>
           {/* Analsyis Page - Input Retrieval (Home/Root Page of App) */}
-          <Route exact path="/">
+          <Route exact path={SITE_PAGES.ANALYSIS_INPUT}>
             <AnalysisInput/>
           </Route>
           {/* Any other URL is automatically matched to 404 page */}

@@ -6,7 +6,8 @@
 
 // Library Imports
 import React from 'react';
-import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
+import { Nav, NavDropdown} from 'react-bootstrap';
+import {SITE_PAGES} from '../constants/links';
 
 // CSS Imports
 import '../css/NavBar.css';
@@ -26,7 +27,7 @@ export default function NavBar() {
      }
 
      function isDropdownActive(){
-       return (isPageActive("/cnn") || isPageActive("/segmentation")) ? "dropdown":null; 
+       return (isPageActive(SITE_PAGES.OVERVIEW_CNN) || isPageActive(SITE_PAGES.OVERVIEW_SEGMENTATION)) ? "dropdown":null; 
      }
 
       return (
@@ -43,19 +44,14 @@ export default function NavBar() {
                   </a>
                 </picture>
               </section>
-              {/* NavBar Right: Linked Domain Pages */}
-              {/* <section className="Pages">
-                <a className={isPageActive("/segmentation")} href="/segmentation">Segmentation Overview</a>
-                <a className={isPageActive("/")} href="/">Analysis Tool</a>
-              </section> */}
               <Nav className="Pages">
-                  <Nav.Link className={isPageActive("/researchers")} href="/researchers">Researchers</Nav.Link>
+                  <Nav.Link className={isPageActive(SITE_PAGES.RESEARCHERS)} href={SITE_PAGES.RESEARCHERS}>Researchers</Nav.Link>
                   <NavDropdown id={isDropdownActive()} className={`dropdown-container`} title="Model Overview" >
-                    <NavDropdown.Item className={`${isPageActive("/segmentation")} dropdown-page`} href="/segmentation">Segmentation</NavDropdown.Item>
+                    <NavDropdown.Item className={`${isPageActive(SITE_PAGES.OVERVIEW_SEGMENTATION)} dropdown-page`} href={SITE_PAGES.OVERVIEW_SEGMENTATION}>Segmentation</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item className={`${isPageActive("/cnn")} dropdown-page`} href="/cnn">CNN</NavDropdown.Item>
+                    <NavDropdown.Item className={`${isPageActive(SITE_PAGES.OVERVIEW_CNN)} dropdown-page`} href={SITE_PAGES.OVERVIEW_CNN}>CNN</NavDropdown.Item>
                   </NavDropdown>
-                  <Nav.Link className={isPageActive("/")} href="/">Analysis Tool </Nav.Link>
+                  <Nav.Link className={isPageActive(SITE_PAGES.ANALYSIS_INPUT)} href={SITE_PAGES.ANALYSIS_INPUT}>Analysis Tool </Nav.Link>
                 </Nav>
           </main>
           {/* Seperator Underneath NavBar */}

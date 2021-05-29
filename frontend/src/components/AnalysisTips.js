@@ -1,6 +1,8 @@
 import React from 'react';
 import "../css/AnalysisTips.css";
 
+import {SITE_PAGES} from '../constants/links';
+
 export default function AnalysisTips(props) {
 
       return (
@@ -11,7 +13,7 @@ export default function AnalysisTips(props) {
                 The Convolutional Neural Network, or CNN, has been trained on a set of endothelial images from patients with and without transplant rejections. The model works by looking at one provided image at a time and determining whether it looks more like one of the reject images or more like one of the normal images it has seen before. The result is a percentage value. If this value is above 50%, the model thinks it is more like a reject. The higher this value is, the more confident it is in this assessment. Values below 50% are more like normal images, and the lower the value is the more confident it is in the assessment that it is normal.
                 Factors such as image artifacts may influence the outcome, so we recommend providing as many images as possible per patient. The group analysis page features graphs with a moving average line to help even out any outliers and make it easier to see the general trend.
                 {'\n\n'}
-                If you would like further information on how the CNN works, <span><a href="/cnn" target="_blank" rel="noreferrer noopener">click here</a> </span>. 
+                If you would like further information on how the CNN works, <span><a href={SITE_PAGES.OVERVIEW_CNN} target="_blank" rel="noreferrer noopener">click here</a> </span>. 
             </p>
               <h2> Segmentation </h2>
               <p>
@@ -19,7 +21,7 @@ export default function AnalysisTips(props) {
                 Note that the individual results page displays a table summarizing the segmentation data. The full data for all cells is available for download.
 
                 {'\n\n'}
-                If you would like further information on how the segmentation works, <span><a href="/segmentation" target="_blank" rel="noreferrer noopener">click here</a> </span>. 
+                If you would like further information on how the segmentation works, <span><a href={SITE_PAGES.OVERVIEW_SEGMENTATION} target="_blank" rel="noreferrer noopener">click here</a> </span>. 
               </p>
           </div>
 

@@ -6,7 +6,7 @@ import IndividualResults from '../components/IndividualResults';
 import GroupResults from '../components/GroupResults';
 import AnalysisTips from '../components/AnalysisTips';
 
-import {Sections} from "../constants/Sections";
+import {Sections} from "../constants/resultsSections";
 
 export default function AnalysisResults() {
 
