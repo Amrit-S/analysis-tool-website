@@ -129,17 +129,19 @@ export default function IndividualResults(props) {
                 See <span style={{ color: "#004970" }}> Analysis Tips </span> section to get insight
                 on how to better interpret these results.
                 <BsFillExclamationDiamondFill style={{ fontSize: "16px", color: "#004970" }} />
-                <div className={`${classes.button} download-all-button`}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                        startIcon={<AiOutlineDownload />}
-                        onClick={downloadAll}
-                    >
-                        Download All
-                    </Button>
-                </div>
+                {seg ? (
+                    <div className={`${classes.button} download-all-button`}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            startIcon={<AiOutlineDownload />}
+                            onClick={downloadAll}
+                        >
+                            Download All
+                        </Button>
+                    </div>
+                ) : null}
             </p>
             {props.inputPageData.inputFileJSONs.map((data, i) => {
                 return (

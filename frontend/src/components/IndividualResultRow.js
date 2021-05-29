@@ -175,18 +175,20 @@ export default function IndividualResultRow(props) {
                         </table>
                     ) : null}
 
-                    <div className={`${classes.button}`}>
-                        <Tooltip title="Download Segmentation Data" arrow>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                type="submit"
-                                onClick={download}
-                            >
-                                <AiOutlineDownload />
-                            </Button>
-                        </Tooltip>
-                    </div>
+                    {props.stats ? (
+                        <div className={`${classes.button}`}>
+                            <Tooltip title="Download Segmentation Data" arrow>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    type="submit"
+                                    onClick={download}
+                                >
+                                    <AiOutlineDownload />
+                                </Button>
+                            </Tooltip>
+                        </div>
+                    ) : null}
                 </section>
             </section>
         </>
