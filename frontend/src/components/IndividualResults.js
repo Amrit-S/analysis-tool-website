@@ -134,7 +134,6 @@ export default function IndividualResults(props) {
                         variant="contained"
                         color="primary"
                         type="submit"
-                        title="Sup Bitch"
                         startIcon={<AiOutlineDownload />}
                         onClick={downloadAll}
                     >
