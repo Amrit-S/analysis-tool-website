@@ -23,6 +23,12 @@ export default function AnalysisTips(props) {
                 {'\n\n'}
                 If you would like further information on how the segmentation works, <span><a href={SITE_PAGES.OVERVIEW_SEGMENTATION} target="_blank" rel="noreferrer noopener">click here</a> </span>. 
               </p>
+              <h2> Moving Average (Group Analysis) </h2>
+              <p>
+                Every moving average data point is the average of all time series datapoints that occur at that instance as well as before it. To provide
+                an example, let us say there is the following time-series: [10, 20, 30]. The corresponding moving average series would be
+                [10, (10 + 20)/2, (10 + 20 + 30)/3] = [10, 15, 20].
+              </p>
           </div>
 
       )

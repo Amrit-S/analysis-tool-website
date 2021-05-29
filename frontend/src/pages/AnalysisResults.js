@@ -65,6 +65,8 @@ export default function AnalysisResults() {
             });
 
             setShowSection(determineDisplayedSection()[0]);
+
+            window.scrollTo(0, 0);
           
           } catch (err) {
               handleInsufficientDataError();
