@@ -55,6 +55,12 @@
   justify-content: center;
 }
 
+.Cell-Image {
+  width: 256px;
+  height: 256px;
+  object-fit: cover;
+}
+
 .Cell-Image-Text {
   text-align: center;
   font-style: italic;
