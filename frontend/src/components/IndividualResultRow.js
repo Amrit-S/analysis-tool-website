@@ -8,10 +8,28 @@
 import React from 'react';
 
 import {str2ab, arrayBufferToBase64} from '../util/Img_Conversion';
- 
+import { AiOutlineDownload } from "react-icons/ai/";
+import { makeStyles } from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
+import Tooltip from '@material-ui/core/Tooltip';
 import '../css/IndividualResultRow.css';
  
 export default function IndividualResultRow(props) {
+
+    const useStyles = makeStyles((theme) => ({
+        button: {
+          "& .MuiButton-root": {
+            margin: theme.spacing(3),
+            color: "white",
+            background: "#004970",
+            padding: "10px 5px",
+            fontSize: "20px",
+            border: "1px solid black",
+          },
+        },
+      }));
+
+    const classes = useStyles();
 
     // use to set number formatting in segmentation data table
     function cleanNum(val) {
@@ -24,6 +42,45 @@ export default function IndividualResultRow(props) {
 
     // handle CNN-only raw image
     let normal_img = props.stats ? props.img_norm : arrayBufferToBase64(str2ab(props.img_norm));
+
+    async function download() {
+        const res = {
+            "data": 
+                {
+                    "stats": {
+                        "size": props.stats.size.data,
+                        "shape": props.stats.shape.data,
+                        "pointiness": props.stats.pointiness.data
+                    },
+                    "totalCells": numCells
+                }
+        };
+
+        return await fetch('/segmentation/download', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            responseType: 'text/csv',
+            body: JSON.stringify(res)
+        }).then(async (res) => {
+            // successful response
+            if(res.status === 200){
+                // get csv file, and make it browser readable 
+                var data = new Blob([await res.blob()], {type: 'text/csv'});
+                var csvURL = window.URL.createObjectURL(data);
+                // auto-download it on browser 
+                startDownload(csvURL, props.title + ".csv")
+            }
+        })
+    }
+
+    function startDownload(blob, filename) {
+        var a = document.createElement('a');
+        a.download = filename;
+        a.href = blob;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
  
     return (
 
@@ -115,6 +172,20 @@ export default function IndividualResultRow(props) {
                             :null}
                         </table>
                     :null}
+                     
+                     <div className={`${classes.button}`}>
+                        <Tooltip title="Download Segmentation Data" arrow>
+                                <Button 
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                onClick={download}>
+                                    <AiOutlineDownload/>
+                                </Button>
+                        </Tooltip>
+                    </div>
+                   
+                    
                 </section>
             </section>
         </>

@@ -11,11 +11,11 @@
  import {Line} from 'react-chartjs-2';
  
  import {getMean, getMin, getMax, getMedian, getSTD} from '../util/Stats';
- import Tooltip from '@material-ui/core/Tooltip';
  import { FaInfoCircle } from 'react-icons/fa';
  import { Button } from "@material-ui/core";
  import { AiOutlineDownload } from "react-icons/ai/";
  import { makeStyles } from "@material-ui/core/styles";
+ import Tooltip from '@material-ui/core/Tooltip';
  import { saveAs } from 'file-saver';
 
  
@@ -31,8 +31,8 @@
         margin: theme.spacing(3),
         color: "white",
         background: "#004970",
-        //padding: "10px 40px",
-        fontSize: "12px",
+        padding: "10px 5px",
+        fontSize: "20px",
         border: "1px solid black",
       },
     },
@@ -199,16 +199,17 @@
                          </tr>
                      </table>
                      {/* <p style={{padding: "10px 5px", fontStyle: "italic"}}> {MOV_AVG_TOOLTIP_TEXT}</p> */}
-                     <div className={`${classes.button} Submit-Button`} >
-                      <Button 
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                        startIcon={<AiOutlineDownload/>}
-                        onClick={handleDownload}>
-                          Download Graph 
-                        </Button>
-                     </div>
+                     <div className={`${classes.button}`}>
+                        <Tooltip title="Download Graph" arrow>
+                                <Button 
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                onClick={handleDownload}>
+                                    <AiOutlineDownload/>
+                                </Button>
+                        </Tooltip>
+                    </div>
                  </section>
              </section>
          </>
