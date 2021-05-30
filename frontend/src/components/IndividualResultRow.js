@@ -12,6 +12,7 @@ import { AiOutlineDownload } from "react-icons/ai/";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import Tooltip from "@material-ui/core/Tooltip";
+import { saveAs } from "file-saver";
 import "../css/IndividualResultRow.css";
 
 export default function IndividualResultRow(props) {
@@ -67,6 +68,10 @@ export default function IndividualResultRow(props) {
                 var csvURL = window.URL.createObjectURL(data);
                 // auto-download it on browser
                 startDownload(csvURL, props.title + ".csv");
+
+                // short wait and then download image too
+                await new Promise(r => setTimeout(r, 100));
+                saveAs("data:image/jpeg;base64," + props.img_seg, `segmented_${props.title}`);
             }
         });
     }

@@ -43,12 +43,17 @@ export default function IndividualResults(props) {
         return options;
     }
 
+    let downloadExt = ".csv";
+    let downloadFileName = "Segmentation_Data.zip";
+
     async function downloadAll() {
         // collect csv backend calls for all images
         let downloadCalls = [];
+        let images = [];
         for (const element in seg) {
             if (Object.hasOwnProperty.call(seg, element)) {
                 const image = seg[element];
+                images.push("data:image/jpeg;base64," + image.segmented_img)
                 const res = {
                     data: {
                         stats: {
@@ -88,6 +93,12 @@ export default function IndividualResults(props) {
         }
 
         downloadAndZip(urls, urls.length);
+
+        // short wait and then download images too
+        await new Promise(r => setTimeout(r, 100));
+        downloadExt = "";
+        downloadFileName = "Segmentation_Images.zip";
+        downloadAndZip(images, images.length);
     }
 
     // the following functions enable zipping multiple files and downloading the zip
@@ -110,11 +121,10 @@ export default function IndividualResults(props) {
     const exportZip = (blobs) => {
         const zip = JsZip();
         blobs.forEach((blob, i) => {
-            zip.file(props.inputPageData.inputFileJSONs[i].name + ".csv", blob);
+            zip.file(props.inputPageData.inputFileJSONs[i].name + downloadExt, blob);
         });
         zip.generateAsync({ type: "blob" }).then((zipFile) => {
-            const fileName = `Segmentation_Data.zip`;
-            return FileSaver.saveAs(zipFile, fileName);
+            return FileSaver.saveAs(zipFile, downloadFileName);
         });
     };
 
