@@ -5,6 +5,7 @@ import JsZip from "jszip";
 import FileSaver from "file-saver";
 
 import IndividualResultRow from "../components/IndividualResultRow";
+import IndividualResultRowCNN from "../components/IndividualResultRowCNN";
 import { ANALYSIS_OPTIONS } from "../constants/analysisOptions";
 import { AiOutlineDownload } from "react-icons/ai/";
 import { makeStyles } from "@material-ui/core/styles";
@@ -153,19 +154,36 @@ export default function IndividualResults(props) {
                     </div>
                 ) : null}
             </p>
-            {props.inputPageData.inputFileJSONs.map((data, i) => {
-                return (
-                    <IndividualResultRow
-                        title={data.name}
-                        greyTitle={i % 2 === 0}
-                        stats={seg ? seg[i].stats : null}
-                        pred={cnn[i]}
-                        img_norm={seg ? seg[i].raw_img : data.buffer}
-                        img_seg={seg ? seg[i].segmented_img : null}
-                        options={getOptions()}
-                    />
-                );
-            })}
+            {seg ? (
+                props.inputPageData.inputFileJSONs.map((data, i) => {
+                    return (
+                        <IndividualResultRow
+                            title={data.name}
+                            greyTitle={i % 2 === 0}
+                            stats={seg ? seg[i].stats : null}
+                            pred={cnn[i]}
+                            img_norm={seg ? seg[i].raw_img : data.buffer}
+                            img_seg={seg ? seg[i].segmented_img : null}
+                            options={getOptions()}
+                        />
+                    );
+                })
+            ) : (
+                <div className="CNN">
+                    <h2> CNN Predictions </h2>
+                    <div className="CNN-Grid">
+                        {props.inputPageData.inputFileJSONs.map((data, i) => {
+                            return (
+                                <IndividualResultRowCNN
+                                    title={data.name}
+                                    pred={cnn[i]}
+                                    img={data.buffer}
+                                />
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
         </>
     );
 }
