@@ -80,8 +80,8 @@ export default function InputInstructions(props) {
                             {" "}
                             <p>
                                 {" "}
-                                All images are highly recommended to be at least 256 x 256 in dimensions,
-                                especially for any segmentation analysis{" "}
+                                All images are highly recommended to be at least 256 x 256 in
+                                dimensions, especially for any segmentation analysis{" "}
                             </p>{" "}
                         </li>
                     </ul>

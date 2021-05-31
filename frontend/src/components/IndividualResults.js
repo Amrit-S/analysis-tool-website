@@ -54,7 +54,7 @@ export default function IndividualResults(props) {
         for (const element in seg) {
             if (Object.hasOwnProperty.call(seg, element)) {
                 const image = seg[element];
-                images.push("data:image/jpeg;base64," + image.segmented_img)
+                images.push("data:image/jpeg;base64," + image.segmented_img);
                 const res = {
                     data: {
                         stats: {
@@ -96,7 +96,7 @@ export default function IndividualResults(props) {
         downloadAndZip(urls, urls.length);
 
         // short wait and then download images too
-        await new Promise(r => setTimeout(r, 100));
+        await new Promise((r) => setTimeout(r, 100));
         downloadExt = "";
         downloadFileName = "Segmentation_Images.zip";
         downloadAndZip(images, images.length);

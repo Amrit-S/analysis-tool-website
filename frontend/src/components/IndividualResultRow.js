@@ -70,7 +70,7 @@ export default function IndividualResultRow(props) {
                 startDownload(csvURL, props.title + ".csv");
 
                 // short wait and then download image too
-                await new Promise(r => setTimeout(r, 100));
+                await new Promise((r) => setTimeout(r, 100));
                 saveAs("data:image/jpeg;base64," + props.img_seg, `segmented_${props.title}`);
             }
         });
