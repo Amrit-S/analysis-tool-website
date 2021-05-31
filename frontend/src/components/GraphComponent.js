@@ -79,6 +79,8 @@ export default function GraphComponent(props) {
             }
 
             setDatasets(graphData);
+
+            // alert(props.cellCounts);
         } catch (err) {
             return;
         }
@@ -117,7 +119,12 @@ export default function GraphComponent(props) {
         tooltips: {
             callbacks: {
                 label: function (tooltipItem) {
-                    return parseFloat(tooltipItem.yLabel).toFixed(2);
+                    // just return y-value if not time series, or dealing with CNN graph that doesn't have cell counts
+                    if(tooltipItem['datasetIndex'] !== 0 || props.showCNNBaseline){
+                        return parseFloat(tooltipItem.yLabel).toFixed(2);
+                    }
+                    // time series line on segmentation graph
+                    return `Value: ${parseFloat(tooltipItem.yLabel).toFixed(2)}, Cells Detected: ${props.cellCounts[tooltipItem['index']]}`;
                 },
                 title: function (tooltipItem) {
                     return null;

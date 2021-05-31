@@ -205,6 +205,14 @@ export default function GroupResults(props) {
         });
     }
 
+    function getCellCounts(option){
+        if (option === ANALYSIS_OPTIONS.GROUP_CNN) return null;
+        return props.inputPageData.analysisData.segmentation.map( (entry) =>{
+            let cells = (entry.stats.size || entry.stats.shape || entry.stats.pointiness).totalCells;
+            return parseInt(cells);
+        });
+    }
+
     return (
         <>
             <p style={{ textAlign: "center", padding: "10px" }}>
@@ -222,6 +230,7 @@ export default function GroupResults(props) {
                         greyTitle={i % 2 === 0}
                         data={graphOptions.data}
                         movAvgData={getMovingAverage(graphOptions.data)}
+                        cellCounts={getCellCounts(option)}
                         labels={getLabels()}
                         options={graphOptions}
                         showCNNBaseline={option === ANALYSIS_OPTIONS.GROUP_CNN}
