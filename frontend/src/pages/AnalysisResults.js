@@ -1,69 +1,115 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-import ResultsNavBar from '../components/ResultsNavBar';
-import IndividualResults from '../components/IndividualResults';
-import GroupResults from '../components/GroupResults';
-const config = require('../config');
+import ResultsNavBar from "../components/ResultsNavBar";
+import IndividualResults from "../components/IndividualResults";
+import GroupResults from "../components/GroupResults";
+import AnalysisTips from "../components/AnalysisTips";
 
-//const BACKEND_URL = config.backend.uri;
+import { Sections } from "../constants/resultsSections";
+import { SITE_PAGES } from "../constants/links";
 
 export default function AnalysisResults() {
+    const history = useHistory();
 
-  const history = useHistory();
-
-      // track which subsection to display, default Individual 
-      const[ showIndividual, setShowIndividual] = React.useState(true); // true = Individual, false = Group
-      const [inputPageData, setInputPageData] = React.useState({
+    // track which subsection to display, default Individual
+    const [showSection, setShowSection] = React.useState(Sections.TIPS); // default is analysis tips
+    const [inputPageData, setInputPageData] = React.useState({
         inputFileJSONs: [],
         analysisData: {
-          cnn: [],
-          segmentation: []
+            cnn: [],
+            segmentation: [],
         },
         individualOptions: [],
-        groupOptions: []
-      })
+        groupOptions: [],
+    });
 
-      // rerender page to display newly chosen section
-      function showDifferentSection(showIndividualSection){
-        setShowIndividual(showIndividualSection);
-      }
+    function handleInsufficientDataError() {
+        history.push(SITE_PAGES.ANALYSIS_INPUT);
+    }
 
-        // on load of screen, default filter button highlighted
-        useEffect(() => {
-          // parse location object to see if cart must be toggled upon render
-          try {
+    // rerender page to display newly chosen section
+    function showDifferentSection(updatedSection) {
+        setShowSection(updatedSection);
+    }
+
+    function determineDisplayedSection() {
+        let displayedSections = [];
+
+        try {
+            const state = history.location.state;
+            if (state.individualOptions.length > 0) displayedSections.push(Sections.INDIVUDAL);
+            if (state.groupOptions.length > 0) displayedSections.push(Sections.GROUP);
+        } catch (e) {
+            handleInsufficientDataError();
+        }
+        return displayedSections;
+    }
+
+    useEffect(() => {
+        // parse location object to see if data has been given
+        try {
             const state = history.location.state;
             setInputPageData({
-              inputFileJSONs: state.inputFileJsons,
-              analysisData: {
-                cnn: state.cnnPredictions,
-                segmentation: state.segmentationPredictions
-              },
-              individualOptions: state.individualOptions,
-              groupOptions: state.groupOptions
+                inputFileJSONs: state.inputFileJsons,
+                analysisData: {
+                    cnn: state.cnnPredictions,
+                    segmentation: state.segmentationPredictions,
+                },
+                individualOptions: state.individualOptions,
+                groupOptions: state.groupOptions,
             });
-            // alert(inputPageData);
-          } catch (err) {
-              return;
-          }
 
-          // clear loaded values so refreshes/redirects start anew
-         // history.replace("/analysis-results", null);
+            setShowSection(determineDisplayedSection()[0]);
 
-        }, []);
+            window.scrollTo(0, 0);
+        } catch (err) {
+            handleInsufficientDataError();
+        }
 
-      return (
+        // clear loaded values so refreshes/redirects start anew
+        // history.replace("/analysis-results", null);
+    }, []);
 
-          <div>
-               <ResultsNavBar renderCallback={showDifferentSection}/>
-               {
-                 showIndividual ?
-                 <IndividualResults inputPageData={inputPageData}/>
-                 :
-                 <GroupResults inputPageData={inputPageData}/>
-               }
-          </div>
-
-      )
-  }
+    switch (showSection) {
+        case Sections.INDIVUDAL:
+            return (
+                <div>
+                    <ResultsNavBar
+                        renderCallback={showDifferentSection}
+                        sectionsToDisplay={determineDisplayedSection()}
+                    />
+                    <IndividualResults inputPageData={inputPageData} />
+                </div>
+            );
+        case Sections.GROUP:
+            return (
+                <div>
+                    <ResultsNavBar
+                        renderCallback={showDifferentSection}
+                        sectionsToDisplay={determineDisplayedSection()}
+                    />
+                    <GroupResults inputPageData={inputPageData} />
+                </div>
+            );
+        case Sections.TIPS:
+            return (
+                <div>
+                    <ResultsNavBar
+                        renderCallback={showDifferentSection}
+                        sectionsToDisplay={determineDisplayedSection()}
+                    />
+                    <AnalysisTips />
+                </div>
+            );
+        default:
+            return (
+                <div>
+                    <ResultsNavBar
+                        renderCallback={showDifferentSection}
+                        sectionsToDisplay={determineDisplayedSection()}
+                    />
+                </div>
+            );
+    }
+}

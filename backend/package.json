@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@tensorflow/tfjs": "^3.3.0",
@@ -19,5 +20,8 @@
     "json2csv": "^5.0.6",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.7"
+  },
+  "devDependencies": {
+    "prettier": "2.3.0"
   }
 }
