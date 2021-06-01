@@ -1,0 +1,179 @@
+:root {
+  --grey: #a3a3a3;
+  --lightgrey: #c4c4c4;
+  --blue: #004970;
+}
+
+.Title-AlignRight {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Filename {
+  border: 1px solid black;
+  border-left: none;
+  width: fit-content;
+  color: white;
+  padding: 10px 130px;
+  font-size: large;
+  text-align: center;
+}
+
+.Grey-Title {
+  background-color: var(--grey);
+}
+
+.Blue-Title {
+  background-color: var(--blue);
+}
+
+.Content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-self: center;
+  padding: 20px;
+}
+
+.Cell-Images,
+.Info {
+  margin: 10px;
+  position: relative;
+}
+
+.Cell-Images {
+  width: 50vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-self: center;
+  padding: 20px;
+}
+
+.Image-Pair {
+  padding-inline: 5vw;
+  justify-content: center;
+}
+
+.Cell-Image {
+  width: 256px;
+  height: 256px;
+  object-fit: cover;
+}
+
+.Cell-Image-Text {
+  text-align: center;
+  font-style: italic;
+}
+
+.Info {
+  width: 40vw;
+}
+
+.Info-Label {
+  border: 3px solid var(--blue);
+  border-radius: 10px;
+  padding: 5px 15px;
+  width: fit-content;
+  text-align: center;
+}
+
+.Pred {
+  display: flex;
+  flex-direction: row;
+}
+
+.CNN-Pred-Val {
+  border-bottom: 2.5px solid var(--blue);
+  width: 25vw;
+  text-align: center;
+  margin-left: 1.5vw;
+}
+
+.Table {
+  width: 100%;
+  table-layout: auto;
+  padding: 0rem 1rem;
+}
+
+.Table th,
+td {
+  display: table-cell;
+  text-align: center;
+}
+
+.Table th {
+  font-style: italic;
+  font-weight: normal;
+}
+
+.Table td {
+  background-color: lightgrey;
+  padding: 10px 5px;
+}
+
+.Download {
+  background-color: lightgray;
+  border: 1.5px solid var(--blue);
+  padding: 6px 12px;
+  font-size: large;
+  margin-top: 20px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.Download:hover {
+  background-color: var(--blue);
+  color: white;
+}
+
+/* Tablet View */
+@media only screen and (max-width: 1110px) {
+  .Content {
+    flex-direction: column;
+  }
+
+  .Cell-Images,
+  .Info {
+    margin: 0px;
+  }
+
+  .Cell-Images {
+    width: auto;
+  }
+
+  .Info {
+    width: 100%;
+  }
+
+  .Table {
+    width: 90vw;
+    padding: 0rem 8vw;
+  }
+}
+
+/* Mobile View */
+@media only screen and (max-width: 600px) {
+  .Content {
+    flex-direction: column;
+  }
+
+  .Cell-Images,
+  .Info {
+    margin: 0px;
+  }
+
+  .Cell-Images {
+    flex-direction: column;
+    width: auto;
+  }
+
+  .Info {
+    width: 100%;
+  }
+
+  .Table {
+    width: 90vw;
+    padding: 0rem 8vw;
+  }
+}
