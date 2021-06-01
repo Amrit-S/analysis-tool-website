@@ -11,9 +11,9 @@ async function loadModel() {
     try {
         const url = tfn.io.fileSystem(MODEL_PATH);
         model = await tf.loadLayersModel(url);
-        console.log("Prediction model loaded successfully");
+        console.log("CNN model loaded successfully");
     } catch (err) {
-        console.log("Prediction model load error: " + err);
+        console.log("CNN model load error: " + err);
     }
 }
 

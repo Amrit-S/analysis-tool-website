@@ -7,11 +7,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const config = require("./config");
 const { loadModel } = require("./services/cnn");
-const { loadUnetModel } = require("./services/segmentation");
 
 // initialize cnn prediction model
 loadModel();
-loadUnetModel();
 
 console.log(`Running on port ${config.app.port}`);
 
@@ -33,7 +31,7 @@ app.use("/server/segmentation", require("./routes/segmentation"));
 
 // production
 if (config.app.env === "production") {
-    // link React frontend
+    // link static React frontend
     app.use(express.static(path.join(__dirname, "client", "build")));
   
     // any routes called that are not handled by server are forwarded to frontend
