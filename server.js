@@ -28,12 +28,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({ methods: ["GET", "POST", "PUT", "DELETE"] }));
 
 //Routers
-app.get("/", function (req, res) {
+app.get("/server", function (req, res) {
     res.status(200).json({ message: "Abandon All Hope Ye Who Enter Here..." });
 });
 // cnn predictions routed here
-app.use("/cnn", require("./routes/cnn"));
-app.use("/segmentation", require("./routes/segmentation"));
+app.use("/server/cnn", require("./routes/cnn"));
+app.use("/server/segmentation", require("./routes/segmentation"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -67,7 +67,7 @@ export default function IndividualResults(props) {
                 };
 
                 downloadCalls.push(
-                    fetch("/segmentation/download", {
+                    fetch("/server/segmentation/download", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         responseType: "text/csv",

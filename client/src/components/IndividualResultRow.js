@@ -55,7 +55,7 @@ export default function IndividualResultRow(props) {
             },
         };
 
-        return await fetch("/segmentation/download", {
+        return await fetch("/server/segmentation/download", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             responseType: "text/csv",
