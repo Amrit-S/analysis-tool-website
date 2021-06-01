@@ -1,0 +1,64 @@
+:root {
+  --grey: #a3a3a3;
+  --darkgrey: #585858;
+  --lightgrey: #c4c4c4;
+  --blue: #004970;
+  --gold: #daba11;
+}
+
+.Root-Container {
+  width: 80vw;
+  border-right: 4.5px solid var(--blue);
+  border-radius: 2px;
+}
+
+.Mini-NavBar {
+  display: flex;
+}
+
+.Mini-NavBar .Section {
+  color: var(--darkgrey);
+  font-weight: bold;
+  font-size: large;
+}
+
+.Mini-NavBar .Section:hover {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.Mini-NavBar .Selected-Section {
+  color: black;
+  border-bottom: 2.5px solid var(--blue);
+}
+
+.Instructions-Container p {
+  margin-top: 35px;
+}
+
+.Instructions-Container li {
+  margin: 20px 35px;
+}
+
+.Instructions-Container li p {
+  margin-top: 15px;
+}
+
+.Example-Container {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.Example-Container img {
+  height: 350px;
+}
+
+@media only screen and (max-width: 1180px) {
+  .Root-Container {
+    width: 85vw;
+    /* background-color: aliceblue; */
+    border-right: none;
+    border-bottom: 4.5px solid var(--blue);
+  }
+}
