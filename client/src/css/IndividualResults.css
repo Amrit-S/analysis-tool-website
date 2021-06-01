@@ -1,0 +1,26 @@
+.download-all-button {
+  text-align: end;
+}
+
+.CNN h2 {
+  padding-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  border-bottom: 3px solid var(--gold);
+}
+
+.CNN-Grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+  justify-items: center;
+  padding: 20px;
+}
+
+@media only screen and (max-width: 1150px) {
+  .download-all-button {
+    text-align: center;
+    margin-top: 20px;
+  }
+}

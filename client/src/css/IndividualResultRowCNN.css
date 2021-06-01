@@ -1,0 +1,38 @@
+:root {
+  --grey: #a3a3a3;
+  --lightgrey: #c4c4c4;
+  --blue: #004970;
+}
+
+.Filename {
+  border: 1px solid black;
+  border-left: none;
+  width: fit-content;
+  color: white;
+  padding: 10px 85px;
+  font-size: large;
+  text-align: center;
+}
+
+.Blue-Title {
+  background-color: var(--blue);
+}
+
+.CNN-Content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.CNN-Image {
+  width: 256px;
+  height: 256px;
+  object-fit: cover;
+}
+
+.CNN-Pred {
+  border-bottom: 2.5px solid var(--blue);
+  padding-bottom: 10px;
+  width: 256px;
+  text-align: center;
+}

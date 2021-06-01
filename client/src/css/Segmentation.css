@@ -1,0 +1,204 @@
+.Main-Title {
+  text-align: center;
+}
+
+.Segmentation-Overview > .Diviser,
+.Opening-Text {
+  margin: 0px 20px;
+}
+
+.Segmentation-Overview > .Opening-Text {
+  margin: 30px 50px;
+}
+
+.Segmentation-Overview h3 {
+  width: fit-content;
+  border-bottom: 3px solid var(--gold);
+}
+
+.Segmentation-Overview section > p {
+  flex: 1 1 auto;
+  white-space: pre-line;
+}
+
+.Title-AlignRight {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Title {
+  border: 1px solid black;
+  width: fit-content;
+  color: white;
+  padding: 10px 135px;
+  font-size: large;
+}
+
+.Grey-Title {
+  background-color: var(--grey);
+}
+
+.Blue-Title {
+  background-color: var(--blue);
+}
+
+figcaption {
+  font-style: italic;
+  text-align: center;
+}
+
+.UNet,
+.Pre-Processing,
+.Post-Processing,
+.Cell-Extraction,
+.cellular-analysis {
+  height: fit-content;
+  position: relative;
+  margin: 0px 50px;
+}
+
+.UNet > .info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.UNet > .unet-images {
+  justify-content: center;
+}
+
+.Post-Processing > .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Cell-Extraction > .info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: row-reverse;
+}
+
+.cellular-analysis > .cell-feature-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+
+.cellular-analysis > .cell-feature-container > .cell-feature {
+  margin: 0px 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  white-space: pre-line;
+}
+
+.cellular-analysis > .cell-feature-container > .cell-feature > h4 {
+  border-bottom: 3px solid var(--blue);
+}
+
+.cellular-analysis > .cell-feature-container > .cell-feature > figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Tablet View */
+@media only screen and (max-width: 1210px) {
+  .UNet > .unet-images {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 1050px) {
+  .UNet > .info {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .Post-Processing img {
+    width: 900px !important;
+  }
+
+  .Cell-Extraction > .info {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .Cell-Extraction figure {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  #unet-layers {
+    width: 400px !important;
+  }
+
+  #unet-training {
+    width: 450px !important;
+  }
+
+  #unet-testing {
+    width: 300px !important;
+  }
+
+  .Post-Processing img {
+    width: 700px !important;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .Title {
+    padding: 10px 0px;
+    text-align: center;
+    width: 100%;
+  }
+
+  #unet-training {
+    width: 500px !important;
+  }
+
+  #unet-testing {
+    width: 300px !important;
+  }
+
+  .Post-Processing img {
+    width: 600px !important;
+  }
+
+  .cellular-analysis > .cell-feature-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  #unet-layers {
+    width: 300px !important;
+  }
+
+  #unet-training {
+    width: 400px !important;
+  }
+
+  #unet-testing {
+    width: 250px !important;
+  }
+
+  .Post-Processing img {
+    width: 450px !important;
+  }
+}
