@@ -1,5 +1,17 @@
+/**
+ * Renders the Segmentation page, which provides a detailed overview on how the segmentation analysis works on the 
+ * analysis tool and a quantification on the cell features that are available. 
+ * 
+ * The page has no dependencies. 
+ *
+ * @summary Segmentation Page.
+ * @author Amrit Kaur Singh
+ */
+
 import React, { Component } from "react";
 import "../../css/Segmentation.css";
+
+// media imports
 import UnetLayers from "../../media/Segmentation/unet-layers.png";
 import PostProcess from "../../media/Segmentation/postprocess.jpg";
 import UnetTestPred from "../../media/Segmentation/unet-pred.jpg";
@@ -14,6 +26,7 @@ class Segmentation extends Component {
     render() {
         return (
             <div className="Segmentation-Overview">
+                {/* Segmentation Overview */}
                 <h1 className="Main-Title"> Segmentation Overview </h1>
                 <hr className="Diviser" />
                 <p className="Opening-Text">
@@ -28,7 +41,9 @@ class Segmentation extends Component {
                     utilized the dissected cell borders to extract individual cells and conduct
                     feature analysis.
                 </p>
+                {/* Image Segmentation */}
                 <h2 className={`Title Blue-Title`}> Image Segmentation </h2>
+                {/* U-Net */}
                 <section className="UNet">
                     <h3> U-Net Architecture</h3>
                     <section className="info">
@@ -125,6 +140,7 @@ class Segmentation extends Component {
                         </figure>
                     </section>
                 </section>
+                {/* Image Pre-Processing */}
                 <section className="Pre-Processing">
                     <h3> Image Pre-Processing </h3>
                     <section className="info">
@@ -145,6 +161,7 @@ class Segmentation extends Component {
                         </p>
                     </section>
                 </section>
+                {/* Image Post-Processing */}
                 <section className="Post-Processing">
                     <h3> Image Post-Processing </h3>
                     <section className="info">
@@ -181,9 +198,11 @@ class Segmentation extends Component {
                         </figure>
                     </section>
                 </section>
+                {/* Segmentation Analysis */}
                 <div className="Title-AlignRight">
                     <h2 className={`Title Blue-Title`}> Segmentation Analysis </h2>
                 </div>
+                {/* Cell Extraction */}
                 <section className="Cell-Extraction">
                     <h3> Cell Extraction </h3>
                     <section className="info">
@@ -234,10 +253,12 @@ class Segmentation extends Component {
                         </figure>
                     </section>
                 </section>
+                {/* Cellular Feature Analysis */}
                 <section className="cellular-analysis">
                     <h3> Cellular Feature Analysis </h3>
                     <section className="cell-feature-container">
                         <div className="cell-feature">
+                            {/* Size */}
                             <h4> Cell Size</h4>
                             <p>
                                 Size was the most straightforward to calculate, and was quantified
@@ -259,6 +280,7 @@ class Segmentation extends Component {
                                 </figcaption>
                             </figure>
                         </div>
+                        {/* Shape */}
                         <div className="cell-feature">
                             <h4> Cell Shape</h4>
                             <p>
@@ -286,6 +308,7 @@ class Segmentation extends Component {
                                 </figcaption>
                             </figure>
                         </div>
+                        {/* Pointiness */}
                         <div className="cell-feature">
                             <h4> Cell Pointiness</h4>
                             <p>

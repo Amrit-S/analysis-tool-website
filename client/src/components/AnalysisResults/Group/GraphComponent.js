@@ -129,10 +129,10 @@ export default function GraphComponent(props) {
                 label: function (tooltipItem) {
                     // just return y-value if not time series, or dealing with CNN graph (no cell counts)
                     if(tooltipItem['datasetIndex'] !== 0 || props.showCNNBaseline){
-                        return parseFloat(tooltipItem.yLabel).toFixed(2);
+                        return parseFloat(tooltipItem.yLabel).toFixed(1);
                     }
                     // time series line on segmentation graph
-                    return `Value: ${parseFloat(tooltipItem.yLabel).toFixed(2)}, Cells Detected: ${props.cellCounts[tooltipItem['index']]}`;
+                    return `Value: ${parseFloat(tooltipItem.yLabel).toFixed(1)}, Cells Detected: ${props.cellCounts[tooltipItem['index']]}`;
                 },
                 title: function (tooltipItem) {
                     return null;
