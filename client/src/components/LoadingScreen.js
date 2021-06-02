@@ -1,3 +1,13 @@
+/**
+ * Loading screen pop-up that displays while data is being parsed on the backend. The pop-up cannot be dismissed by the user, only
+ * by its calling function. 
+ * 
+ * The component itself is called in AnalysisInput, which triggers when it displays/hides from the user.  
+ *
+ * @summary Renders the loading popup to user. 
+ * @author Amrit Kaur Singh
+ */
+
 import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -9,6 +19,8 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import "../css/LoadingScreen.css";
 
 export default function LoadingScreen(props) {
+
+    // add styles to material ui components 
     const useStyles = makeStyles((theme) => ({
         button: {
             "& .MuiButton-root": {
@@ -30,7 +42,9 @@ export default function LoadingScreen(props) {
     return (
         <div>
             <Dialog open={props.open} onClose={props.handleClose} disableBackdropClick>
+                {/* Title */}
                 <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
+                {/* Progress Bar */}
                 <DialogContent>
                     <LinearProgress
                         classes={{
@@ -38,6 +52,7 @@ export default function LoadingScreen(props) {
                             barColorPrimary: classes.barColorPrimary,
                         }}
                     />
+                    {/* Additional information for the user */}
                     <DialogContentText id="alert-dialog-description" className="loading-info-text">
                         Please wait while your data is being processed. This can take up to a few
                         minutes.

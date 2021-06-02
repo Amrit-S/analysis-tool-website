@@ -3,7 +3,8 @@
  * individual and group results. Mantains own state, but also yields callback to parent
  * component once a page switch has been requested (i.e., Individual to Group).
  *
- * @summary     Mini navbar on result page.
+ * @summary Mini navbar on result page.
+ * @author Amrit Kaur Singh
  */
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,7 +24,10 @@ import "../css/CustomizeSettingsDropDown.css";
 const SELECT_ALL_OPTION = "Select All";
 
 export default function CustomizeSettingsDropDown(props) {
+
+    // adds custom styling to material ui components 
     const useStyles = makeStyles((theme) => ({
+        // style to choose all dropdowns
         formControl: {
             margin: theme.spacing(1),
             backgroundColor: "#C4C4C4",
@@ -34,6 +38,7 @@ export default function CustomizeSettingsDropDown(props) {
             maxHeight: "100px",
             overflowY: "scroll",
         },
+        // style to chips shown once item has been selected
         chips: {
             display: "flex",
             flexWrap: "wrap",
@@ -44,6 +49,7 @@ export default function CustomizeSettingsDropDown(props) {
         noLabel: {
             marginTop: theme.spacing(3),
         },
+        // distinguish items that have been chosen/vs not chosen on dropdown 
         select: {
             "&:before": {
                 borderColor: "#004970",
@@ -69,9 +75,12 @@ export default function CustomizeSettingsDropDown(props) {
     };
 
     const classes = useStyles();
+    // track all dropdown options chosen by user 
     const [chosenDropdownOptions, setchosenDropdownOptions] = React.useState([]);
+    // track if checkbox has been clicked
     const [noneCheckbox, setNoneCheckbox] = React.useState(false);
 
+    // handles changes made to dropdown 
     const handleChange = (event) => {
         // handles case where select all option is chosen
         if (event.target.value.includes(SELECT_ALL_OPTION)) {
@@ -79,6 +88,7 @@ export default function CustomizeSettingsDropDown(props) {
 
             setchosenDropdownOptions(allOptions);
             props.callback(allOptions, noneCheckbox);
+        // general case 
         } else {
             setchosenDropdownOptions(event.target.value);
             props.callback(event.target.value, noneCheckbox);
@@ -100,6 +110,7 @@ export default function CustomizeSettingsDropDown(props) {
 
     return (
         <div className="Dropdown-Container">
+            {/* Title + Info Icon */}
             <p className="Dropdown-Title">
                 {props.title}&nbsp;
                 <Tooltip title={props.info} arrow>
@@ -108,7 +119,9 @@ export default function CustomizeSettingsDropDown(props) {
                     </div>
                 </Tooltip>
             </p>
+            {/* Dropdown of choices */}
             <FormControl className={`${classes.formControl} Dropdown-Form`}>
+                {/* Default placeholder text if no option is chosen */}
                 <InputLabel variant="filled" style={{ color: "black" }}>
                     Select Options
                 </InputLabel>
@@ -133,10 +146,13 @@ export default function CustomizeSettingsDropDown(props) {
                     )}
                     MenuProps={MenuProps}
                 >
+                    {/* Select All Button */}
                     <MenuItem value={SELECT_ALL_OPTION}> Select All</MenuItem>
+                    {/* Rest of dropdown choices  */}
                     {props.children}
                 </Select>
             </FormControl>
+            {/* Checkbox  */}
             <FormControlLabel
                 control={
                     <Checkbox

@@ -3,8 +3,10 @@
  * individual and group results. Mantains own state, but also yields callback to parent
  * component once a page switch has been requested (i.e., Individual to Group).
  *
- * @summary     Mini navbar on result page.
+ * @summary Mini navbar on result page.
+ * @author Amrit Kaur Singh 
  */
+
 import React, { useEffect } from "react";
 import "../css/ResultsNavBar.css";
 import { Sections } from "../constants/resultsSections";
@@ -48,8 +50,6 @@ export default function ResultsNavBar({ renderCallback, sectionsToDisplay }) {
                         <p> {section} </p>{" "}
                     </div>
                 ))}
-                {/* <div className={`Section ${isActive(Sections.INDIVUDAL)}`} onClick={() => updateResult(Sections.INDIVUDAL)}> <p> Individual </p> </div>
-                <div className={`Section ${isActive(Sections.GROUP)}`} onClick={() => updateResult(Sections.GROUP)}> <p> Group </p> </div> */}
                 <div
                     className={`Section ${isActive(Sections.TIPS)}`}
                     onClick={() => updateResult(Sections.TIPS)}
