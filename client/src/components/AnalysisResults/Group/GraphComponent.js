@@ -13,14 +13,14 @@
 import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 
-import { getMean, getMin, getMax, getMedian, getSTD } from "../util/Stats";
+import { getMean, getMin, getMax, getMedian, getSTD } from "../../../util/Stats";
 import { Button } from "@material-ui/core";
 import { AiOutlineDownload } from "react-icons/ai/";
 import { makeStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import { saveAs } from "file-saver";
 
-import "../css/GraphComponent.css";
+import "../../../css/GraphComponent.css";
 
 // minimum percentage for prediction be classified as a rejection
 const CNN_REJECTION_BASELINE_VAL = 50;

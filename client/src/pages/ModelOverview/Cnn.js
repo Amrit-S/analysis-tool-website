@@ -2,9 +2,9 @@ import React, { Component } from "react";
 
 import "../../css/CNN.css";
 
-import VGG16 from "../../media/vgg16-diagram.png";
-import Loss1 from "../../media/loss1.png";
-import Loss2 from "../../media/loss2.png";
+import VGG16 from "../../media/Cnn/vgg16-diagram.png";
+import Loss1 from "../../media/Cnn/loss1.png";
+import Loss2 from "../../media/Cnn/loss2.png";
 
 class CNN extends Component {
     render() {

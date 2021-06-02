@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import "../../css/Segmentation.css";
-import UnetLayers from "../../media/unet-layers.png";
-import PostProcess from "../../media/postprocess.jpg";
-import UnetTestPred from "../../media/unet-pred.jpg";
-import UnetTrainPred from "../../media/unet-train-pred.jpg";
-import SegFilter from "../../media/seg-filter.png";
-import CellSize from "../../media/cell-size.png";
-import CellShape from "../../media/cell-shape.png";
-import CellPointiness from "../../media/cell-pointiness.png";
-import Formula from "../../media/formula.png";
+import UnetLayers from "../../media/Segmentation/unet-layers.png";
+import PostProcess from "../../media/Segmentation/postprocess.jpg";
+import UnetTestPred from "../../media/Segmentation/unet-pred.jpg";
+import UnetTrainPred from "../../media/Segmentation/unet-train-pred.jpg";
+import SegFilter from "../../media/Segmentation/seg-filter.png";
+import CellSize from "../../media/Segmentation/cell-size.png";
+import CellShape from "../../media/Segmentation/cell-shape.png";
+import CellPointiness from "../../media/Segmentation/cell-pointiness.png";
+import Formula from "../../media/Segmentation/formula.png";
 
 class Segmentation extends Component {
     render() {

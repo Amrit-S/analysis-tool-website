@@ -16,7 +16,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import "../css/LoadingScreen.css";
+import "../../css/LoadingScreen.css";
 
 export default function LoadingScreen(props) {
 

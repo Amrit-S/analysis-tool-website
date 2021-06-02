@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ResearcherProfile from "../components/ResearcherProfile";
+import ResearcherProfile from "../components/Researchers/ResearcherProfile";
 import { FaLinkedin, FaExternalLinkAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import "../css/Researchers.css";

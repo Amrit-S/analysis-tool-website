@@ -19,7 +19,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Tooltip from "@material-ui/core/Tooltip";
 import { FaInfoCircle } from "react-icons/fa";
 
-import "../css/CustomizeSettingsDropDown.css";
+import "../../css/CustomizeSettingsDropDown.css";
 
 const SELECT_ALL_OPTION = "Select All";
 

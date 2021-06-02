@@ -8,9 +8,9 @@
  * @author Amrit Kaur Singh
  */
 import React from "react";
-import "../css/AnalysisTips.css";
+import "../../css/AnalysisTips.css";
 
-import { SITE_PAGES } from "../constants/links";
+import { SITE_PAGES } from "../../constants/links";
 
 export default function AnalysisTips(props) {
     return (

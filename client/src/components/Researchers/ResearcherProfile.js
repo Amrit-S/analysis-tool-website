@@ -9,7 +9,7 @@
  */
 
 import React from "react";
-import "../css/ResearcherProfile.css";
+import "../../css/ResearcherProfile.css";
 
 export default function ResearcherProfile(props) {
     return (

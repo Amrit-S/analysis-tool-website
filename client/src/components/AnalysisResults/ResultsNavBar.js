@@ -8,8 +8,8 @@
  */
 
 import React, { useEffect } from "react";
-import "../css/ResultsNavBar.css";
-import { Sections } from "../constants/resultsSections";
+import "../../css/ResultsNavBar.css";
+import { Sections } from "../../constants/resultsSections";
 
 export default function ResultsNavBar({ renderCallback, sectionsToDisplay }) {
     // tracks which section to show, default shows Individual
@@ -41,6 +41,7 @@ export default function ResultsNavBar({ renderCallback, sectionsToDisplay }) {
                     {" "}
                     <p> Results: </p>{" "}
                 </div>
+                {/* Sections displayed based off of user choice */}
                 {sectionsToDisplay.map((section) => (
                     <div
                         className={`Section ${isActive(section)}`}
@@ -50,6 +51,7 @@ export default function ResultsNavBar({ renderCallback, sectionsToDisplay }) {
                         <p> {section} </p>{" "}
                     </div>
                 ))}
+                {/* Analysis Tips Section */}
                 <div
                     className={`Section ${isActive(Sections.TIPS)}`}
                     onClick={() => updateResult(Sections.TIPS)}

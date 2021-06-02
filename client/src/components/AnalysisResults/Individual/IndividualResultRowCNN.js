@@ -7,8 +7,8 @@
 
 import React from "react";
 
-import { str2ab, arrayBufferToBase64 } from "../util/Img_Conversion";
-import "../css/IndividualResultRowCNN.css";
+import { str2ab, arrayBufferToBase64 } from "../../../util/Img_Conversion";
+import "../../../css/IndividualResultRowCNN.css";
 
 export default function IndividualResultRowCNN(props) {
     // handle CNN-only raw image

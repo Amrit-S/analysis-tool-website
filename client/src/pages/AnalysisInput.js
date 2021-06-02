@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 
-import InputInstructions from "../components/InputInstructions";
-import DropBox from "../components/DropBox";
-import CustomizeSettingsDropDown from "../components/CustomizeSettingsDropDown";
-import LoadingScreen from "../components/LoadingScreen";
+import InputInstructions from "../components/AnalysisInput/InputInstructions";
+import DropBox from "../components/AnalysisInput/DropBox";
+import CustomizeSettingsDropDown from "../components/AnalysisInput/CustomizeSettingsDropDown";
+import LoadingScreen from "../components/AnalysisInput/LoadingScreen";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { IoMdAnalytics } from "react-icons/io";

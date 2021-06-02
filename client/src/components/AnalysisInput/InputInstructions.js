@@ -7,10 +7,10 @@
  * @author Amrit Kaur Singh
  */
 import React from "react";
-import "../css/InputInstructions.css";
+import "../../css/InputInstructions.css";
 
-import example1 from "../media/example1.jpeg";
-import example2 from "../media/example2.jpeg";
+import example1 from "../../media/example1.jpeg";
+import example2 from "../../media/example2.jpeg";
 
 export default function InputInstructions(props) {
     // tracks which section to show, default shows Individual

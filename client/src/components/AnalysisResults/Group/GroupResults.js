@@ -10,9 +10,9 @@
  */
 
 import React from "react";
-import GraphComponent from "../components/GraphComponent";
-import { ANALYSIS_OPTIONS } from "../constants/analysisOptions";
-import { getMovingAverage } from "../util/Stats";
+import GraphComponent from "./GraphComponent";
+import { ANALYSIS_OPTIONS } from "../../../constants/analysisOptions";
+import { getMovingAverage } from "../../../util/Stats";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 
 export default function GroupResults(props) {

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-import ResultsNavBar from "../components/ResultsNavBar";
-import IndividualResults from "../components/IndividualResults";
-import GroupResults from "../components/GroupResults";
-import AnalysisTips from "../components/AnalysisTips";
+import ResultsNavBar from "../components/AnalysisResults/ResultsNavBar";
+import IndividualResults from "../components/AnalysisResults/Individual/IndividualResults";
+import GroupResults from "../components/AnalysisResults/Group/GroupResults";
+import AnalysisTips from "../components/AnalysisResults/AnalysisTips";
 
 import { Sections } from "../constants/resultsSections";
 import { SITE_PAGES } from "../constants/links";

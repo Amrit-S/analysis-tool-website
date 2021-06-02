@@ -7,13 +7,13 @@
 
 import React from "react";
 
-import { str2ab, arrayBufferToBase64 } from "../util/Img_Conversion";
+import { str2ab, arrayBufferToBase64 } from "../../../util/Img_Conversion";
 import { AiOutlineDownload } from "react-icons/ai/";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import Tooltip from "@material-ui/core/Tooltip";
 import { saveAs } from "file-saver";
-import "../css/IndividualResultRow.css";
+import "../../../css/IndividualResultRow.css";
 
 export default function IndividualResultRow(props) {
     const useStyles = makeStyles((theme) => ({

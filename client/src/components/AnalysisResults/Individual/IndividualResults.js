@@ -4,13 +4,13 @@ import Promise from "bluebird";
 import JsZip from "jszip";
 import FileSaver from "file-saver";
 
-import IndividualResultRow from "../components/IndividualResultRow";
-import IndividualResultRowCNN from "../components/IndividualResultRowCNN";
-import { ANALYSIS_OPTIONS } from "../constants/analysisOptions";
+import IndividualResultRow from "./IndividualResultRow";
+import IndividualResultRowCNN from "./IndividualResultRowCNN";
+import { ANALYSIS_OPTIONS } from "../../../constants/analysisOptions";
 import { AiOutlineDownload } from "react-icons/ai/";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import "../css/IndividualResults.css";
+import "../../../css/IndividualResults.css";
 
 export default function IndividualResults(props) {
     const useStyles = makeStyles((theme) => ({

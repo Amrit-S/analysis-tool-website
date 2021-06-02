@@ -19,7 +19,7 @@ import React from "react";
 import Dropzone from "react-dropzone";
 import { Snackbar } from "@material-ui/core";
 
-import "../css/DropBox.css";
+import "../../css/DropBox.css";
 
 const FILE_NAMING_REGEX = /^\d+\.\d{2}\.[a-zA-Z]+$/;
 
