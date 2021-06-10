@@ -40,7 +40,7 @@ router.post("/predict", async (req, res) => {
 
         // check for valid prediction
         if (!pred) {
-            return res.status(400).json(req.body[i].name);
+            return res.status(500).json(req.body[i].name);
         }
     }
     return res.status(200).json(result);

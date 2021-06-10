@@ -47,15 +47,17 @@ export default function IndividualResultRow(props) {
     let normal_img = props.stats ? props.img_norm : arrayBufferToBase64(str2ab(props.img_norm));
 
     async function download() {
+
+        // retrieve all cellular attributes that were requested by user 
+        let stats = {};
+        for(const attribute of Object.keys(props.stats)){
+            stats[attribute] = props.stats[attribute].data;
+        }
+
+        // construct request body 
         const res = {
-            data: {
-                stats: {
-                    size: props.stats.size.data,
-                    shape: props.stats.shape.data,
-                    pointiness: props.stats.pointiness.data,
-                },
+                stats: stats,
                 totalCells: numCells,
-            },
         };
 
         return await fetch(`${BACKEND_URI}/segmentation/download`, {

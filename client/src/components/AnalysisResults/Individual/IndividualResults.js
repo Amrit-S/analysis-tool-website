@@ -58,15 +58,20 @@ export default function IndividualResults(props) {
             if (Object.hasOwnProperty.call(seg, element)) {
                 const image = seg[element];
                 images.push("data:image/jpeg;base64," + image.segmented_img);
+
+                // retrieve all cellular attributes that were requested by user 
+                let stats = {};
+                for(const attribute of Object.keys(image.stats)){
+                    stats[attribute] = image.stats[attribute].data;
+                }
+
+                let numCells = image.stats
+                ? (image.stats.size || image.stats.shape || image.stats.pointiness).totalCells
+                : null;
+
                 const res = {
-                    data: {
-                        stats: {
-                            size: image.stats.size.data,
-                            shape: image.stats.shape.data,
-                            pointiness: image.stats.pointiness.data,
-                        },
-                        totalCells: image.stats.size.totalCells,
-                    },
+                    stats: stats,
+                    totalCells: numCells,
                 };
 
                 downloadCalls.push(

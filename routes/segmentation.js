@@ -19,16 +19,44 @@ const {
     retrieveCSVHeaders,
 } = require("../services/segmentation");
 const { str2ab, clearDirectories } = require("../services/general");
+const { body } = require("express-validator");
+const { isValidated } = require("../middleware/validation");
 var router = express.Router();
 
 /**
  * Route conducts segmentation and segmentation analysis on a group of images on a set of desired cell
  * features, returning back results of segmentation analysis on success.
  * 
+ * @param {[JSON]} files - Contains all image information.
+ * @param {boolean} size - True if size data is needed.
+ * @param {boolean} shape - True if shape data is needed.
+ * @param {boolean} pointiness - True if pointiness data is needed.
+ * @param {boolean} overlay - True if an image of the segmentation overlay is required. 
+ * 
  * @returns {200} - Successful, returns array of JSON objects with desired segmentation results. Each object denotes the cellular breakdown for each image passed.
+ * @returns {400} - Syntax Issue, at least one request body format is incorrect/missing 
  * @returns {500} - Internal server error, some issue occurred and request could not be fulfilled. 
  */
-router.post("/predict", async (req, res) => {
+router.post("/predict",
+[
+    body("files").isArray()
+    .custom((value) => {
+        if (!value) return false;
+        // make sure that every entry in the array has a name and buffer key
+        for (const i of value) {
+            if (i === undefined || i.name === undefined || i.buffer === undefined) {
+                return false;
+            }
+        }
+        return true;
+    }),
+    body("size").isBoolean(),
+    body("shape").isBoolean(),
+    body("pointiness").isBoolean(),
+    body("overlay").isBoolean(),
+    isValidated,
+],
+ async (req, res) => {
     
     const requestedOptions = req.body;
 
@@ -104,12 +132,29 @@ router.post("/predict", async (req, res) => {
  * then sent back as an attachment to the response. 
  * 
  * @returns {200} - Successful, returns a csv rendering of the given data.
+ * @returns {400} - Syntax Issue, at least one request body format is incorrect/missing
  * @returns {500} - Internal server error, some issue occurred and request could not be fulfilled. 
  */
-router.post("/download", async (req, res) => {
+router.post("/download", 
+[
+    body("stats")
+    .custom((value) => {
+        if (!value) return false;
+        // make sure that every entry has an array object attached to it
+        for (const i of Object.keys(value)) {
+            if (i === undefined || value[i].length < 0) {
+                return false;
+            }
+        }
+        return true;
+    }),
+    body("totalCells").isNumeric(),
+    isValidated,
+],
+async (req, res) => {
     try {
         // retrieve data from request
-        const entry = req.body.data;
+        const entry = req.body;
 
         // extract csv headers from data
         const fields = retrieveCSVHeaders(entry.stats);

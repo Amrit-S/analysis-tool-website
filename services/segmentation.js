@@ -201,7 +201,7 @@ function base64_encode(file) {
  * Retrieves a list of all cell attributes found within a json. 
  * 
  * @param {JSON} json
- * @returns [] - Each entry indicates a cell attribute found. 
+ * @returns [String] - Each entry indicates a cell attribute found. 
  */
 function retrieveCSVHeaders(json) {
     function getHeader(attribute) {

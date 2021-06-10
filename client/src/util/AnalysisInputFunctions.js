@@ -29,7 +29,7 @@ async function handleCNNPredictionsFetchCall(inputFileJSONs) {
 /**
  * Makes a fetch request to the Segmentation server endpoint. 
  * 
- * @param {[JSON]} inputFileJSONs - Files to make a prediction using the CNN. 
+ * @param {[JSON]} inputFileJSONs - Files to conduct segmentation on. 
  * @param {JSON} options - Contains all user chosen options for segmentation analysis. 
  * @returns [JSON] - Containing Segmentation data.  
  */
