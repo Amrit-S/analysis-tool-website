@@ -31,7 +31,7 @@ function clearDirectories(directories, filenames) {
 
                     // remove file
                     fs.unlink(filepath, (err) => {
-                        if (err) throw err;
+                        if (err) console.log(err);
                     });
                 }
                 // general case
@@ -40,7 +40,7 @@ function clearDirectories(directories, filenames) {
 
                 // remove file
                 fs.unlink(filepath, (err) => {
-                    if (err) throw err;
+                    if (err) console.log(err);
                 });
             }
         }

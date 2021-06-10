@@ -13,7 +13,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import Tooltip from "@material-ui/core/Tooltip";
 import { saveAs } from "file-saver";
-import "../../../css/IndividualResultRow.css";
+import config from "../config";
+import "../css/IndividualResultRow.css";
+
+const BACKEND_URI = config.backend.uri;
 
 export default function IndividualResultRow(props) {
     const useStyles = makeStyles((theme) => ({
@@ -55,7 +58,7 @@ export default function IndividualResultRow(props) {
             },
         };
 
-        return await fetch("/server/segmentation/download", {
+        return await fetch(`${BACKEND_URI}/segmentation/download`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             responseType: "text/csv",
