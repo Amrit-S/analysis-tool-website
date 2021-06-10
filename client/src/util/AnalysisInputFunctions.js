@@ -13,7 +13,9 @@ async function handleCNNPredictionsFetchCall(inputFileJSONs) {
     return await fetch(`${BACKEND_URI}/cnn/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(inputFileJSONs),
+        body: JSON.stringify({
+            files: inputFileJSONs
+        }),
     }).then(async (res) => {
         const json = await res.json();
         // successful response, return predictions
