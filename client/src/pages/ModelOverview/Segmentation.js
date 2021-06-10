@@ -1,8 +1,8 @@
 /**
- * Renders the Segmentation page, which provides a detailed overview on how the segmentation analysis works on the 
- * analysis tool and a quantification on the cell features that are available. 
- * 
- * The page has no dependencies. 
+ * Renders the Segmentation page, which provides a detailed overview on how the segmentation analysis works on the
+ * analysis tool and a quantification on the cell features that are available.
+ *
+ * The page has no dependencies.
  *
  * @summary Segmentation Page.
  * @author Amrit Kaur Singh

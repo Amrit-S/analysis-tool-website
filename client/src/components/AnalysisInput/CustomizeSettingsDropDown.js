@@ -24,8 +24,7 @@ import "../../css/CustomizeSettingsDropDown.css";
 const SELECT_ALL_OPTION = "Select All";
 
 export default function CustomizeSettingsDropDown(props) {
-
-    // adds custom styling to material ui components 
+    // adds custom styling to material ui components
     const useStyles = makeStyles((theme) => ({
         // style to choose all dropdowns
         formControl: {
@@ -49,7 +48,7 @@ export default function CustomizeSettingsDropDown(props) {
         noLabel: {
             marginTop: theme.spacing(3),
         },
-        // distinguish items that have been chosen/vs not chosen on dropdown 
+        // distinguish items that have been chosen/vs not chosen on dropdown
         select: {
             "&:before": {
                 borderColor: "#004970",
@@ -75,12 +74,12 @@ export default function CustomizeSettingsDropDown(props) {
     };
 
     const classes = useStyles();
-    // track all dropdown options chosen by user 
+    // track all dropdown options chosen by user
     const [chosenDropdownOptions, setchosenDropdownOptions] = React.useState([]);
     // track if checkbox has been clicked
     const [noneCheckbox, setNoneCheckbox] = React.useState(false);
 
-    // handles changes made to dropdown 
+    // handles changes made to dropdown
     const handleChange = (event) => {
         // handles case where select all option is chosen
         if (event.target.value.includes(SELECT_ALL_OPTION)) {
@@ -88,7 +87,7 @@ export default function CustomizeSettingsDropDown(props) {
 
             setchosenDropdownOptions(allOptions);
             props.callback(allOptions, noneCheckbox);
-        // general case 
+            // general case
         } else {
             setchosenDropdownOptions(event.target.value);
             props.callback(event.target.value, noneCheckbox);

@@ -1,5 +1,5 @@
 /**
- * Contains the relevent URL links to all pages on the website. 
+ * Contains the relevent URL links to all pages on the website.
  */
 
 export class SITE_PAGES {

@@ -1,6 +1,6 @@
 /**
- * Main file for the server side responsible for initializing all middleware (including logging), and 
- * partitioning all routers. 
+ * Main file for the server side responsible for initializing all middleware (including logging), and
+ * partitioning all routers.
  */
 const createError = require("http-errors");
 const express = require("express");
@@ -34,7 +34,7 @@ app.use("/cnn", require("./routes/cnn"));
 app.use("/segmentation", require("./routes/segmentation"));
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Abandon All Hope Ye Who Enter Here..." });
+    res.status(200).json({ message: "Abandon All Hope Ye Who Enter Here..." });
 });
 
 // catch 404 and forward to error handler

@@ -1,7 +1,7 @@
 /**
- * Displays a custom 404 page if the user attempts to access a URL that doesn't exist on the site. 
- * 
- * The page has no dependencies. 
+ * Displays a custom 404 page if the user attempts to access a URL that doesn't exist on the site.
+ *
+ * The page has no dependencies.
  *
  * @summary Custom 404 Page.
  * @author Amrit Kaur Singh

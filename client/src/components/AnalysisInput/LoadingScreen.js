@@ -1,10 +1,10 @@
 /**
  * Loading screen pop-up that displays while data is being parsed on the backend. The pop-up cannot be dismissed by the user, only
- * by its calling function. 
- * 
- * The component itself is called in AnalysisInput, which triggers when it displays/hides from the user.  
+ * by its calling function.
  *
- * @summary Renders the loading popup to user. 
+ * The component itself is called in AnalysisInput, which triggers when it displays/hides from the user.
+ *
+ * @summary Renders the loading popup to user.
  * @author Amrit Kaur Singh
  */
 
@@ -19,8 +19,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import "../../css/LoadingScreen.css";
 
 export default function LoadingScreen(props) {
-
-    // add styles to material ui components 
+    // add styles to material ui components
     const useStyles = makeStyles((theme) => ({
         button: {
             "& .MuiButton-root": {

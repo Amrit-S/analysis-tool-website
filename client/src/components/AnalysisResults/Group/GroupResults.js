@@ -1,11 +1,11 @@
 /**
  * Renders all group results chosen by the user for analysis to the page. This page itself
  * is responsible for mapping out all the data to the relevent subcomponents needed for visuals, and
- * then passing in that data as props to the GraphComponent.js component, which renders the graph. 
- * 
- * Has a large dependency on GraphComponent.js. 
+ * then passing in that data as props to the GraphComponent.js component, which renders the graph.
  *
- * @summary Renders the Group Results page. 
+ * Has a large dependency on GraphComponent.js.
+ *
+ * @summary Renders the Group Results page.
  * @author Amrit Kaur Singh
  */
 
@@ -16,18 +16,16 @@ import { getMovingAverage } from "../../../util/Stats";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 
 export default function GroupResults(props) {
-
     /**
      * Given a specific group option, extract and return all relevent data needed to graph the option (i.e., props passed to GraphComponent.js).
-     * 
+     *
      * @param {string} opt - Group option in consideration
-     * @returns {JSON} - All data relevent for the option to be graphically shown 
+     * @returns {JSON} - All data relevent for the option to be graphically shown
      */
     function getDataForOption(opt) {
-
-        // initialize a base JSON to be returned 
+        // initialize a base JSON to be returned
         let graphOptions = {
-            data: [], // time-series data 
+            data: [], // time-series data
             maxValue: null, // maximum value for Y-Axis (prevents graph from having excessive whitespace)
             yAxisLabel: null, // label for Y-Axis
         };
@@ -219,20 +217,20 @@ export default function GroupResults(props) {
 
     // retrieve all datapoints for X-axis (months)
     function getLabels() {
-        // parse all months from inputted files 
+        // parse all months from inputted files
         return props.inputPageData.inputFileJSONs.map((file) => {
             return parseFloat(file.name.substr(0, file.name.lastIndexOf(".")));
         });
     }
 
-    // retrieve cell counts for all options that require segmentation 
-    function getCellCounts(option){
-
-        // no data if dealing with CNN 
+    // retrieve cell counts for all options that require segmentation
+    function getCellCounts(option) {
+        // no data if dealing with CNN
         if (option === ANALYSIS_OPTIONS.GROUP_CNN) return null;
 
-        return props.inputPageData.analysisData.segmentation.map( (entry) =>{
-            let cells = (entry.stats.size || entry.stats.shape || entry.stats.pointiness).totalCells;
+        return props.inputPageData.analysisData.segmentation.map((entry) => {
+            let cells = (entry.stats.size || entry.stats.shape || entry.stats.pointiness)
+                .totalCells;
             return parseInt(cells);
         });
     }
@@ -254,7 +252,7 @@ export default function GroupResults(props) {
                     <GraphComponent
                         title={option}
                         // alternate header colors
-                        greyTitle={i % 2 === 0} 
+                        greyTitle={i % 2 === 0}
                         data={graphOptions.data}
                         movAvgData={getMovingAverage(graphOptions.data)}
                         cellCounts={getCellCounts(option)}

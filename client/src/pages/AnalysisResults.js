@@ -1,10 +1,10 @@
 /**
  * Renders the results page (second page) for the Analysis Tool, allowing the user to view the server results
  * for all the options they chosen to analyze their uploaded images on. The page itself is divided into sections, depending
- * on which group of results they wish to view, and visually is partitioned into a mini navigation bar to allow 
- * for easy switching between results. The results themselves exist as sub-pages, with their own rendering components. 
- * 
- * This page has multiple dependenices: ResultsNavBar, IndiviudalResults, Group Results, and Analysis Tips.  
+ * on which group of results they wish to view, and visually is partitioned into a mini navigation bar to allow
+ * for easy switching between results. The results themselves exist as sub-pages, with their own rendering components.
+ *
+ * This page has multiple dependenices: ResultsNavBar, IndiviudalResults, Group Results, and Analysis Tips.
  *
  * @summary User input/preferences page for Analysis Tool.
  * @author Amrit Kaur Singh
@@ -25,8 +25,8 @@ export default function AnalysisResults() {
     const history = useHistory();
 
     // track which subsection to display, default Analysis Tips
-    const [showSection, setShowSection] = React.useState(Sections.TIPS); 
-    // track all data received from server 
+    const [showSection, setShowSection] = React.useState(Sections.TIPS);
+    // track all data received from server
     const [inputPageData, setInputPageData] = React.useState({
         inputFileJSONs: [],
         analysisData: {
@@ -48,7 +48,7 @@ export default function AnalysisResults() {
     }
 
     // determines which sections that mini-navbar must display, dependent on whether the user wanted individaul, group, or
-    // results from both 
+    // results from both
     function determineDisplayedSection() {
         let displayedSections = [];
 
@@ -85,11 +85,9 @@ export default function AnalysisResults() {
             setShowSection(determineDisplayedSection()[0]);
 
             window.scrollTo(0, 0);
-
         } catch (err) {
             handleInsufficientDataError();
         }
-
     }, []);
 
     // display the results of a particular section
@@ -105,7 +103,7 @@ export default function AnalysisResults() {
                     <IndividualResults inputPageData={inputPageData} />
                 </div>
             );
-        // Group Results 
+        // Group Results
         case Sections.GROUP:
             return (
                 <div>

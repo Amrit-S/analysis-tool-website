@@ -1,5 +1,5 @@
 /**
- * Contains all constant paths for segmentation related workflow. 
+ * Contains all constant paths for segmentation related workflow.
  */
 module.exports = {
     PYTHON_FILES_SRC_DIR: "./segmentation/python/",

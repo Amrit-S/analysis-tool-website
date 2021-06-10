@@ -1,10 +1,10 @@
 /**
  * File renders the "Analysis Tips" section of the Results page, which contains any insight on how
- * the rest of the data in the other sections should be intrepretted. 
- * 
- * This page has no dependecies. 
- * 
- * @summary Displays "Analysis Tips" section. 
+ * the rest of the data in the other sections should be intrepretted.
+ *
+ * This page has no dependecies.
+ *
+ * @summary Displays "Analysis Tips" section.
  * @author Amrit Kaur Singh
  */
 import React from "react";

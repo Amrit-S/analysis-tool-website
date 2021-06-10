@@ -4,7 +4,7 @@
  * component once a page switch has been requested (i.e., Individual to Group).
  *
  * @summary Mini navbar on result page.
- * @author Amrit Kaur Singh 
+ * @author Amrit Kaur Singh
  */
 
 import React, { useEffect } from "react";

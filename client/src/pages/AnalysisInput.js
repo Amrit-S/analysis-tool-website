@@ -2,10 +2,10 @@
  * Renders the user input page (first page) for the Analysis Tool, allowing the user to upload pictures
  * through a Dropbox and then customize their analysis preferences. Once both have been selected, it makes
  * fetch requests to the server and awaits the results, displaying a loading screen to the user while
- * the server is fulfilling the request. Once results have been retrieved, it redirects to the 
- * AnalysisResults page (page 2) so the user can view their results. 
- * 
- * This page has multiple dependenices: DropBox, AnalysisInput, CustomizeSettings, and LoadingScreen.  
+ * the server is fulfilling the request. Once results have been retrieved, it redirects to the
+ * AnalysisResults page (page 2) so the user can view their results.
+ *
+ * This page has multiple dependenices: DropBox, AnalysisInput, CustomizeSettings, and LoadingScreen.
  *
  * @summary User input/preferences page for Analysis Tool.
  * @author Amrit Kaur Singh
@@ -36,7 +36,6 @@ import {
 import "../css/AnalysisInput.css";
 
 export default function AnalysisInput() {
-
     // customize styles of material ui components
     const useStyles = makeStyles((theme) => ({
         button: {
@@ -68,7 +67,7 @@ export default function AnalysisInput() {
         checkbox: false,
     });
 
-    // error message for inconsistencies in form validation 
+    // error message for inconsistencies in form validation
     const [error, setError] = React.useState({
         display: false,
         message: "",
@@ -77,7 +76,7 @@ export default function AnalysisInput() {
     // tracks whether form is disabled
     const [formDisabled, setFormDisabled] = React.useState(false);
 
-    // controls loading screen modal 
+    // controls loading screen modal
     const [progressBar, setProgressBar] = React.useState({
         show: false,
         title: "Parsing Image Files",
@@ -215,7 +214,9 @@ export default function AnalysisInput() {
             <section className="Step-2-Container">
                 <CustomizeSettingsDropDown
                     title="Individual Image Analysis"
-                    info={"Analysis will be conducted on each individual image seperately, with greater informational breakdown given per image and access to more raw data."}
+                    info={
+                        "Analysis will be conducted on each individual image seperately, with greater informational breakdown given per image and access to more raw data."
+                    }
                     callback={setIndividualAnalysisCallback}
                     retrieveAllOptions={getAllIndividualOptions}
                 >

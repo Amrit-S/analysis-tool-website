@@ -1,5 +1,5 @@
 /**
- * Contains all possible sections for the Results Page NavBar. 
+ * Contains all possible sections for the Results Page NavBar.
  */
 
 export class Sections {

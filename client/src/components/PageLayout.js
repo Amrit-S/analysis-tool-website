@@ -1,7 +1,7 @@
 /**
  * Component responsible for giving general structure to all pages on the site. Specifically, defines all static
- * parts of each page to prevent unnecessary imports. 
- * 
+ * parts of each page to prevent unnecessary imports.
+ *
  * @summary Provides page layout structure for all site pages.
  * @author Amrit Kaur Singh
  */

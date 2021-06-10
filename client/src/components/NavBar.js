@@ -2,7 +2,7 @@
  * Component contains all relevent code for rendering the site's Navigation Bar (NavBar), including
  * the component's responsivity to changes in browser width. The NavBar is responsible for providing easy
  * linkage to all pages available on the domain.
- * 
+ *
  * @summary Site's Navigation Bar.
  * @author Amrit Kaur Singh
  */
@@ -20,14 +20,13 @@ import CMRR from "../media/CMRR_Logo.png";
 import Talke from "../media/Talke_Logo.png";
 
 export default function NavBar() {
-  
-    // Adds the active class to the current page (determined by url), if the user is on that page 
+    // Adds the active class to the current page (determined by url), if the user is on that page
     function isPageActive(pageToCheck) {
         return pageToCheck === window.location.pathname ? "active" : "";
     }
 
-    // Returns the active dropdown class if a user is on a page in the dropwdown section, allowing for the wrapper 
-    // title to be active as well 
+    // Returns the active dropdown class if a user is on a page in the dropwdown section, allowing for the wrapper
+    // title to be active as well
     function isDropdownActive() {
         return isPageActive(SITE_PAGES.OVERVIEW_CNN) ||
             isPageActive(SITE_PAGES.OVERVIEW_SEGMENTATION)

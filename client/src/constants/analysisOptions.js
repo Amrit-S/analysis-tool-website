@@ -1,5 +1,5 @@
 /**
- * Contains all individual and group analysis options available to users. 
+ * Contains all individual and group analysis options available to users.
  */
 
 export class ANALYSIS_OPTIONS {

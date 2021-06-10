@@ -3,8 +3,8 @@
  * on the lefthand side as well as its analysis text and statistical breakdown on the right.
  * Takes in a few props to enable customization, including title, text, data, and general
  * placement.
- * 
- * Called by GroupResults.js. 
+ *
+ * Called by GroupResults.js.
  *
  * @summary Renders a single group analysis row on the group results page.
  * @author Amrit Kaur Singh
@@ -26,7 +26,6 @@ import "../../../css/GraphComponent.css";
 const CNN_REJECTION_BASELINE_VAL = 50;
 
 export default function GraphComponent(props) {
-
     // adds style to material ui components
     const useStyles = makeStyles((theme) => ({
         button: {
@@ -43,7 +42,7 @@ export default function GraphComponent(props) {
 
     const classes = useStyles();
 
-    // tracks which datasets (lines) need to be displayed on the graph 
+    // tracks which datasets (lines) need to be displayed on the graph
     const [datasets, setDatasets] = React.useState([]);
 
     const graphData = {
@@ -86,9 +85,8 @@ export default function GraphComponent(props) {
                 });
             }
 
-            // update datasets shown 
+            // update datasets shown
             setDatasets(graphData);
-
         } catch (err) {
             return;
         }
@@ -128,11 +126,13 @@ export default function GraphComponent(props) {
             callbacks: {
                 label: function (tooltipItem) {
                     // just return y-value if not time series, or dealing with CNN graph (no cell counts)
-                    if(tooltipItem['datasetIndex'] !== 0 || props.showCNNBaseline){
+                    if (tooltipItem["datasetIndex"] !== 0 || props.showCNNBaseline) {
                         return parseFloat(tooltipItem.yLabel).toFixed(1);
                     }
                     // time series line on segmentation graph
-                    return `Value: ${parseFloat(tooltipItem.yLabel).toFixed(1)}, Cells Detected: ${props.cellCounts[tooltipItem['index']]}`;
+                    return `Value: ${parseFloat(tooltipItem.yLabel).toFixed(1)}, Cells Detected: ${
+                        props.cellCounts[tooltipItem["index"]]
+                    }`;
                 },
                 title: function (tooltipItem) {
                     return null;
@@ -141,7 +141,7 @@ export default function GraphComponent(props) {
         },
     };
 
-    // handle download button clicked, returns graph as an auto-downloaded image to user 
+    // handle download button clicked, returns graph as an auto-downloaded image to user
     function handleDownload() {
         // retrieve graph via its unique title (doubles as id)
         const canvasSave = document.getElementById(props.title);
@@ -185,9 +185,7 @@ export default function GraphComponent(props) {
                         </tr>
                     </table>
                     {/* Top - Moving Average Stats */}
-                    <p className="Analysis-Tips Moving-Average">
-                        Moving Average Statistics&nbsp;
-                    </p>
+                    <p className="Analysis-Tips Moving-Average">Moving Average Statistics&nbsp;</p>
                     <table className="Stats-Table">
                         <tr>
                             <th>Min</th>

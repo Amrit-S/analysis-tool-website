@@ -1,6 +1,6 @@
 /**
- * Contains all constant paths for cnn related workflow. 
+ * Contains all constant paths for cnn related workflow.
  */
- module.exports = {
-    CNN_IMG_SRC_DIR: "./cnn/img_dest/"
+module.exports = {
+    CNN_IMG_SRC_DIR: "./cnn/img_dest/",
 };

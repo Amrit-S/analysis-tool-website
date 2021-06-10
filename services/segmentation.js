@@ -1,5 +1,5 @@
 /**
- * Contains all helper methods used in routes/segmentation. 
+ * Contains all helper methods used in routes/segmentation.
  */
 const fs = require("fs");
 const jpeg = require("jpeg-js");
@@ -20,7 +20,7 @@ const MODEL_PATH = "segmentation/pred_model/model.json";
 
 let model = null;
 
-// Unused code - attempted to load UNET using tfn module. 
+// Unused code - attempted to load UNET using tfn module.
 async function loadUnetModel() {
     try {
         const url = tfn.io.fileSystem(MODEL_PATH);
@@ -31,7 +31,7 @@ async function loadUnetModel() {
     }
 }
 
-// Unused code - attempted to use UNET using tfjs module instead of python spawns. 
+// Unused code - attempted to use UNET using tfjs module instead of python spawns.
 async function unetPrediction(imgPath) {
     try {
         // read image
@@ -198,10 +198,10 @@ function base64_encode(file) {
 }
 
 /**
- * Retrieves a list of all cell attributes found within a json. 
- * 
+ * Retrieves a list of all cell attributes found within a json.
+ *
  * @param {JSON} json
- * @returns [String] - Each entry indicates a cell attribute found. 
+ * @returns [String] - Each entry indicates a cell attribute found.
  */
 function retrieveCSVHeaders(json) {
     function getHeader(attribute) {
