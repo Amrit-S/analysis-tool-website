@@ -206,7 +206,6 @@ export default function AnalysisInput() {
 
     return (
         <div>
-            <p style={{textAlign: "center"}}> <span style={{fontWeight: "bold"}}>Disclaimer: </span> The intention of the analysis tool is to provide further insight into the DMEK process. It is not meant to be used as a 100% accurate, definitive classification.  </p>
             <p className="Subsection-Step-Title"> Step #1: Upload Images </p>
             <section className="Step-1-Container">
                 <InputInstructions />
