@@ -1,3 +1,6 @@
+/**
+ * File contains all routes for any segmentation-related requests. 
+ */
 var express = require("express");
 const fs = require("fs");
 const path = require("path");
@@ -21,6 +24,9 @@ var router = express.Router();
 /**
  * Route conducts segmentation and segmentation analysis on a group of images on a set of desired cell
  * features, returning back results of segmentation analysis on success.
+ * 
+ * @returns {200} - Successful, returns array of JSON objects with desired segmentation results. Each object denotes the cellular breakdown for each image passed.
+ * @returns {500} - Internal server error, some issue occurred and request could not be fulfilled. 
  */
 router.post("/predict", async (req, res) => {
     
@@ -89,10 +95,17 @@ router.post("/predict", async (req, res) => {
         clearDirectories(directories, filenames);
         
         console.error(err);
-        return res.status(400).json(err);
+        return res.status(500).json(err);
     }
 });
 
+/**
+ * Route takes in some JSON information, and converts it into a corresponding csv file which is 
+ * then sent back as an attachment to the response. 
+ * 
+ * @returns {200} - Successful, returns a csv rendering of the given data.
+ * @returns {500} - Internal server error, some issue occurred and request could not be fulfilled. 
+ */
 router.post("/download", async (req, res) => {
     try {
         // retrieve data from request
@@ -139,7 +152,7 @@ router.post("/download", async (req, res) => {
         // uh oh, something failed
     } catch (err) {
         console.error(err);
-        return res.status(400).json(err);
+        return res.status(500).json(err);
     }
 });
 

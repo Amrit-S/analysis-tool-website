@@ -1,3 +1,6 @@
+/**
+ * Contains all constant paths for segmentation related workflow. 
+ */
 module.exports = {
     PYTHON_FILES_SRC_DIR: "./segmentation/python/",
     SEG_WEIGHTS_FILE: "./segmentation/unet_membrane.hdf5",
