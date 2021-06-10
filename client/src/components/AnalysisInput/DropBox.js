@@ -49,8 +49,8 @@ export default function DropBox(props) {
      * files on the dropbox. Checks for duplicates in accepted files, updating with most recent version
      * if it exists, and then updating state values for both this component and parent caller.
      *
-     * @param {array[File Objects]} acceptedFiles - List of files that passed all dropbox requirements
-     * @param {array[File Objects]} fileRejections - List of files that failed at least one dropbox requirement
+     * @param {[File Objects]} acceptedFiles - List of files that passed all dropbox requirements
+     * @param {[File Objects]} fileRejections - List of files that failed at least one dropbox requirement
      */
     const handleDrop = (acceptedFiles, fileRejections) => {
         let updatedFiles = state.files;
