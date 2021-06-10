@@ -1,7 +1,10 @@
 import { ANALYSIS_OPTIONS } from "../constants/analysisOptions";
+import config from "../config";
+
+const BACKEND_URI = config.backend.uri;
 
 async function handleCNNPredictionsFetchCall(inputFileJSONs) {
-    return await fetch(`/server/cnn/predict`, {
+    return await fetch(`${BACKEND_URI}/cnn/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputFileJSONs),
@@ -18,7 +21,7 @@ async function handleCNNPredictionsFetchCall(inputFileJSONs) {
 }
 
 async function handleSegmentationFetchCall(inputFileJSONs, options) {
-    return await fetch(`/server/segmentation/predict`, {
+    return await fetch(`${BACKEND_URI}/segmentation/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

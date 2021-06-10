@@ -10,7 +10,10 @@ import { ANALYSIS_OPTIONS } from "../constants/analysisOptions";
 import { AiOutlineDownload } from "react-icons/ai/";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
+import config from "../config";
 import "../css/IndividualResults.css";
+
+const BACKEND_URI = config.backend.uri;
 
 export default function IndividualResults(props) {
     const useStyles = makeStyles((theme) => ({
@@ -67,7 +70,7 @@ export default function IndividualResults(props) {
                 };
 
                 downloadCalls.push(
-                    fetch("/server/segmentation/download", {
+                    fetch(`${BACKEND_URI}/segmentation/download`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         responseType: "text/csv",

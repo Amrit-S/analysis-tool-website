@@ -26,25 +26,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({ methods: ["GET", "POST", "PUT", "DELETE"] }));
 
 //Routers
-app.use("/server/cnn", require("./routes/cnn"));
-app.use("/server/segmentation", require("./routes/segmentation"));
+app.use("/cnn", require("./routes/cnn"));
+app.use("/segmentation", require("./routes/segmentation"));
 
-// production
-if (config.app.env === "production") {
-    // link static React frontend
-    app.use(express.static(path.join(__dirname, "client", "build")));
-  
-    // any routes called that are not handled by server are forwarded to frontend
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-    });
-  
-    // development
-  } else {
-    app.get("/server", (req, res) => {
-      res.status(200).json({ message: "Abandon All Hope Ye Who Enter Here..." });
-    });
-  }
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Abandon All Hope Ye Who Enter Here..." });
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
