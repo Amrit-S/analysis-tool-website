@@ -1,3 +1,6 @@
+/**
+ * File contains all routes for any cnn-related requests.
+ */
 var express = require("express");
 const fs = require("fs");
 const { predict } = require("../services/cnn");
@@ -7,7 +10,16 @@ const { body } = require("express-validator");
 const { isValidated } = require("../middleware/validation");
 var router = express.Router();
 
-// handle image predictions
+/**
+ * Route runs cnn to make individual predictions for a provided set of images,
+ * returns an array of prediction values.
+ *
+ * @param {[JSON]} files - Contains all image information.
+ *
+ * @returns {200} - Successful, returns an array of prediction pairs for each image.
+ * @returns {400} - Syntax Issue, at least one request body format is incorrect/missing.
+ * @returns {500} - Internal server error, some issue occurred and request could not be fulfilled.
+ */
 router.post(
     "/predict",
     [

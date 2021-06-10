@@ -1,5 +1,14 @@
+/**
+ * Component for the footer used across the site.
+ *
+ * @summary Site footer.
+ * @author Levente Horvath
+ */
+
+// Library imports
 import React, { Component } from "react";
 
+// CSS imports
 import "../css/Footer.css";
 
 class Footer extends Component {

@@ -1,7 +1,19 @@
+/**
+ * Renders the CNN page, which explains our process of finding and refining a CNN model
+ * for a transfer learning approach to the image predictions used on the site.
+ *
+ * The page has no dependencies.
+ *
+ * @summary CNN Page.
+ * @author Levente Horvath
+ */
+
+
 import React, { Component } from "react";
 
 import "../../css/CNN.css";
 
+// media imports
 import VGG16 from "../../media/Cnn/vgg16-diagram.png";
 import Loss1 from "../../media/Cnn/loss1.png";
 import Loss2 from "../../media/Cnn/loss2.png";
@@ -10,6 +22,7 @@ class CNN extends Component {
     render() {
         return (
             <div className="CNN-Overview">
+                {/* CNN Overview */}
                 <h1 className="Main-Title"> CNN Overview </h1>
                 <hr className="Diviser" />
                 <p className="Opening-Text">
@@ -23,6 +36,7 @@ class CNN extends Component {
                     extract greater prediction performance.
                 </p>
 
+                {/* Model Selection */}
                 <h2 className={`Title Blue-Title`}> Model Selection </h2>
                 <section className="Model-Selection">
                     <h3> Transfer Learning Approach </h3>
@@ -97,6 +111,7 @@ class CNN extends Component {
                     </p>
                 </section>
 
+                {/* Training */}
                 <div className="Title-AlignRight">
                     <h2 className={`Title Blue-Title`}> Training </h2>
                 </div>
@@ -163,6 +178,7 @@ class CNN extends Component {
                     </section>
                 </section>
 
+                {/* Conclusion */}
                 <h2 className={`Title Blue-Title`}> Conclusion </h2>
                 <section className="Conclusion">
                     <p>
