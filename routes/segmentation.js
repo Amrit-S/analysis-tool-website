@@ -23,6 +23,9 @@ var router = express.Router();
  * features, returning back results of segmentation analysis on success.
  */
 router.post("/predict", async (req, res) => {
+    
+    const requestedOptions = req.body;
+
     try {
         let filenames = [];
 
@@ -40,7 +43,6 @@ router.post("/predict", async (req, res) => {
         await segmentation(filenames);
 
         // analyze cells from segmentation on all images
-        const requestedOptions = req.body;
         const statistics = await analyzeSegmentation(filenames, requestedOptions);
 
         // format results from segmentation
@@ -80,6 +82,12 @@ router.post("/predict", async (req, res) => {
 
         // uh oh, something failed
     } catch (err) {
+        
+        // clean up all extraneous files
+        const directories = [RAW_IMG_SRC_DIR, UNET_IMG_SRC_DIR, CROPPED_IMG_DST];
+        if (requestedOptions.overlay) directories.push(COLORED_IMG_SRC_DIR);
+        clearDirectories(directories, filenames);
+        
         console.error(err);
         return res.status(400).json(err);
     }

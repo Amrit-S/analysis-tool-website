@@ -62,7 +62,7 @@ async function unetPrediction(imgPath) {
  */
 function segmentation(filenames) {
     return new Promise((resolve, reject) => {
-        const segmentProcess = spawn("python", [
+        const segmentProcess = spawn("python3", [
             `${PYTHON_FILES_SRC_DIR}segmentCells.py`,
             RAW_IMG_SRC_DIR,
             UNET_IMG_SRC_DIR,
