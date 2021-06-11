@@ -61,8 +61,6 @@ Following is a breakdown of `/segmentation`:
 
 ## Dependencies
 
-### Node Installation
-
 Dependencies you'll need:
 
 - Node 14+ (Recommended v14.15.1)
@@ -73,6 +71,9 @@ Dependencies you'll need:
 - Keras 2+ (Recommended v2.2.4)
 - NumPy (Recommended v1.17.2)
 - scikit-image (Recommended v0.15.0)
+
+
+### Node Installation
 
 Node.js can be downloaded from here: https://nodejs.org/en/
 
@@ -90,12 +91,16 @@ If you find your NPM version is out of date, you can install the latest version 
 
 `npm install npm@latest -g`
 
+### Git LFS Installation 
+
 Git LFS can be downloaded using instructions from here: https://git-lfs.github.com
 This is necessary to allow for the retrievel of the UNET segmentation weights, which are stored using Git LFS as they are around 350MB, much bigger than GitHub's limit of 100MB per file. 
 
 To verify Git LFS installation, you can do:
 
 `git lfs -v`
+
+### Anaconda Installation 
 
 To install all other dependencies mentioned, it is highly recommended to use Anaconda (recommended v4.9.2) for quick installations as it comes with most of these libraries. You may need to tweak the version downloaded of each mentioned library at your discretion using conda commands. 
 
