@@ -3,13 +3,14 @@
  * individual and group results. Mantains own state, but also yields callback to parent
  * component once a page switch has been requested (i.e., Individual to Group).
  *
- * @summary     Mini navbar on result page.
+ * @summary Mini navbar on result page.
+ * @author Amrit Kaur Singh
  */
 import React from "react";
-import "../css/InputInstructions.css";
+import "../../css/InputInstructions.css";
 
-import example1 from "../media/example1.jpeg";
-import example2 from "../media/example2.jpeg";
+import example1 from "../../media/example1.jpeg";
+import example2 from "../../media/example2.jpeg";
 
 export default function InputInstructions(props) {
     // tracks which section to show, default shows Individual

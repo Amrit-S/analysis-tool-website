@@ -1,3 +1,7 @@
+/**
+ * Contains the relevent URL links to all pages on the website.
+ */
+
 export class SITE_PAGES {
     // Model Overview
     static OVERVIEW_SEGMENTATION = "/segmentation";

@@ -2,13 +2,16 @@
  * Used instead of IndividualResultRow when only CNN is selected. Displays
  * image name, image, and prediction percent.
  *
- * @summary     Renders cnn info on the individual results page.
+ * Called by IndividualResults.js
+ *
+ * @summary Renders cnn info on the individual results page.
+ * @author Levente Horvath
  */
 
 import React from "react";
 
-import { str2ab, arrayBufferToBase64 } from "../util/Img_Conversion";
-import "../css/IndividualResultRowCNN.css";
+import { str2ab, arrayBufferToBase64 } from "../../../util/Img_Conversion";
+import "../../../css/IndividualResultRowCNN.css";
 
 export default function IndividualResultRowCNN(props) {
     // handle CNN-only raw image

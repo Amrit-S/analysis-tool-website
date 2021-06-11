@@ -1,11 +1,21 @@
+/**
+ * File renders the "Analysis Tips" section of the Results page, which contains any insight on how
+ * the rest of the data in the other sections should be intrepretted.
+ *
+ * This page has no dependecies.
+ *
+ * @summary Displays "Analysis Tips" section.
+ * @author Amrit Kaur Singh
+ */
 import React from "react";
-import "../css/AnalysisTips.css";
+import "../../css/AnalysisTips.css";
 
-import { SITE_PAGES } from "../constants/links";
+import { SITE_PAGES } from "../../constants/links";
 
 export default function AnalysisTips(props) {
     return (
         <div className="Results-Analysis-Tips">
+            {/* CNN Tips */}
             <h2> CNN </h2>
             <p>
                 The Convolutional Neural Network, or CNN, has been trained on a set of endothelial
@@ -28,6 +38,7 @@ export default function AnalysisTips(props) {
                 </span>
                 .
             </p>
+            {/* Segmentation Tips */}
             <h2> Segmentation </h2>
             <p>
                 The image segmentation data is generated based on the cells in each image that were
@@ -53,6 +64,7 @@ export default function AnalysisTips(props) {
                 </span>
                 .
             </p>
+            {/* Moving Average Tips */}
             <h2> Moving Average (Group Analysis) </h2>
             <p>
                 Every moving average data point is the average of all time series datapoints that

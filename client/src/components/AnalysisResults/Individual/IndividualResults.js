@@ -1,21 +1,32 @@
+/**
+ * Renders all individual results selected by the user. Appropriately maps provided CNN,
+ * segmentation, and image data to be passed down to the relevant row component.
+ *
+ * Has a large dependency on IndividualResultsRow.js and IndividualResultsRowCNN.js.
+ *
+ * @summary Renders the Individual Results page.
+ * @author Levente Horvath
+ */
+
 import React from "react";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import Promise from "bluebird";
 import JsZip from "jszip";
 import FileSaver from "file-saver";
 
-import IndividualResultRow from "../components/IndividualResultRow";
-import IndividualResultRowCNN from "../components/IndividualResultRowCNN";
-import { ANALYSIS_OPTIONS } from "../constants/analysisOptions";
+import IndividualResultRow from "./IndividualResultRow";
+import IndividualResultRowCNN from "./IndividualResultRowCNN";
+import { ANALYSIS_OPTIONS } from "../../../constants/analysisOptions";
 import { AiOutlineDownload } from "react-icons/ai/";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import config from "../config";
-import "../css/IndividualResults.css";
+import config from "../../../config";
+import "../../../css/IndividualResults.css";
 
 const BACKEND_URI = config.backend.uri;
 
 export default function IndividualResults(props) {
+    // adds style to material ui components
     const useStyles = makeStyles((theme) => ({
         button: {
             "& .MuiButton-root": {
@@ -30,11 +41,16 @@ export default function IndividualResults(props) {
 
     const classes = useStyles();
 
-    // shorthand for seg & cnn data
+    // Shorthand for seg & cnn data
     let seg = props.inputPageData.analysisData.segmentation;
     let cnn = props.inputPageData.analysisData.cnn;
     seg = Object.entries(seg).length === 0 ? null : seg;
 
+    /**
+     * Maps selected options into an options JSON object.
+     *
+     * @returns - An options JSON object.
+     */
     function getOptions() {
         let opt = props.inputPageData.individualOptions;
 
@@ -47,26 +63,36 @@ export default function IndividualResults(props) {
         return options;
     }
 
+    // Filename and extension for downloads
     let downloadExt = ".csv";
     let downloadFileName = "Segmentation_Data.zip";
 
+    /**
+     * Downloads all segmented images and their full data in CSV form.
+     * (downloads one zip of images and another of CSVs)
+     */
     async function downloadAll() {
-        // collect csv backend calls for all images
+        // collect CSV backend calls for all images
         let downloadCalls = [];
         let images = [];
         for (const element in seg) {
             if (Object.hasOwnProperty.call(seg, element)) {
                 const image = seg[element];
                 images.push("data:image/jpeg;base64," + image.segmented_img);
+
+                // retrieve all cellular attributes that were requested by user
+                let stats = {};
+                for (const attribute of Object.keys(image.stats)) {
+                    stats[attribute] = image.stats[attribute].data;
+                }
+
+                let numCells = image.stats
+                    ? (image.stats.size || image.stats.shape || image.stats.pointiness).totalCells
+                    : null;
+
                 const res = {
-                    data: {
-                        stats: {
-                            size: image.stats.size.data,
-                            shape: image.stats.shape.data,
-                            pointiness: image.stats.pointiness.data,
-                        },
-                        totalCells: image.stats.size.totalCells,
-                    },
+                    stats: stats,
+                    totalCells: numCells,
                 };
 
                 downloadCalls.push(
@@ -96,16 +122,17 @@ export default function IndividualResults(props) {
             }
         }
 
+        // Initialize downloads
         downloadAndZip(urls, urls.length);
 
-        // short wait and then download images too
+        // Short wait and then download images too
         await new Promise((r) => setTimeout(r, 100));
         downloadExt = "";
         downloadFileName = "Segmentation_Images.zip";
         downloadAndZip(images, images.length);
     }
 
-    // the following functions enable zipping multiple files and downloading the zip
+    // The following functions enable zipping multiple files and downloading the zip
     // (source: https://huynvk.dev/blog/download-files-and-zip-them-in-your-browsers-using-javascript)
 
     const download = (url) => {
@@ -138,6 +165,7 @@ export default function IndividualResults(props) {
 
     return (
         <>
+            {/* Analysis Tips Promo and Download All Button */}
             <p style={{ textAlign: "center", padding: "10px" }}>
                 <BsFillExclamationDiamondFill style={{ fontSize: "16px", color: "#004970" }} />
                 See <span style={{ color: "#004970" }}> Analysis Tips </span> section to get insight
@@ -157,6 +185,8 @@ export default function IndividualResults(props) {
                     </div>
                 ) : null}
             </p>
+            {/* Display results row for each image */}
+            {/* (uses a different component if only CNN is selected) */}
             {seg ? (
                 props.inputPageData.inputFileJSONs.map((data, i) => {
                     return (

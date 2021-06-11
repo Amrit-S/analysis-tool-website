@@ -2,23 +2,27 @@
  * Renders one row of the individual results page. Conditionally displays cell images,
  * CNN prediciton, and various segmentation statistics.
  *
- * @summary     Renders a single row on the individual results page.
+ * Called by IndividualResults.js
+ *
+ * @summary Renders a single row on the individual results page.
+ * @author Levente Horvath
  */
 
 import React from "react";
 
-import { str2ab, arrayBufferToBase64 } from "../util/Img_Conversion";
+import { str2ab, arrayBufferToBase64 } from "../../../util/Img_Conversion";
 import { AiOutlineDownload } from "react-icons/ai/";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import Tooltip from "@material-ui/core/Tooltip";
 import { saveAs } from "file-saver";
-import config from "../config";
-import "../css/IndividualResultRow.css";
+import config from "../../../config";
+import "../../../css/IndividualResultRow.css";
 
 const BACKEND_URI = config.backend.uri;
 
 export default function IndividualResultRow(props) {
+    // adds style to material ui components
     const useStyles = makeStyles((theme) => ({
         button: {
             "& .MuiButton-root": {
@@ -46,16 +50,20 @@ export default function IndividualResultRow(props) {
     // handle CNN-only raw image
     let normal_img = props.stats ? props.img_norm : arrayBufferToBase64(str2ab(props.img_norm));
 
+    /**
+     * Initiates a download of segmented image and a CSV of its segmentation data
+     */
     async function download() {
+        // retrieve all cellular attributes that were requested by user
+        let stats = {};
+        for (const attribute of Object.keys(props.stats)) {
+            stats[attribute] = props.stats[attribute].data;
+        }
+
+        // construct request body
         const res = {
-            data: {
-                stats: {
-                    size: props.stats.size.data,
-                    shape: props.stats.shape.data,
-                    pointiness: props.stats.pointiness.data,
-                },
-                totalCells: numCells,
-            },
+            stats: stats,
+            totalCells: numCells,
         };
 
         return await fetch(`${BACKEND_URI}/segmentation/download`, {
@@ -79,6 +87,12 @@ export default function IndividualResultRow(props) {
         });
     }
 
+    /**
+     * Downloads CSV with a custom filename.
+     *
+     * @param {Blob} blob - Blob of CSV.
+     * @param {string} filename - Set filename for download.
+     */
     function startDownload(blob, filename) {
         var a = document.createElement("a");
         a.download = filename;

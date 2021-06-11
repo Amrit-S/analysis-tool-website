@@ -1,3 +1,6 @@
+/**
+ * Contains all helper methods used in routes/cnn and server.
+ */
 const fs = require("fs");
 const jpeg = require("jpeg-js");
 const tf = require("@tensorflow/tfjs");
@@ -7,6 +10,10 @@ const MODEL_PATH = "cnn/pred_model/model.json";
 
 let model = null;
 
+/**
+ * Loads the model saved in MODEL_PATH into tfjs
+ * (Must be called once before any predictions are made)
+ */
 async function loadModel() {
     try {
         const url = tfn.io.fileSystem(MODEL_PATH);
@@ -17,6 +24,12 @@ async function loadModel() {
     }
 }
 
+/**
+ * Makes a cnn prediction on a provided image
+ *
+ * @param {string} imgPath - A path to the image
+ * @returns - An array of prediction results: [% normal, % reject]
+ */
 async function predict(imgPath) {
     try {
         // read image

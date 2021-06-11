@@ -54,6 +54,9 @@
   text-decoration: none;
   padding: 1rem;
 
+  font-family: var(--heading-font);
+  font-weight: 650;
+
   z-index: 999;
 }
 

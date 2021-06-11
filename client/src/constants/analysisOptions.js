@@ -1,3 +1,7 @@
+/**
+ * Contains all individual and group analysis options available to users.
+ */
+
 export class ANALYSIS_OPTIONS {
     // Individual Options
     static INDIVIDUAL_CNN = "CNN Predictions";

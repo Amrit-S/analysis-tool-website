@@ -1,3 +1,7 @@
+/**
+ * Main file for the server side responsible for initializing all middleware (including logging), and
+ * partitioning all routers.
+ */
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
@@ -15,7 +19,7 @@ console.log(`Running on port ${config.app.port}`);
 
 const app = express();
 
-//Middleware
+// Middleware
 app.use(logger("dev"));
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: false }));
@@ -25,12 +29,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({ methods: ["GET", "POST", "PUT", "DELETE"] }));
 
-//Routers
+// Routers
 app.use("/cnn", require("./routes/cnn"));
 app.use("/segmentation", require("./routes/segmentation"));
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Abandon All Hope Ye Who Enter Here..." });
+    res.status(200).json({ message: "Abandon All Hope Ye Who Enter Here..." });
 });
 
 // catch 404 and forward to error handler

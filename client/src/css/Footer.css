@@ -6,4 +6,5 @@
   font-size: 17px;
   text-align: center;
   height: 60px;
+  font-family: var(--heading-font);
 }

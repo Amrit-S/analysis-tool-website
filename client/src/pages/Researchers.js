@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import ResearcherProfile from "../components/ResearcherProfile";
+import ResearcherProfile from "../components/Researchers/ResearcherProfile";
 import { FaLinkedin, FaExternalLinkAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+
+import AmritHeadshot from "../media/Amrit.png";
+import LeventeHeadshot from "../media/Levente.png";
+
 import "../css/Researchers.css";
 
 class Researchers extends Component {
@@ -9,45 +13,39 @@ class Researchers extends Component {
         return (
             <div className="Researchers-Container">
                 <section className="Researchers">
-                    <h2 className="header animate-slide-right"> Main Researchers </h2>
+                    <h2 className="header"> Main Researchers </h2>
                     <section className="Profiles">
-                        <ResearcherProfile
-                            name="Amrit K. Singh"
-                            img={
-                                "https://static.wixstatic.com/media/085c48_e3470d0d740f4ce2b30ffbad87c25e27~mv2.jpeg/v1/crop/x_0,y_0,w_601,h_598/fill/w_442,h_438,al_c,q_80,usm_0.66_1.00_0.01/AMRIT_Head_Shot.webp"
-                            }
-                        >
-                            Computer Science, UC San Diego
+                        <ResearcherProfile name="Amrit K. Singh" img={AmritHeadshot}>
+                            B.S. Computer Science,
+                            {"\n"}
+                            UC San Diego
                             {"\n"}
                             {"\n"}
                             <FaLinkedin className="icon" />{" "}
                             <a
-                                href="https://www.linkedin.com/"
+                                href="https://www.linkedin.com/in/amrit-kaur-singh"
                                 target="_blank"
                                 rel="noreferrer noopener"
                             >
-                                random-name-here
+                                amrit-kaur-singh
                             </a>
                             {"\n"}
                             <MdEmail className="icon" />{" "}
-                            <a href="mailto:aksingh@ucsd.edu">aksingh@ucsd.edu</a>
+                            <a href="mailto:Amrit.singh26@gmail.com">Amrit.singh26@gmail.com</a>
                         </ResearcherProfile>
-                        <ResearcherProfile
-                            name="Levente Horvath"
-                            img={
-                                "https://static.wixstatic.com/media/085c48_1728c887871f40f3a8c1bf16095b4fac~mv2_d_3024_4032_s_4_2.jpg/v1/crop/x_0,y_173,w_3024,h_3125/fill/w_420,h_438,al_c,q_80,usm_0.66_1.00_0.01/IMG_4634.webp"
-                            }
-                        >
-                            Computer Science, UC San Diego
+                        <ResearcherProfile name="Levente Horvath" img={LeventeHeadshot}>
+                            B.S. Computer Science,
+                            {"\n"}
+                            UC San Diego
                             {"\n"}
                             {"\n"}
                             <FaLinkedin className="icon" />{" "}
                             <a
-                                href="https://www.linkedin.com/"
+                                href="https://www.linkedin.com/in/levente-horvath-06a2271b6/"
                                 target="_blank"
                                 rel="noreferrer noopener"
                             >
-                                random-name-here
+                                levente-horvath
                             </a>
                             {"\n"}
                             <MdEmail className="icon" />{" "}
@@ -56,7 +54,7 @@ class Researchers extends Component {
                     </section>
                 </section>
                 <section className="Advisors">
-                    <h2 className="header animate-slide-left"> Project Advisors </h2>
+                    <h2 className="header"> Project Advisors </h2>
                     <section className="Profiles">
                         <ResearcherProfile
                             name="Dr. Gerrit Melles"
