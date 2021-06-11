@@ -123,7 +123,7 @@ To verify scikit-image installation and version, you can do:
 
 To verify NumPy installation and version, you can do:
 
-`python3 -c "import numpy; print(numpy.__version__)"`
+`python -c "import numpy; print(numpy.__version__)"`
 
 
 ## Setup
@@ -132,10 +132,12 @@ The corresponding config files in both backend and frontend manages what global 
 directory.
 
 The config file contains "local" constants that are suitable during development stage, with the expectation that
-prioirty constants needed for production would be located inside of a dotenv file. Currently, the config files
-have "local" constants defined internally, and can be ran independently of a dotenv file for development/testing
+prioirty constants needed for production would be located inside of a `.env` file. Currently, the config files
+have "local" constants defined internally, and can be ran independently of a `.env` file for development/testing
 purposes. These "local" constants may also be changed as needed. However, if a corresponding value exists inside
-of the dotenv file, be aware that it takes precedence over the corresponding "local" constant.
+of the `.env` file, be aware that it takes precedence over the corresponding "local" constant.
+
+Note: Do not push your `.env` files to the GitHub, as they will disrupt the EC2 instance enviroment and most likely cause the website to crash. By default, the `.env` file is listed under the `.gitignore` under both the server and client. 
 
 ### Running Backend (Locally)
 
