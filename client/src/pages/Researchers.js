@@ -15,12 +15,7 @@ class Researchers extends Component {
                 <section className="Researchers">
                     <h2 className="header"> Main Researchers </h2>
                     <section className="Profiles">
-                        <ResearcherProfile
-                            name="Amrit K. Singh"
-                            img={
-                                AmritHeadshot
-                            }
-                        >
+                        <ResearcherProfile name="Amrit K. Singh" img={AmritHeadshot}>
                             Computer Science, UC San Diego
                             {"\n"}
                             {"\n"}
@@ -36,12 +31,7 @@ class Researchers extends Component {
                             <MdEmail className="icon" />{" "}
                             <a href="mailto:aksingh@ucsd.edu">aksingh@ucsd.edu</a>
                         </ResearcherProfile>
-                        <ResearcherProfile
-                            name="Levente Horvath"
-                            img={
-                                LeventeHeadshot
-                            }
-                        >
+                        <ResearcherProfile name="Levente Horvath" img={LeventeHeadshot}>
                             Computer Science, UC San Diego
                             {"\n"}
                             {"\n"}

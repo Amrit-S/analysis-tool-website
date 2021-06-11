@@ -48,7 +48,7 @@ export default function IndividualResults(props) {
 
     /**
      * Maps selected options into an options JSON object.
-     * 
+     *
      * @returns - An options JSON object.
      */
     function getOptions() {

@@ -8,7 +8,6 @@
  * @author Levente Horvath
  */
 
-
 import React, { Component } from "react";
 
 import "../../css/CNN.css";

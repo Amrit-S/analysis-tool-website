@@ -1,7 +1,7 @@
 /**
  * Renders one row of the individual results page. Conditionally displays cell images,
  * CNN prediciton, and various segmentation statistics.
- * 
+ *
  * Called by IndividualResults.js
  *
  * @summary Renders a single row on the individual results page.
@@ -89,7 +89,7 @@ export default function IndividualResultRow(props) {
 
     /**
      * Downloads CSV with a custom filename.
-     * 
+     *
      * @param {Blob} blob - Blob of CSV.
      * @param {string} filename - Set filename for download.
      */

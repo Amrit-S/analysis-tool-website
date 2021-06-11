@@ -4,7 +4,7 @@
 
 /**
  * Converts a string back to an array buffer.
- * 
+ *
  * @param {string} str - A stringified array buffer.
  * @returns - An array buffer.
  */
@@ -19,7 +19,7 @@ function str2ab(str) {
 
 /**
  * Converts an array buffer image to base 64 to display in an img tag.
- * 
+ *
  * @param {ArrayBuffer} buffer - An array buffer of an image.
  * @returns - Base 64 version of array buffer image.
  */

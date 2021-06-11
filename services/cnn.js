@@ -26,7 +26,7 @@ async function loadModel() {
 
 /**
  * Makes a cnn prediction on a provided image
- * 
+ *
  * @param {string} imgPath - A path to the image
  * @returns - An array of prediction results: [% normal, % reject]
  */
