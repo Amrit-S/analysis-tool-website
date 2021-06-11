@@ -242,7 +242,7 @@ export default function AnalysisInput() {
                 <CustomizeSettingsDropDown
                     title="Group Image Analysis"
                     info={
-                        "Analysis will be conducted on all images holistically via time series, with very little breakdown given per image but rather an empahsis on the imags as a collective whole. Recommended for 2+ images."
+                        "Analysis will be conducted on all images holistically via time series, with very little breakdown given per image but rather an empahsis on the images as a collective whole. Recommended for 2+ images."
                     }
                     callback={setGroupAnalysisCallback}
                     retrieveAllOptions={getAllGroupOptions}
