@@ -41,7 +41,7 @@ class Researchers extends Component {
                             {"\n"}
                             <FaLinkedin className="icon" />{" "}
                             <a
-                                href="https://www.linkedin.com/"
+                                href="https://www.linkedin.com/in/levente-horvath-06a2271b6/"
                                 target="_blank"
                                 rel="noreferrer noopener"
                             >
