@@ -11,19 +11,53 @@ segmentation process is more intensive than predictions on the CNN model, so it 
 
 _Frontend_ compromises of all folders and files inside of `\client`. It utilizes React components to render visual designs. The React Router located within the App.js file provides the central source of navigation in the browser via available URL paths, rendering the corresponding screen by calling a corresponding React component. All major screens/pages that are rendered inside of App.js can be found inside of `src/pages`, with each of those pages usually having their own set of subcomponents being called from `src/components`. All React components have their corresponding (i.e., same name, different extension) css files located inside of `src/css`.
 
-### Production
+### Hosting + Production
 
-During production, the Express backend hosts the React frontend, pushing all domain requests not taken care of by
-the Express routes to the frontend's index.html located at `\client\public\index.html`. Website itself is hosted using
-Heroku on a custom subdomain.
+Hosting is done on an EC2 instance on AWS with a Deep Learning AMI (Ubuntu). It utilizes nginx as a reverse proxy to host the backend server as its own API, and seperately serves the frontend as well. When hosted, the server can be accessed using the preface `/server` whereas frontend can be accessed using `/`. The config file mediates between the production and development enviroment utilizing enviroment variables. By default, config file utilizes development values, and when in the EC2 instance, utilizes an `.env` file to set production values. This `.env` file exists within the EC2 instance only, and is not pushed to the source code on this Github repo.
 
-Hosting is done on an EC2 
+#### Library Versions 
 
-### Important Notes
+Please note that the EC2 instance is very delicately set-up to include all necessary deep learning libraries like keras, tensorflow, etc. and therefore library versions are quite sensitive. It is highly suggested to not update/touch the EC2 instance enviroment unless you are in full confidence of the changes you are making, and are privy to the possible code crashes they may cause for the segmentation code in particular on the backend. 
 
-For future PRs related to informational changes on the site, particulary minimum payment amount, tax rate, etc., many
-of these contexutal global constants have been defined within the constants.js files of the frontend (`\client\src\util\constants.js`) and backend (`\util\constants.js`). Some constants have to be changed in _both_ files, so
-be careful as to do that! However, once changed, all respective parts that reference those global constants will be readapted.
+### Continous Integration 
+
+The GitHub is configured using GitHub actions to automatically redeploy the website to the EC2 instance every time a pull request is merged into master. This can be monitored under the _Actions_ tab on this repo, with any statuses with green showing successfull redeploys and any with red indicating a redeployment error.
+
+In general, this configuration is set up using a .yml file found under `.github/workflows`, and involves SSHing into the EC2 instance and then repulling code into a corresponding GitHub repo there and rebuilding both the server and client. Hence, any pushes to master will cause corresponding edits to pushed 'live' within a few minutes, depending on how long the redeployment process takes on the AWS instance. 
+
+### Machine Learning 
+
+As of note, all machine learning is implemented on the server, and can be accessed by the website using
+the server API. 
+
+### CNN Model 
+
+The Convulutional Neural Network, or CNN model, itself is a hyper-tuned VGG16 model that was trained on 
+a batch of around 400 endothetlial cell images for binary classification purposes. It takes in an image,
+runs it through its trained layers, and outputs two numbers - likelihood of normal (0), and likelihood
+of rejection (1). Both values are between 0 and 1, with 1 indicating the greatest likelihood by the model
+and 0 indicating the least likelihood. For example, a prediction of 0:0.82, 1: 0.18 suggests that the model
+thinks the image is much more likely to be normal than rejected since 0.82 >> 0.18. 
+
+In general, the workflow for the CNN is the following: a route is activated in `routes/cnn`, which makes copies of all passed image data to `cnn/img_dest` and then pipelines relevent information to `services/cnn`, which in turn utilizes `cnn/pred_model` to output a prediction using the tfjs and tfjs-node modules, returning the prediction result back to the original route.  
+
+Following is a breakdown of `/cnn`:
+- `img_dest`: Temporarily holds image files of all passed in FileStreams to the /cnn/prediction route. 
+- `pred_model`: Contains compacted shards of final CNN layers and weights. 
+- `constants.js`: Relevent constants for cnn workflow. 
+
+### Segmentation 
+
+The segmentation process is responsible for taking in a photographic image, utilizing UNET to make an image extracting all cell borders, and then using post-segmentation techniques to extract cellular information on all cells dissected from the image. At intermediate parts of its process, it will create complementary overlay images, depicting an overlay of the predicted segmentation on top of the original image given for comparison purposes. The process itself is a combination of deep learning using tensorflow/keras paired with machine learning libraries such as sklearn, with most segmentation and analysis code written in python called by `routes/services` using a spawning module with batch iteration to offset large loads. 
+
+In general, the workflow for segmentation is the following: a route is activated in `routes/segmentation`, which makes copies of all passed image data to `segmentation/workflow/raw_img`, saves 256 x 256 cropped versions of them under `segmentation/workflow/cropped_img`, and then pipelines the cropped images to `services/segmentation` to 1) segment the results into cellborders (saved in `segmentation/workflow/unet_img`) using spawning libraries on `segmentation/workflow/python/segmentCells.py` 2) analyze those results using spawning libraries on `segmentation/workflow/python/analyzeCells.py` which produces intermediate overlay images under `segmentation/workflow/colored_img` as needed. These final cellular results are then passed back to the original route, and written out to the response body.  
+
+Following is a breakdown of `/segmentation`:
+- `python `: Holds all python code for Unet segmentation (segmentCells.py) and analysis of segmentation (analyzeCells.py). 
+- `workflow`: Contains intermediate directories used to hold image data while segmentation occurs. 
+- `constants.js`: Relevent constants for segmentation workflow. 
+- `unet_membrane.hdf5`: Holds final weights for UNET model needed for `segmentation/python/segmentCells.py`
+
 
 ## Dependencies
 
@@ -33,6 +67,7 @@ Dependencies you'll need:
 
 - Node 14+
 - NPM 6+
+- Git LFS
 
 Node.js can be downloaded from here: https://nodejs.org/en/
 
@@ -50,6 +85,12 @@ If you find your NPM version is out of date, you can install the latest version 
 
 `npm install npm@latest -g`
 
+Git LFS can be downloaded using instructions from here: https://git-lfs.github.com
+
+To verify Git LFS installation, you can do:
+
+`git lfs -v`
+
 ## Setup
 
 The corresponding config files in both backend and frontend manages what global variables are being set in that
@@ -66,18 +107,13 @@ of the dotenv file, be aware that it takes precedence over the corresponding "lo
 While in the root level directory, you can run:
 
 ### `npm install`
-
+### `git lfs pull`
 ### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:9000](http://localhost:9000) to view it in the browser.
 
 The page will not re-load upon edits.
-
-_Note_: Backend is a combination of MongoDB, Mongoose, and Express. Hence, it requires connection to a proper local MongoDB
-database (via localhost), or connection to a remote one on a hosting server like AtlasDB. Either one is fine, but
-the URL link in `\config.js` for the `db.uri` value must be updated properly. If you'd like to set-up
-a local MongoDB database for usage, please see the _MongoDB (LocalHost)_ section below.
 
 ### Running Frontend (Locally)
 
@@ -92,95 +128,3 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-
-### MongoDB (LocalHost) Set-Up
-
-This set-up sets up a MongoDB server locally on your laptop, and utilizes Compass as a visual reference for easy
-management of the database without sever reliance on terminal commands. Both are recommended.
-
-#### 1. MongoDB Server Installation
-
-Based on your platform:
-
-- [Mac](https://zellwk.com/blog/install-mongodb/)
-- [Windows](https://medium.com/@LondonAppBrewery/how-to-download-install-mongodb-on-windows-4ee4b3493514)
-
-To verify installation, you can do:
-
-`mongo --version`
-
-If successful, it should spit out a response similar to this:
-
-    MongoDB shell version v4.2.3
-    git version: 6874650b362138df74be53d366bbefc321ea32d4
-    allocator: system
-    modules: none
-    build environment:
-        distarch: x86_64
-        target_arch: x86_64
-
-Make sure that your shell version is >= 4.2.3. If you need to update your version for any reason, please refer to
-[this](https://docs.mongodb.com/manual/tutorial/upgrade-revision/) article.
-
-#### 2. MongoDB Compass Installation (Highly Recommended)
-
-Please refer to [this](https://docs.mongodb.com/compass/master/install) for pertraining downloads/set-up.
-
-#### 3. Setting up a Local MongoDB DataBase
-
-##### Without Compass (Using Terminal)
-
-Please refer to [this](https://zellwk.com/blog/local-mongodb/) article here. Most relevent portions will be near the beggining
-of the article, all the way up to Compass Connection. It includes some examples of how to add/edit your database as well.
-
-In essence:
-
-To start your MongoDB locally via terminal, run:
-
-`mongod`
-
-This will establish the connection to your local databases and mantain it as long as the window on which this command is
-run is also kept running. Visually, this will be seen as an ongoing lag on the window. If you close the window or exit out in any way, the connection will be broken.
-
-To add a MongoDB database via terminal, first run:
-`mongo`
-
-This will now allow you to edit your databases using the MongoDB shell.
-
-Then,
-
-To see the current database, run:
-`db`
-
-To create a new database, run:
-`use MONGO_DB_NAME`
-where MONGO_DB_NAME is the name of your database
-
-##### With Compass
-
-Please refer to [this](https://zellwk.com/blog/local-mongodb/) article here. Most relevent portions will be near the middle
-of the article, starting from _Accessing MongDB with MongoDB Compass_.
-
-In essence:
-
-Open up your MongoDB Compass app (for download information see the section _MongoDB Compass Installation_ above).
-
-If this is your first access of the app, you will get a set-up screen title "Connected to Host". If so, to connect to your
-local databases, set your `Hostname` to `localhost` and your `Port` to `27017`. Then press the "Connect" button.
-
-If you'd like to create a custom a new database using Compass, click the "Create Database" option and create a
-name for your DB - lets refer to this name as MONGO_DB_NAME. It should now appear on your list of DBs available on the bottom left of your app's screen, and any updates made on the DB should be reflected there.
-
-#### 4. Connecting project backend to Local MongoDB
-
-Opening up your `backend/config.js` file, go to `db.uri` and update either its value either in the config file itself
-(development phase) or in the dotenv (production phase). Specifically, your updated value should be the connection link
-to your local database, and should be `mongodb://localhost:27017/MONGO_DB_NAME/` where MONGO_DB_NAME should be replaced
-by the name you gave your DB (see section above).
-
-If you run the backend (see section above) and connect to the database successfully, the terminal will
-spit out the following message:
-
-            Established connection to MongoDB.
-            mongodb://localhost:27017/MONGO_DB_NAME/
-            Port: 9000
