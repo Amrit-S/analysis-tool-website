@@ -45,7 +45,7 @@ class Researchers extends Component {
                                 target="_blank"
                                 rel="noreferrer noopener"
                             >
-                                random-name-here
+                                levente-horvath
                             </a>
                             {"\n"}
                             <MdEmail className="icon" />{" "}
