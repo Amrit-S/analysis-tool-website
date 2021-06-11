@@ -6,7 +6,7 @@ _Backend_ compromises of all folders and files in the root directory, excluding 
 Since the pinnacle focus of the server is to allow for predictions between the CNN and the segmentation analysis
 model, each have their respective workflows bundled in their own distinct directories. For the CNN model,
 its workflow and final model structure/weights are contained within `/cnn`. Similarly, the segmentation workflow
-has its workflow directorie and final model strucuture/weights containted within `/segmentation`. Note: The 
+has its workflow directory and final model strucuture/weights containted within `/segmentation`. Note: The 
 segmentation process is more intensive than predictions on the CNN model, so it contains a large pipelining effect from the UNET to the workflow process to the python files (activited using spawning libraries). 
 
 _Frontend_ compromises of all folders and files inside of `\client`. It utilizes React components to render visual designs. The React Router located within the App.js file provides the central source of navigation in the browser via available URL paths, rendering the corresponding screen by calling a corresponding React component. All major screens/pages that are rendered inside of App.js can be found inside of `src/pages`, with each of those pages usually having their own set of subcomponents being called from `src/components`. All React components have their corresponding (i.e., same name, different extension) css files located inside of `src/css`.
@@ -17,7 +17,7 @@ Hosting is done on an EC2 instance on AWS with a Deep Learning AMI (Ubuntu). It 
 
 #### Library Versions 
 
-Please note that the EC2 instance is very delicately set-up to include all necessary deep learning libraries like keras, tensorflow, etc. and therefore library versions are quite sensitive. It is highly suggested to not update/touch the EC2 instance enviroment unless you are in full confidence of the changes you are making, and are privy to the possible code crashes they may cause for the segmentation code in particular on the backend. 
+Please note that the EC2 instance is very delicately set-up to include all necessary deep learning libraries like keras, tensorflow, etc. and therefore library versions are quite sensitive. It is highly suggested to not update/touch the EC2 instance enviroment unless you are in full confidence of the changes you are making, and are privy to the possible code crashes they may cause, particulary the server's segementation implementation. 
 
 ### Continous Integration 
 
@@ -30,9 +30,9 @@ In general, this configuration is set up using a .yml file found under `.github/
 As of note, all machine learning is implemented on the server, and can be accessed by the website using
 the server API. 
 
-### CNN Model 
+#### CNN Model 
 
-The Convulutional Neural Network, or CNN model, itself is a hyper-tuned VGG16 model that was trained on 
+The Convulutional Neural Network, or CNN model, is a hyper-tuned VGG16 model that was trained on 
 a batch of around 400 endothetlial cell images for binary classification purposes. It takes in an image,
 runs it through its trained layers, and outputs two numbers - likelihood of normal (0), and likelihood
 of rejection (1). Both values are between 0 and 1, with 1 indicating the greatest likelihood by the model
@@ -46,9 +46,9 @@ Following is a breakdown of `/cnn`:
 - `pred_model`: Contains compacted shards of final CNN layers and weights. 
 - `constants.js`: Relevent constants for cnn workflow. 
 
-### Segmentation 
+#### Segmentation 
 
-The segmentation process is responsible for taking in a photographic image, utilizing UNET to make an image extracting all cell borders, and then using post-segmentation techniques to extract cellular information on all cells dissected from the image. At intermediate parts of its process, it will create complementary overlay images, depicting an overlay of the predicted segmentation on top of the original image given for comparison purposes. The process itself is a combination of deep learning using tensorflow/keras paired with machine learning libraries such as sklearn, with most segmentation and analysis code written in python called by `routes/services` using a spawning module with batch iteration to offset large loads. 
+The segmentation process is responsible for taking in a photographic image, utilizing UNET to make an image prediction extracting all cell borders, and then using post-segmentation techniques to extract cellular information on all cells dissected from the image prediction. At intermediate parts of its process, it will create complementary overlay images, depicting an overlay of the predicted segmentation on top of the original image given for comparison purposes. The process itself is a combination of deep learning using tensorflow/keras paired with machine learning libraries such as sklearn, with most segmentation and analysis code written in python called by `routes/services` using a spawning module with batch iteration to offset large loads. 
 
 In general, the workflow for segmentation is the following: a route is activated in `routes/segmentation`, which makes copies of all passed image data to `segmentation/workflow/raw_img`, saves 256 x 256 cropped versions of them under `segmentation/workflow/cropped_img`, and then pipelines the cropped images to `services/segmentation` to 1) segment the results into cellborders (saved in `segmentation/workflow/unet_img`) using spawning libraries on `segmentation/workflow/python/segmentCells.py` 2) analyze those results using spawning libraries on `segmentation/workflow/python/analyzeCells.py` which produces intermediate overlay images under `segmentation/workflow/colored_img` as needed. These final cellular results are then passed back to the original route, and written out to the response body.  
 
@@ -65,9 +65,14 @@ Following is a breakdown of `/segmentation`:
 
 Dependencies you'll need:
 
-- Node 14+
-- NPM 6+
+- Node 14+ (Recommended v14.15.1)
+- NPM 6+ (Recommended v6.14.8)
 - Git LFS
+- Python 3+ (Recommended v3.7.4)
+- Tensorflow 2+ (Recommended v2.4.1)
+- Keras 2+ (Recommended v2.2.4)
+- NumPy (Recommended v1.17.2)
+- scikit-image (Recommended v0.15.0)
 
 Node.js can be downloaded from here: https://nodejs.org/en/
 
@@ -86,10 +91,40 @@ If you find your NPM version is out of date, you can install the latest version 
 `npm install npm@latest -g`
 
 Git LFS can be downloaded using instructions from here: https://git-lfs.github.com
+This is necessary to allow for the retrievel of the UNET segmentation weights, which are stored using Git LFS as they are around 350MB, much bigger than GitHub's limit of 100MB per file. 
 
 To verify Git LFS installation, you can do:
 
 `git lfs -v`
+
+To install all other dependencies mentioned, it is highly recommended to use Anaconda (recommended v4.9.2) for quick installations as it comes with most of these libraries. You may need to tweak the version downloaded of each mentioned library at your discretion using conda commands. 
+
+Anaconda can be downloaded here: https://docs.anaconda.com/anaconda/install/.
+
+To verify Anaconda installation and version, you can do: 
+
+`conda --version`
+
+To verify Python installation and version, you can do:
+
+`python --version`
+
+To verify Tensorflow installation and version, you can do:
+
+`python -c 'import tensorflow as tf; print(tf.__version__)'`
+
+To verify Keras installation and version, you can do:
+
+`python -c 'import keras; print(keras.__version__)'`
+
+To verify scikit-image installation and version, you can do:
+
+`python -c "import skimage; print(skimage.__version__)"`
+
+To verify NumPy installation and version, you can do:
+
+`python3 -c "import numpy; print(numpy.__version__)"`
+
 
 ## Setup
 
@@ -113,7 +148,7 @@ While in the root level directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:9000](http://localhost:9000) to view it in the browser.
 
-The page will not re-load upon edits.
+The page will reload upon edits since it is run using nodemon.
 
 ### Running Frontend (Locally)
 
