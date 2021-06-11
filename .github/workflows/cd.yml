@@ -33,9 +33,9 @@ jobs:
             cd /var/www/analysis-tool-website
             sudo git pull
             sudo git lfs pull
-            rm -rf ./node_modules
-            rm -rf ./client/node_modules
-            rm -rf ./client/build
+            sudo rm -rf ./node_modules
+            sudo rm -rf ./client/node_modules
+            sudo rm -rf ./client/build
             sudo npm install --unsafe-perm=true --allow-root
             cd ./client
             npm install
