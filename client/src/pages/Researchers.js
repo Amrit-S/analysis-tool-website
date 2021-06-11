@@ -13,7 +13,7 @@ class Researchers extends Component {
         return (
             <div className="Researchers-Container">
                 <section className="Researchers">
-                    <h2 className="header animate-slide-right"> Main Researchers </h2>
+                    <h2 className="header"> Main Researchers </h2>
                     <section className="Profiles">
                         <ResearcherProfile
                             name="Amrit K. Singh"
@@ -26,11 +26,11 @@ class Researchers extends Component {
                             {"\n"}
                             <FaLinkedin className="icon" />{" "}
                             <a
-                                href="https://www.linkedin.com/"
+                                href="https://www.linkedin.com/in/amrit-kaur-singh"
                                 target="_blank"
                                 rel="noreferrer noopener"
                             >
-                                random-name-here
+                                amrit-kaur-singh
                             </a>
                             {"\n"}
                             <MdEmail className="icon" />{" "}
@@ -60,7 +60,7 @@ class Researchers extends Component {
                     </section>
                 </section>
                 <section className="Advisors">
-                    <h2 className="header animate-slide-left"> Project Advisors </h2>
+                    <h2 className="header"> Project Advisors </h2>
                     <section className="Profiles">
                         <ResearcherProfile
                             name="Dr. Gerrit Melles"
