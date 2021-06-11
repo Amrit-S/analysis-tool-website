@@ -20,6 +20,7 @@
   padding: 10px;
   font-size: large;
   background-color: var(--blue);
+  font-family: var(--heading-font);
 }
 
 .Step-1-Container,
