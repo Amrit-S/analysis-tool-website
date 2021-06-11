@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import ResearcherProfile from "../components/Researchers/ResearcherProfile";
 import { FaLinkedin, FaExternalLinkAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+
+import AmritHeadshot from "../media/Amrit.png";
+import LeventeHeadshot from "../media/Levente.png";
+
 import "../css/Researchers.css";
 
 class Researchers extends Component {
@@ -14,7 +18,7 @@ class Researchers extends Component {
                         <ResearcherProfile
                             name="Amrit K. Singh"
                             img={
-                                "https://static.wixstatic.com/media/085c48_e3470d0d740f4ce2b30ffbad87c25e27~mv2.jpeg/v1/crop/x_0,y_0,w_601,h_598/fill/w_442,h_438,al_c,q_80,usm_0.66_1.00_0.01/AMRIT_Head_Shot.webp"
+                                AmritHeadshot
                             }
                         >
                             Computer Science, UC San Diego
@@ -35,7 +39,7 @@ class Researchers extends Component {
                         <ResearcherProfile
                             name="Levente Horvath"
                             img={
-                                "https://static.wixstatic.com/media/085c48_1728c887871f40f3a8c1bf16095b4fac~mv2_d_3024_4032_s_4_2.jpg/v1/crop/x_0,y_173,w_3024,h_3125/fill/w_420,h_438,al_c,q_80,usm_0.66_1.00_0.01/IMG_4634.webp"
+                                LeventeHeadshot
                             }
                         >
                             Computer Science, UC San Diego
