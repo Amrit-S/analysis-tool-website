@@ -32,7 +32,6 @@ jobs:
             source activate tensorflow_p37
             cd /var/www/analysis-tool-website
             sudo git pull
-            sudo git lfs pull
             sudo rm -rf ./node_modules
             sudo rm -rf ./client/node_modules
             sudo rm -rf ./client/build
