@@ -58,7 +58,7 @@ export default function InputInstructions(props) {
                             {" "}
                             <p>
                                 {" "}
-                                Must have an image based extension (.jpeg, .png, .jpg, etc.){" "}
+                                Must have an image based extension (.jpeg, .png, .jpg, .bmp){" "}
                             </p>{" "}
                         </li>
                         <li>

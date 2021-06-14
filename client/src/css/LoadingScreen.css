@@ -8,5 +8,8 @@
 
 .loading-info-text {
   padding-top: 30px;
-  text-align: center;
+  text-align: center !important;
+  color: black !important;
+
+  font-family: var(--heading-font) !important;
 }
