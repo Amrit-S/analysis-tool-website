@@ -1,11 +1,3 @@
-:root {
-  --grey: #a3a3a3;
-  --darkgrey: #585858;
-  --lightgrey: #c4c4c4;
-  --blue: #004970;
-  --gold: #daba11;
-}
-
 .loading-info-text {
   padding-top: 30px;
   text-align: center !important;

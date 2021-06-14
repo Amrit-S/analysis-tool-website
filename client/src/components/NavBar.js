@@ -87,7 +87,7 @@ export default function NavBar() {
                     </NavDropdown>
                     {/* Analysis Tool */}
                     <Nav.Link
-                        className={isPageActive(SITE_PAGES.ANALYSIS_INPUT)}
+                        className={isPageActive(SITE_PAGES.ANALYSIS_INPUT) || isPageActive(SITE_PAGES.ANALYSIS_RESULTS)}
                         href={SITE_PAGES.ANALYSIS_INPUT}
                     >
                         Analysis Tool{" "}

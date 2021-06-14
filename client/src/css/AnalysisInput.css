@@ -1,13 +1,3 @@
-:root {
-  --grey: #a3a3a3;
-  --darkgrey: #585858;
-  --lightgrey: #c4c4c4;
-  --blue: #004970;
-  --gold: #daba11;
-}
-
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
-
 .MuiListSubheader-root {
   pointer-events: none;
 }
@@ -31,7 +21,7 @@
   justify-content: space-evenly;
   padding: 10px 30px;
   flex: 1;
-  font-family: "Open Sans", sans-serif;
+  font-family: var(--heading-font);
   color: black;
 }
 
