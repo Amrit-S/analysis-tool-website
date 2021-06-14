@@ -327,7 +327,7 @@ export default function AnalysisInput() {
                 open={progressBar.show}
                 handleClose={closeProgressBar}
                 title={progressBar.title}
-                fileCount = {files.length}
+                fileCount={files.length}
             />
         </div>
     );

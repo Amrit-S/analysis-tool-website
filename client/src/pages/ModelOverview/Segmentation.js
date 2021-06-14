@@ -23,7 +23,6 @@ import CellPointiness from "../../media/Segmentation/cell-pointiness.png";
 import Formula from "../../media/Segmentation/formula.png";
 
 class Segmentation extends Component {
-
     render() {
         return (
             <div className="Segmentation-Overview">

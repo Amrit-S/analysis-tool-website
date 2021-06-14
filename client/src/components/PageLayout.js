@@ -6,14 +6,13 @@
  * @author Amrit Kaur Singh
  */
 
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 
-export default function PageLayout({children, title}) {
-
+export default function PageLayout({ children, title }) {
     useEffect(() => {
-        if(title) document.title = title;
+        if (title) document.title = title;
     }, []);
 
     return (
