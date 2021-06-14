@@ -45,7 +45,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MEAN:
                 graphOptions["maxValue"] = 3500;
-                graphOptions["yAxisLabel"] = "Avg. Cell Size (pixels)";
+                graphOptions["yAxisLabel"] = "Cell Size (pixels)";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.size.mean).toFixed(2));
@@ -56,7 +56,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MEDIAN:
                 graphOptions["maxValue"] = 3500;
-                graphOptions["yAxisLabel"] = "Avg. Cell Size (pixels)";
+                graphOptions["yAxisLabel"] = "Cell Size (pixels)";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.size.median).toFixed(2));
@@ -67,7 +67,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_SIZE_STD:
                 graphOptions["maxValue"] = 1000;
-                graphOptions["yAxisLabel"] = "Avg. Cell Size (pixels)";
+                graphOptions["yAxisLabel"] = "Cell Size (pixels)";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.size.std).toFixed(2));
@@ -78,7 +78,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MIN:
                 graphOptions["maxValue"] = 3500;
-                graphOptions["yAxisLabel"] = "Avg. Cell Size (pixels)";
+                graphOptions["yAxisLabel"] = "Cell Size (pixels)";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.size.min).toFixed(2));
@@ -89,7 +89,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_SIZE_MAX:
                 graphOptions["maxValue"] = 3500;
-                graphOptions["yAxisLabel"] = "Avg. Cell Size (pixels)";
+                graphOptions["yAxisLabel"] = "Cell Size (pixels)";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.size.max).toFixed(2));
@@ -101,7 +101,7 @@ export default function GroupResults(props) {
             // Cell Shape
             case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MEAN:
                 graphOptions["maxValue"] = 10;
-                graphOptions["yAxisLabel"] = "Avg. Number of Sides Per Cell";
+                graphOptions["yAxisLabel"] = "Number of Sides Per Cell";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.shape.mean).toFixed(2));
@@ -112,7 +112,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MEDIAN:
                 graphOptions["maxValue"] = 10;
-                graphOptions["yAxisLabel"] = "Avg. Number of Sides Per Cell";
+                graphOptions["yAxisLabel"] = "Number of Sides Per Cell";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.shape.median).toFixed(2));
@@ -123,7 +123,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_STD:
                 graphOptions["maxValue"] = 5;
-                graphOptions["yAxisLabel"] = "Avg. Number of Sides Per Cell";
+                graphOptions["yAxisLabel"] = "Number of Sides Per Cell";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.shape.std).toFixed(2));
@@ -134,7 +134,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MIN:
                 graphOptions["maxValue"] = 10;
-                graphOptions["yAxisLabel"] = "Avg. Number of Sides Per Cell";
+                graphOptions["yAxisLabel"] = "Number of Sides Per Cell";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.shape.min).toFixed(2));
@@ -145,7 +145,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_SHAPE_MAX:
                 graphOptions["maxValue"] = 10;
-                graphOptions["yAxisLabel"] = "Avg. Number of Sides Per Cell";
+                graphOptions["yAxisLabel"] = "Number of Sides Per Cell";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.shape.max).toFixed(2));
@@ -157,7 +157,7 @@ export default function GroupResults(props) {
             // Cell Pointiness
             case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MEAN:
                 graphOptions["maxValue"] = 1;
-                graphOptions["yAxisLabel"] = "Avg. Cell Pointiness Ratio";
+                graphOptions["yAxisLabel"] = "Cell Pointiness Ratio";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.pointiness.mean).toFixed(2));
@@ -168,7 +168,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MEDIAN:
                 graphOptions["maxValue"] = 1;
-                graphOptions["yAxisLabel"] = "Avg. Cell Pointiness Ratio";
+                graphOptions["yAxisLabel"] = "Cell Pointiness Ratio";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.pointiness.median).toFixed(2));
@@ -179,7 +179,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_STD:
                 graphOptions["maxValue"] = 3;
-                graphOptions["yAxisLabel"] = "Avg. Cell Pointiness Ratio";
+                graphOptions["yAxisLabel"] = "Cell Pointiness Ratio";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.pointiness.std).toFixed(2));
@@ -190,7 +190,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MIN:
                 graphOptions["maxValue"] = 1;
-                graphOptions["yAxisLabel"] = "Avg. Cell Pointiness Ratio";
+                graphOptions["yAxisLabel"] = "Cell Pointiness Ratio";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.pointiness.min).toFixed(2));
@@ -201,7 +201,7 @@ export default function GroupResults(props) {
 
             case ANALYSIS_OPTIONS.GROUP_SEG_POINTINESS_MAX:
                 graphOptions["maxValue"] = 1;
-                graphOptions["yAxisLabel"] = "Avg. Cell Pointiness Ratio";
+                graphOptions["yAxisLabel"] = "Cell Pointiness Ratio";
                 graphOptions["data"] = props.inputPageData.analysisData.segmentation.map(
                     (entry) => {
                         return Number(parseFloat(entry.stats.pointiness.max).toFixed(2));

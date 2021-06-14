@@ -22,6 +22,7 @@ import { Snackbar } from "@material-ui/core";
 import "../../css/DropBox.css";
 
 const FILE_NAMING_REGEX = /^\d+\.\d{2}\.[a-zA-Z]+$/;
+const ACCEPTABLE_FILE_EXTENSIONS = [".png", ".jpeg", ".jpg", ".bmp"];
 
 /**
  * @param {function([File Objects])} handleFiles - Function that takes in a list of file objects, used to track uploaded files
@@ -45,6 +46,32 @@ export default function DropBox(props) {
     };
 
     /**
+     * Checks if a given filename has already been inputted under a different extension (i.e., 3.00.png & 3.00.jpeg), returning true if it has and 
+     * false if it has not. 
+     * 
+     * @param {String} filename - The filename that must be checked for duplication.
+     * @param {JSON} fileList - All accepted filenames so far inputted by user. 
+     * @returns {boolean}
+     */
+    const doesFileExistWithDifferentExtension = (filename, fileList) => {
+        // get root of file, without extensions
+        const fileNameWithoutExt = filename.split('.').slice(0, -1).join('.');
+
+        // check to see if file with other acceptable extensions already exists 
+        for(const ext of ACCEPTABLE_FILE_EXTENSIONS){
+            const filename = `${fileNameWithoutExt}${ext}`;
+
+            // file exists
+            if(fileList.hasOwnProperty(filename)){
+                return true;
+            }
+        }
+
+        // file does not exist
+        return false; 
+    }
+
+    /**
      * Code activated once all dropbox requirements have been checked on all newly dragged/uploaded
      * files on the dropbox. Checks for duplicates in accepted files, updating with most recent version
      * if it exists, and then updating state values for both this component and parent caller.
@@ -58,6 +85,13 @@ export default function DropBox(props) {
         // update state with accepted files, replacing duplicates with newer version
         for (var i = 0; i < acceptedFiles.length; i++) {
             let file = acceptedFiles[i];
+
+            // skip file if we already have it tracked under a different extension 
+            if (doesFileExistWithDifferentExtension(file.name, updatedFiles)){
+                fileRejections.push(file);
+                continue;
+            };
+
             updatedFiles[file.name] = file;
         }
         // update parent caller with current list of accepted files in dropbox
@@ -74,8 +108,10 @@ export default function DropBox(props) {
      * @returns {JSON} - Returns null if complete match, else JSON object with error message
      */
     function validNamingSchema(file) {
+
+
         // attempts to match filename with expected regex
-        let match = file.name.match(FILE_NAMING_REGEX);
+        let match = file.name.match(FILE_NAMING_REGEX); 
 
         try {
             // filename is complete match
@@ -196,7 +232,7 @@ export default function DropBox(props) {
     return (
         <Dropzone
             onDrop={handleDrop}
-            accept="image/*"
+            accept={ACCEPTABLE_FILE_EXTENSIONS}
             minSize={1024}
             maxSize={3072000}
             validator={validNamingSchema}
