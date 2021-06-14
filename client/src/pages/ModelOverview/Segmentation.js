@@ -23,6 +23,7 @@ import CellPointiness from "../../media/Segmentation/cell-pointiness.png";
 import Formula from "../../media/Segmentation/formula.png";
 
 class Segmentation extends Component {
+
     render() {
         return (
             <div className="Segmentation-Overview">
@@ -328,7 +329,7 @@ class Segmentation extends Component {
                                 largest angles are determined and their ratio calculated. Note that
                                 some contours have excessive contours or abnormal shapes that lead
                                 to extremelly small ratios, which paired with floating point
-                                rounding can sometimes lead to pointiness values of 0.
+                                rounding can sometimes lead to pointiness values of zero.
                             </p>
                             <figure>
                                 <div>

@@ -67,6 +67,14 @@ export default function NavBar() {
                         className={`dropdown-container`}
                         title="Model Overview"
                     >
+                         {/* CNN */}
+                         <NavDropdown.Item
+                            className={`${isPageActive(SITE_PAGES.OVERVIEW_CNN)} dropdown-page`}
+                            href={SITE_PAGES.OVERVIEW_CNN}
+                        >
+                            CNN
+                        </NavDropdown.Item>
+                        <NavDropdown.Divider />
                         {/* Segmentation */}
                         <NavDropdown.Item
                             className={`${isPageActive(
@@ -76,14 +84,7 @@ export default function NavBar() {
                         >
                             Segmentation
                         </NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        {/* CNN */}
-                        <NavDropdown.Item
-                            className={`${isPageActive(SITE_PAGES.OVERVIEW_CNN)} dropdown-page`}
-                            href={SITE_PAGES.OVERVIEW_CNN}
-                        >
-                            CNN
-                        </NavDropdown.Item>
+                       
                     </NavDropdown>
                     {/* Analysis Tool */}
                     <Nav.Link

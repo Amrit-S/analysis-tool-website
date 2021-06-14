@@ -6,16 +6,21 @@
  * @author Amrit Kaur Singh
  */
 
-import React from "react";
+import React, {useEffect} from "react";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 
-export default function PageLayout(props) {
+export default function PageLayout({children, title}) {
+
+    useEffect(() => {
+        if(title) document.title = title;
+    }, []);
+
     return (
         <div className="page-layout">
             <div style={{ minHeight: "calc(100vh - 80px)" }}>
                 <NavBar />
-                {props.children}
+                {children}
             </div>
             {/* Footer guranteed to be on the bottom of the screen */}
             <Footer />
