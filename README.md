@@ -1,6 +1,7 @@
 # Analysis Tool Website
 
-## Quick Links: [https://www.figma.com/file/tOMep8DOHaqf0vQUR9J7Rc/Talke-Lab-DMEK-Analysis-Tool](Figma Designs)
+## Quick Links
+[https://www.figma.com/file/tOMep8DOHaqf0vQUR9J7Rc/Talke-Lab-DMEK-Analysis-Tool](Figma Designs)
 
 This repository contains all source code for this project, and is divided up into two main components - _Backend_ & _Frontend_.
 
