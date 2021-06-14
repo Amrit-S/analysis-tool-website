@@ -1,5 +1,7 @@
 # Analysis Tool Website
 
+## Quick Links: [https://www.figma.com/file/tOMep8DOHaqf0vQUR9J7Rc/Talke-Lab-DMEK-Analysis-Tool](Figma Designs)
+
 This repository contains all source code for this project, and is divided up into two main components - _Backend_ & _Frontend_.
 
 _Backend_ compromises of all folders and files in the root directory, excluding `\client`, and essentially constitutes the server that is exploited by the frontend. It utilizes Express routes that are validated using middleware, many of which utilize services that allow for employment of machine learning techniques - namely libraries like tensorflowjs and keras. All routes are handled within the `routes` folder, with each specific set of routes seperated by functionality, and making usage of specific services within the `/services` folder.
