@@ -8,7 +8,7 @@
  * @author Amrit Kaur Singh
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -18,7 +18,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 
 import "../../css/LoadingScreen.css";
 
-export default function LoadingScreen(props) {
+export default function LoadingScreen({ open, handleClose, title, fileCount }) {
     // add styles to material ui components
     const useStyles = makeStyles((theme) => ({
         button: {
@@ -38,11 +38,15 @@ export default function LoadingScreen(props) {
 
     const classes = useStyles();
 
+    const calculateRoughTimeEstimate = () => {
+        return Math.ceil(-0.0212071 * Math.pow(fileCount, 2) + 4.81965 * fileCount + 22.98255);
+    };
+
     return (
         <div>
-            <Dialog open={props.open} onClose={props.handleClose} disableBackdropClick>
+            <Dialog open={open} onClose={handleClose} disableBackdropClick>
                 {/* Title */}
-                <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
                 {/* Progress Bar */}
                 <DialogContent>
                     <LinearProgress
@@ -55,6 +59,9 @@ export default function LoadingScreen(props) {
                     <DialogContentText id="alert-dialog-description" className="loading-info-text">
                         Please wait while your data is being processed. This can take up to a few
                         minutes.
+                        <br />
+                        <br />
+                        Rough Time Estimate: <b> {calculateRoughTimeEstimate()}s </b>
                     </DialogContentText>
                 </DialogContent>
             </Dialog>

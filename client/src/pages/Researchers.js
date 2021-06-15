@@ -31,7 +31,7 @@ class Researchers extends Component {
                             </a>
                             {"\n"}
                             <MdEmail className="icon" />{" "}
-                            <a href="mailto:Amrit.singh26@gmail.com">Amrit.singh26@gmail.com</a>
+                            <a href="mailto:aksingh@ucsd.edu">aksingh@ucsd.edu</a>
                         </ResearcherProfile>
                         <ResearcherProfile name="Levente Horvath" img={LeventeHeadshot}>
                             B.S. Computer Science,

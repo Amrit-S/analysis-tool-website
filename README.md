@@ -1,5 +1,7 @@
 # Analysis Tool Website
 
+[Figma Designs](https://www.figma.com/file/tOMep8DOHaqf0vQUR9J7Rc/Talke-Lab-DMEK-Analysis-Tool)
+
 This repository contains all source code for this project, and is divided up into two main components - _Backend_ & _Frontend_.
 
 _Backend_ compromises of all folders and files in the root directory, excluding `\client`, and essentially constitutes the server that is exploited by the frontend. It utilizes Express routes that are validated using middleware, many of which utilize services that allow for employment of machine learning techniques - namely libraries like tensorflowjs and keras. All routes are handled within the `routes` folder, with each specific set of routes seperated by functionality, and making usage of specific services within the `/services` folder.
@@ -23,7 +25,7 @@ Please note that the EC2 instance is very delicately set-up to include all neces
 
 The GitHub is configured using GitHub actions to automatically redeploy the website to the EC2 instance every time a pull request is merged into master. This can be monitored under the _Actions_ tab on this repo, with any statuses with green showing successfull redeploys and any with red indicating a redeployment error.
 
-In general, this configuration is set up using a .yml file found under `.github/workflows`, and involves SSHing into the EC2 instance and then repulling code into a corresponding GitHub repo there and rebuilding both the server and client. Hence, any pushes to master will cause corresponding edits to pushed 'live' within a few minutes, depending on how long the redeployment process takes on the AWS instance. 
+In general, this configuration is set up using a .yml file found under `.github/workflows`, and involves SSHing into the EC2 instance and then repulling code into a corresponding GitHub repo there and rebuilding both the server and client. Hence, any pushes to master will cause corresponding edits to be pushed 'live' within a few minutes, depending on how long the redeployment process takes on the AWS instance. 
 
 ### Machine Learning 
 

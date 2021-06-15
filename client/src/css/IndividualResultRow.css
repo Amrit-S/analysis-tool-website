@@ -1,9 +1,3 @@
-:root {
-  --grey: #a3a3a3;
-  --lightgrey: #c4c4c4;
-  --blue: #004970;
-}
-
 .Title-AlignRight {
   display: flex;
   justify-content: flex-end;

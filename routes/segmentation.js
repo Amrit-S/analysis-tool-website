@@ -60,10 +60,9 @@ router.post(
     ],
     async (req, res) => {
         const requestedOptions = req.body;
+        let filenames = [];
 
         try {
-            let filenames = [];
-
             // process each image
             for (let i = 0; i < req.body.files.length; i++) {
                 // save file with unique filename to a specific directory
